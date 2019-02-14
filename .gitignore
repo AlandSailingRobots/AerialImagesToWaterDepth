@@ -4,3 +4,4 @@
 \.directory
 venv
 *.jpg
+__pycache__/
