@@ -4,6 +4,7 @@
 from geopy.distance import great_circle
 import matplotlib.pyplot as plt
 import pyproj
+import json
 
 
 def calculate_distance(lat, lon, lat1, lon1):
@@ -73,3 +74,17 @@ def convert_coordinate_systems(lat, lon, inverse=False, src='epsg:3067', destina
     proj_dest = pyproj.Proj(init=destination)
     transformed = pyproj.transform(proj_src, proj_dest, lon, lat)
     return transformed
+
+
+def open_json_file(filename):
+    with open(filename) as f:
+        data = json.load(f)
+    return data
+
+
+def get_coordinates_from_file():
+    return open_json_file('coordinates.json')
+
+
+def get_config_from_json():
+    return open_json_file('config.json')
