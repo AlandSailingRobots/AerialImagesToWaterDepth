@@ -1,18 +1,22 @@
 {
   "wmts": {
     "avoin": "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts",
-    "maasto": "https://karttamoottori.maanmittauslaitos.fi/maasto/wmts"
+    "maasto": "https://karttamoottori.maanmittauslaitos.fi/maasto/wmts",
+    "ava": "http://avaa.tdata.fi/geoserver/gwc/service/wmts"
   },
   "matrix": {
     "set_name": "ETRS-TM35FIN",
     "map_layer": {
       "orto": "ortokuva",
-      "infrared": "ortokuva_vaaravari"
+      "infrared": "ortokuva_vaaravari",
+      "ava_infrared": "paituli:mml_infrared",
+      "ava_norm": "paituli:mml_ortho_norm_10k_2010_compress95_jp2_kkj",
+      "ava_normal_color": "paituli:normal_color_3067"
     }
   },
   "standardized_rendering_pixel_size": 0.00028,
   "coordinates_system": {
-    "ETRS-TM35FIN": "epsg:3067",
-    "WGS84": "epsg:4326"
+    "ETRS-TM35FIN": "EPSG:3067",
+    "WGS84": "EPSG:4326"
   }
 }

@@ -61,6 +61,8 @@ def get_info_wmts(wmts, map_layer, tile_matrix_set_name):
     print('possible coordinate system:', list(wmts.tilematrixsets.keys()))
     print('possible formats :', list(wmts.contents[map_layer].formats))
     print('length of the formats', len(wmts.tilematrixsets[tile_matrix_set_name].tilematrix))
+    print('length of the formats', wmts.tilematrixsets[tile_matrix_set_name].tilematrix)
+
 
 
 def convert_coordinate_systems(lat, lon, inverse=False, src='epsg:3067', destination='epsg:4326'):
