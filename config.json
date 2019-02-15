@@ -1,22 +1,65 @@
 {
-  "wmts": {
-    "avoin": "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts",
-    "maasto": "https://karttamoottori.maanmittauslaitos.fi/maasto/wmts",
-    "ava": "http://avaa.tdata.fi/geoserver/gwc/service/wmts"
-  },
-  "matrix": {
-    "set_name": "ETRS-TM35FIN",
-    "map_layer": {
-      "orto": "ortokuva",
-      "infrared": "ortokuva_vaaravari",
-      "ava_infrared": "paituli:mml_infrared",
-      "ava_norm": "paituli:mml_ortho_norm_10k_2010_compress95_jp2_kkj",
-      "ava_normal_color": "paituli:normal_color_3067"
-    }
-  },
   "standardized_rendering_pixel_size": 0.00028,
   "coordinates_system": {
     "ETRS-TM35FIN": "EPSG:3067",
     "WGS84": "EPSG:4326"
-  }
+  },
+  "wmts": [
+    {
+      "name": "avoin",
+      "ignore": true,
+      "url": "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts",
+      "set_name": "ETRS-TM35FIN",
+      "map_layers": [
+        {
+          "name": "orto",
+          "layer": "ortokuva"
+        }
+      ]
+    },
+    {
+      "name": "maasto",
+      "url": "https://karttamoottori.maanmittauslaitos.fi/maasto/wmts",
+      "set_name": "ETRS-TM35FIN",
+      "map_layers": [
+        {
+          "name": "orto",
+          "layer": "ortokuva"
+        },
+        {
+          "name": "infrared",
+          "layer": "ortokuva_vaaravari"
+        },
+        {
+          "name": "background_map",
+          "layer": "taustakartta"
+        }
+      ]
+    },
+    {
+      "name": "ava",
+      "url": "http://avaa.tdata.fi/geoserver/gwc/service/wmts",
+      "set_name": "EPSG:3067",
+      "special_level": true,
+      "map_layers": [
+        {
+          "name": "ava_infrared",
+          "layer": "paituli:mml_infrared"
+        },
+        {
+          "name": "ava_norm",
+          "layer": "paituli:mml_ortho_norm_10k_2010_compress95_jp2_kkj"
+        },
+        {
+          "name": "ava_norm_split",
+          "layer": "paituli:mml_ortho_norm_10k_2010_compress95_jp2_kkj",
+          "split": true
+        },
+        {
+          "name": "ava_normal_color",
+          "layer": "paituli:normal_color_3067"
+        }
+      ]
+    }
+  ]
 }

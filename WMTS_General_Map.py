@@ -64,10 +64,9 @@ def get_info_wmts(wmts, map_layer, tile_matrix_set_name):
     print('length of the formats', wmts.tilematrixsets[tile_matrix_set_name].tilematrix)
 
 
-
-def convert_coordinate_systems(lat, lon, inverse=False, src='epsg:3067', destination='epsg:4326'):
+def convert_coordinate_systems(lat, lon, inverse=False, destination='epsg:3067', src='epsg:4326'):
     """Converts Coordinate System to a different System.
-    Default From Finnish System(ETRS-TM35FIN) to WGS84. If inverse is passed then they are swapped around.
+    Default From WGS84 to Finnish System(ETRS-TM35FIN). If inverse is passed then they are swapped around.
     returns tuple with 0 being E/Longitude, and 1 begin N/Latitude
     """
     if inverse:

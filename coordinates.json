@@ -1,5 +1,6 @@
 [{
   "latitude": 60.062936,
   "longitude": 19.968358,
-  "level": 15
+  "level": 15,
+  "type": "epsg:4326"
 }]
