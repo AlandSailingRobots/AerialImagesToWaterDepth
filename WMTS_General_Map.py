@@ -5,6 +5,14 @@ from geopy.distance import great_circle
 import matplotlib.pyplot as plt
 import pyproj
 import json
+import math
+
+
+def split_part_and_whole(value):
+    part, whole = math.modf(value)
+    part = round(part, 4)
+    whole = int(whole)
+    return whole, part
 
 
 def calculate_distance(lat, lon, lat1, lon1):
