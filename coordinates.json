@@ -1,0 +1,14 @@
+[
+  {
+    "latitude": 60.062936,
+    "longitude": 19.968358,
+    "level": 15,
+    "type": "epsg:4326"
+  },
+  {
+    "latitude": 6849262.810,
+    "longitude": 631805.170,
+    "level": 15,
+    "type": "epsg:3067"
+  }
+]
