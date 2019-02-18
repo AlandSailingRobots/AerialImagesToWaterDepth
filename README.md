@@ -13,7 +13,7 @@ To result in this a few steps first need to be done.
 
 Progress:
 - [ ] Get the images.
-    - [X] [Write a notebook which can get a single image for a random point](WMTS_Single_Tile_Based.ipynb#Image-results-with-marker-at-point.).
+    - [X] [Write a notebook which can get a single image for a random point](WMTS_Single_Tile_Based.ipynb).
     - [ ] T.B.A
 - [ ] Algorithm to check if contains relevant data.
 - [ ] Algorithm to check land, sea or combination.
