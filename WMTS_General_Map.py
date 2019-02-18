@@ -2,7 +2,6 @@
 # coding: utf-8
 
 from geopy.distance import great_circle
-import matplotlib.pyplot as plt
 import pyproj
 import json
 import math
@@ -49,19 +48,6 @@ def get_width_height_covered_by_matrix(matrix, standardized_rendering_pixel_size
                                           lon1=lon1,
                                           lat1=lat1, distance_type=distance_type)
     return distance
-
-
-def plot_rectangles(df):
-    fig, ax = plt.subplots(1, 1)
-    color_items = ['blue', 'yellow', 'red', 'green']
-    count = 0
-    for x in df.values:
-        if count == len(color_items):
-            count = 0
-        rect = plt.Rectangle((x[0], x[1]), x[2] - x[0], x[3] - x[1], color=color_items[count])
-        count += 1
-        ax.add_patch(rect)
-    ax.autoscale_view()
 
 
 def get_info_wmts(wmts, map_layer, tile_matrix_set_name):
