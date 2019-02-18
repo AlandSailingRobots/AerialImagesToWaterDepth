@@ -6,8 +6,8 @@
     "type": "epsg:4326"
   },
   {
-    "longitude": 631805.170,
     "latitude": 6849262.810,
+    "longitude": 631805.170,
     "level": 14,
     "type": "epsg:3067"
   }
