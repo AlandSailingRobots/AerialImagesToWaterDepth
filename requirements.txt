@@ -1,4 +1,5 @@
 appnope==0.1.0
+backcall==0.1.0
 bleach==3.1.0
 certifi==2018.11.29
 chardet==3.0.4
@@ -10,9 +11,10 @@ geographiclib==1.49
 geopy==1.18.1
 idna==2.8
 ipykernel==5.1.0
-ipython==5.0.0
+ipython==7.3.0
 ipython-genutils==0.2.0
 ipywidgets==7.4.2
+jedi==0.13.2
 Jinja2==2.10
 jsonschema==2.6.0
 jupyter==1.0.0
@@ -29,11 +31,12 @@ notebook==5.7.4
 numpy==1.16.1
 OWSLib==0.17.1
 pandocfilters==1.4.2
+parso==0.3.4
 pexpect==4.6.0
 pickleshare==0.7.5
 Pillow==5.4.1
-prometheus-client==0.5.0
-prompt-toolkit==1.0.15
+prometheus-client==0.6.0
+prompt-toolkit==2.0.9
 ptyprocess==0.6.0
 Pygments==2.3.1
 pyparsing==2.3.1
