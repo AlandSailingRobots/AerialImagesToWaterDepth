@@ -27,6 +27,7 @@ matplotlib==3.0.2
 mistune==0.8.4
 nbconvert==5.4.1
 nbformat==4.4.0
+nbserverproxy==0.8.8
 notebook==5.7.4
 numpy==1.16.1
 OWSLib==0.17.1

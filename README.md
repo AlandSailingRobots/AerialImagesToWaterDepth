@@ -5,7 +5,7 @@ The goal of this research is to calculate(as the title describes) the water dept
 To result in this a few steps first need to be done.
 1. Getting images from aerial photo's with their correlated data, It should consist of:
     * The photo itself.
-    * ~~The boundingbox of the photo. e.g : the topleft and bottom right coordinate.~~
+    * ~~The bounding box of the photo. e.g : the top left and bottom right coordinate.~~
     * location of the coordinate point in the image. which pixel etc.
 1. Decide if the picture contains any relevant data or that is just a blank
 1. Decide if the picture is a land or water picture or if it is a combination of those.
