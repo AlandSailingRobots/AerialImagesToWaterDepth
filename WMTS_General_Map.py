@@ -3,9 +3,12 @@
 
 import json
 import math
-
+import pandas as pd
 import pyproj
 from geopy.distance import great_circle
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import os
 
 
 def split_part_and_whole(value):
@@ -59,6 +62,19 @@ def get_info_wmts(wmts, map_layer, tile_matrix_set_name):
     print('length of the formats', wmts.tilematrixsets[tile_matrix_set_name].tilematrix)
 
 
+def plot_image(img, pos_image_height, pos_image_width, name):
+    fw = open('image.jpeg', 'wb')
+    fw.write(img)
+    fw.close()
+    fig = plt.figure()
+    img = mpimg.imread('image.jpeg', format='jpeg')
+    a = fig.add_subplot(1, 2, 1)
+    plt.imshow(img)
+    plt.plot(pos_image_width, pos_image_height, color='yellow', marker='+')
+    a.set_title(name)
+    os.remove('image.jpeg')
+
+
 def convert_coordinate_systems(lat, lon, inverse=False, destination='epsg:3067', src='epsg:4326'):
     """Converts Coordinate System to a different System.
     Default From WGS84 to Finnish System(ETRS-TM35FIN). If inverse is passed then they are swapped around.
@@ -84,3 +100,20 @@ def get_coordinates_from_file():
 
 def get_config_from_json():
     return open_json_file('config.json')
+
+
+def get_data_sources():
+    return open_json_file('data/data_sources.json')
+
+
+def open_xyz_file_as_panda(file):
+    df = pd.read_csv('data/{0}.xyz'.format(file), delim_whitespace=True,
+                     names=['longitude', 'latitude', 'height']
+                     )
+    return df
+
+
+def create_info_dict_from_panda_row(row, coordinate_systems, level):
+    row['type'] = coordinate_systems
+    row['level'] = level
+    return row.to_dict()

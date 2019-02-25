@@ -23,9 +23,9 @@ Progress:
         - [x] in code.
         - [x] visualized
     - [X] Ability to use different coordinate systems.
-    - [ ] Read coordinates in from files:
+    - [X] Read coordinates in from files:
         - [X] [JSON](coordinates.json)
-        - [ ] XYZ with different gps systems.
+        - [X] [XYZ](WMTS_General_Map.py) with different gps systems.
 - [ ] Algorithm to check land, sea or combination.
 - [ ] Cleaning and normalizing data
 - [ ] Estimator for water depth
