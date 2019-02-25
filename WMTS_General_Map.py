@@ -107,10 +107,7 @@ def get_data_sources():
 
 
 def open_xyz_file_as_panda(file):
-    df = pd.read_csv('data/{0}.xyz'.format(file), delim_whitespace=True,
-                     names=['longitude', 'latitude', 'height']
-                     )
-    return df
+    return pd.read_csv('data/{0}.xyz'.format(file), delim_whitespace=True, names=['longitude', 'latitude', 'height'])
 
 
 def create_info_dict_from_panda_row(row, coordinate_systems, level):
