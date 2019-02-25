@@ -11,6 +11,8 @@ To result in this a few steps first need to be done.
 1. Decide if the picture is a land or water picture or if it is a combination of those.
 1. Calculate the amount of water in the picture.
 1. Based on given depth data train the model to recognize depth.
+1. Improve the model by at least 5 percent.
+1. Integrate the model into the SailingRobots website. 
 
 Progress:
 - [ ] Get the images.
