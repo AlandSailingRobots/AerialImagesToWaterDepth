@@ -110,7 +110,7 @@ def open_xyz_file_as_panda(file):
     return pd.read_csv('data/{0}.xyz'.format(file), delim_whitespace=True, names=['longitude', 'latitude', 'height'])
 
 
-def create_info_dict_from_panda_row(row, coordinate_systems, level):
+def create_info_object_from_panda_row(row, coordinate_systems, level):
     row['type'] = coordinate_systems
     row['level'] = level
-    return row.to_dict()
+    return row
