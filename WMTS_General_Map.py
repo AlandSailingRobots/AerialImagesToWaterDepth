@@ -62,13 +62,18 @@ def get_info_wmts(wmts, map_layer, tile_matrix_set_name):
     print('length of the formats', wmts.tilematrixsets[tile_matrix_set_name].tilematrix)
 
 
-def plot_image(tile, pos_image_height, pos_image_width, name):
+def plot_image(image, pos_image_height, pos_image_width, name):
     fig = plt.figure()
     a = fig.add_subplot(1, 2, 1)
-    image_stream = io.BytesIO(tile.read())
-    plt.imshow(Image.open(image_stream))
+    plt.imshow(image)
     plt.plot(pos_image_width, pos_image_height, color='yellow', marker='+')
     a.set_title(name)
+
+
+def get_image_from_tile(tile):
+    image_stream = io.BytesIO(tile.read())
+    image = Image.open(image_stream)
+    return image
 
 
 def convert_coordinate_systems(lat, lon, inverse=False, destination='epsg:3067', src='epsg:4326'):
