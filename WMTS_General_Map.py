@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import io
 import json
 import math
 import pandas as pd
 import pyproj
-from geopy.distance import great_circle
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-import os
+from PIL import Image
+from geopy.distance import great_circle
 
 
 def split_part_and_whole(value):
@@ -62,17 +62,13 @@ def get_info_wmts(wmts, map_layer, tile_matrix_set_name):
     print('length of the formats', wmts.tilematrixsets[tile_matrix_set_name].tilematrix)
 
 
-def plot_image(img, pos_image_height, pos_image_width, name):
-    fw = open('image.jpeg', 'wb')
-    fw.write(img)
-    fw.close()
+def plot_image(tile, pos_image_height, pos_image_width, name):
     fig = plt.figure()
-    img = mpimg.imread('image.jpeg', format='jpeg')
     a = fig.add_subplot(1, 2, 1)
-    plt.imshow(img)
+    image_stream = io.BytesIO(tile.read())
+    plt.imshow(Image.open(image_stream))
     plt.plot(pos_image_width, pos_image_height, color='yellow', marker='+')
     a.set_title(name)
-    os.remove('image.jpeg')
 
 
 def convert_coordinate_systems(lat, lon, inverse=False, destination='epsg:3067', src='epsg:4326'):
