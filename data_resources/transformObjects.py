@@ -12,10 +12,10 @@ def get_image_from_tile(tile):
     return image
 
 
-def get_image_point(tile, data_point, point_width, point_height, web_map, layer):
+def get_image_point(tile, point_width, point_height, web_map, layer):
     image = get_image_from_tile(tile)
     data_point_in_image = point.LocationInImage(point_width, point_height)
-    image_point = point.ImagePoint(data_point, data_point_in_image, image, web_map, layer)
+    image_point = point.ImagePoint(data_point_in_image, image, web_map, layer)
     return image_point
 
 

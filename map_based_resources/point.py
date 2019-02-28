@@ -3,34 +3,6 @@ import pyproj
 from geopy.distance import great_circle
 
 
-class ImagePoint:
-
-    def __init__(self, data_point, data_point_in_image, image, web_map, layer):
-        self.data_point = data_point,
-        self.image = image
-        self.web_map = web_map
-        self.layer = layer
-        self.name = '{0} {1} {2}'.format(web_map.name, layer.name, layer.level)
-        self.data_point_in_image = data_point_in_image
-
-    def show_image(self):
-        print(self.image)
-
-    def show_image_with_point(self):
-        fig = plt.figure()
-        a = fig.add_subplot(1, 2, 1)
-        plt.imshow(self.image)
-        plt.plot(self.data_point_in_image.width, self.data_point_in_image.height, color='yellow', marker='+')
-        a.set_title(self.name)
-
-
-class LocationInImage:
-
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-
-
 class DataPoint:
     def __init__(self, latitude, longitude, coordinate_type, level):
         self.latitude = latitude
@@ -62,3 +34,39 @@ class DataPoint:
         else:
             point_self = (self.latitude, self.longitude)
         return great_circle(point_self, point_other)
+
+
+class LocationInImage:
+
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+
+class ImagePoint:
+
+    def __init__(self, data_point_in_image: LocationInImage, image, web_map, layer):
+        self.image = image
+        self.web_map = web_map
+        self.layer = layer
+        self.name = '{0} {1} {2}'.format(web_map.name, layer.name, layer.level)
+        self.data_point_in_image = data_point_in_image
+
+    def show_image(self):
+        print(self.image)
+
+    def show_image_with_point(self):
+        fig = plt.figure()
+        a = fig.add_subplot(1, 2, 1)
+        plt.imshow(self.image)
+        plt.plot(self.data_point_in_image.width, self.data_point_in_image.height, color='yellow', marker='+')
+        a.set_title(self.name)
+
+
+class MeasurementPoint:
+    def __init__(self, data_point: DataPoint):
+        self.data_point = data_point
+        self.image_points = list()
+
+    def add_image_point(self, image_point: ImagePoint):
+        self.image_points.append(image_point)
