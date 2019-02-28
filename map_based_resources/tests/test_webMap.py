@@ -1,5 +1,5 @@
 import unittest
-from mapBasedResoures.webMap import WebMap
+from map_based_resources.webMap import WebMap
 
 
 def test_web_map(json_name):

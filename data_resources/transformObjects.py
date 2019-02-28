@@ -1,16 +1,9 @@
 import io
+import math
 
 from PIL import Image
 
-from mapBasedResoures import point, webMap
-
-
-class MapResources:
-    def __init__(self, config):
-        self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]
-        self.web_maps = list()
-        for wmts in config["wmts"]:
-            self.web_maps.append(webMap.WebMap(wmts))
+from map_based_resources import point
 
 
 def get_image_from_tile(tile):
@@ -44,3 +37,14 @@ def get_data_point_from_row(row, coordinate_systems, level):
                                  level)
     info_point.height = row["height"]
     return info_point
+
+
+def split_part_and_whole(value):
+    part, whole = math.modf(value)
+    part = round(part, 4)
+    whole = int(whole)
+    return whole, part
+
+
+def create_info_object_from_panda_row(row, coordinate_systems, level):
+    return get_data_point_from_row(row, coordinate_systems, level)
