@@ -33,8 +33,8 @@ def distance_kilometer(lat, lon, lat1, lon1):
 
 
 def calculate_distance_finnish(lat, lon, lat1, lon1, distance_type='km'):
-    get_ = convert_coordinate_systems(lat, lon)
-    get_1 = convert_coordinate_systems(lat1, lon1)
+    get_ = convert_coordinate_systems(lat, lon,inverse=True)
+    get_1 = convert_coordinate_systems(lat1, lon1,inverse=True)
     if distance_type == 'm':
         distance_func = distance_meter
     else:
