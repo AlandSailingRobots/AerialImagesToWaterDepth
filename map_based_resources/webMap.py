@@ -7,6 +7,13 @@ class MapLayer:
         self.layer = layer
         self.split = split
         self.already_splitted = False
+        self.row = None
+        self.column = None
+        self.tile_level = None
+
+    def add_position_on_layer(self,row, column):
+        self.row = row
+        self.column = column
 
 
 class WebMap:
