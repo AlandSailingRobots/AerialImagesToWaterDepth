@@ -10,7 +10,7 @@ class ImagePoint:
         self.image = image
         self.web_map = web_map
         self.layer = layer
-        self.name = '{0} {1} {2}'.format(web_map.name, layer.name, data_point.level)
+        self.name = '{0} {1} {2}'.format(web_map.name, layer.name, layer.level)
         self.data_point_in_image = data_point_in_image
 
     def show_image(self):

@@ -6,6 +6,7 @@ class MapLayer:
         self.name = name
         self.layer = layer
         self.split = split
+        self.already_splitted = False
 
 
 class WebMap:
