@@ -1,4 +1,4 @@
-from webMap import WebMap
+from mapBasedResoures.webMap import WebMap
 
 
 class MapResources:

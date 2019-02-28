@@ -9,7 +9,7 @@ import pyproj
 import matplotlib.pyplot as plt
 from PIL import Image
 from geopy.distance import great_circle
-import mapResource
+from mapBasedResoures import mapResource
 
 
 def split_part_and_whole(value):
