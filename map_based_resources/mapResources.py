@@ -11,12 +11,12 @@ class MapLayer:
         self.column = None
         self.tile_level = None
 
-    def add_position_on_layer(self,row, column):
+    def add_position_on_layer(self, row, column):
         self.row = row
         self.column = column
 
 
-class WebMap:
+class MapService:
 
     def __init__(self, json_object):
         self.name = json_object["name"]
@@ -37,3 +37,11 @@ class WebMap:
         print('possible formats :', list(wmts.contents[map_layer].formats))
         print('length of the formats', len(wmts.tilematrixsets[self.set_name].tilematrix))
         print('length of the formats', wmts.tilematrixsets[self.set_name].tilematrix)
+
+
+class MapResources:
+    def __init__(self, config):
+        self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]
+        self.web_maps = list()
+        for wmts in config["wmts"]:
+            self.web_maps.append(MapService(wmts))

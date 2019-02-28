@@ -1,9 +1,9 @@
 import unittest
-from map_based_resources.webMap import WebMap
+from map_based_resources.webMap import WebMapService
 
 
 def test_web_map(json_name):
-    webMap = WebMap(json_name)
+    webMap = WebMapService(json_name)
     return webMap
 
 

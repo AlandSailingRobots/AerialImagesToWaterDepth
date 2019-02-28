@@ -3,7 +3,7 @@ import json
 import pandas as pd
 from data_resources import transformObjects
 
-from map_based_resources import mapResource
+from map_based_resources import mapResources
 
 
 def open_json_file(filename):
@@ -25,7 +25,7 @@ def get_data_sources():
 
 
 def get_configuration():
-    return mapResource.MapResources(get_config_from_json())
+    return mapResources.MapResources(get_config_from_json())
 
 
 def open_xyz_file_as_panda(file):
