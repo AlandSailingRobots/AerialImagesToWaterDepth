@@ -9,6 +9,7 @@ import pyproj
 import matplotlib.pyplot as plt
 from PIL import Image
 from geopy.distance import great_circle
+import mapResource
 
 
 def split_part_and_whole(value):
@@ -33,8 +34,8 @@ def distance_kilometer(lat, lon, lat1, lon1):
 
 
 def calculate_distance_finnish(lat, lon, lat1, lon1, distance_type='km'):
-    get_ = convert_coordinate_systems(lat, lon,inverse=True)
-    get_1 = convert_coordinate_systems(lat1, lon1,inverse=True)
+    get_ = convert_coordinate_systems(lat, lon, inverse=True)
+    get_1 = convert_coordinate_systems(lat1, lon1, inverse=True)
     if distance_type == 'm':
         distance_func = distance_meter
     else:
@@ -105,6 +106,10 @@ def get_config_from_json():
 
 def get_data_sources():
     return open_json_file('data/data_sources.json')
+
+
+def get_configuration():
+    return mapResource.MapResources(get_config_from_json())
 
 
 def open_xyz_file_as_panda(file):
