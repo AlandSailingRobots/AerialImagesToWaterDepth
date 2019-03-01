@@ -1,21 +1,11 @@
-import io
 import math
-
-from PIL import Image
 
 from map_based_resources import point
 
 
-def get_image_from_tile(tile):
-    image_stream = io.BytesIO(tile.read())
-    image = Image.open(image_stream)
-    return image
-
-
-def get_image_point(tile, point_width, point_height, web_map, layer):
-    image = get_image_from_tile(tile)
+def get_image_point(image_tile, point_width, point_height, web_map, layer):
     data_point_in_image = point.LocationInImage(point_width, point_height)
-    image_point = point.ImagePoint(data_point_in_image, image, web_map, layer)
+    image_point = point.ImagePoint(data_point_in_image, image_tile, web_map, layer)
     return image_point
 
 

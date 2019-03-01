@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import pyproj
 from geopy.distance import great_circle
 
+from map_based_resources import mapResources
+
 
 class DataPoint:
     def __init__(self, latitude, longitude, coordinate_type, level):
@@ -9,6 +11,12 @@ class DataPoint:
         self.longitude = longitude
         self.coordinate_type = coordinate_type
         self.level = level
+
+    def __str__(self) -> str:
+        return str(self.__class__) + ": " + str(self.__dict__)
+
+    def __repr__(self):
+        return repr(vars(self))
 
     def convert_coordinate_systems(self, inverse=False, destination='epsg:3067'):
         """Converts Coordinate System to a different System.
@@ -42,23 +50,32 @@ class LocationInImage:
         self.width = width
         self.height = height
 
+    def __str__(self) -> str:
+        return str(self.__class__) + ": " + str(self.__dict__)
+
+    def __repr__(self):
+        return repr(vars(self))
+
 
 class ImagePoint:
 
-    def __init__(self, data_point_in_image: LocationInImage, image, web_map, layer):
-        self.image = image
+    def __init__(self, data_point_in_image: LocationInImage, image_tile: mapResources.ImageTile, web_map, layer):
+        self.image_tile = image_tile
         self.web_map = web_map
         self.layer = layer
         self.name = '{0} {1} {2}'.format(web_map.name, layer.name, layer.level)
         self.data_point_in_image = data_point_in_image
 
-    def show_image(self):
-        print(self.image)
+    def __str__(self) -> str:
+        return str(self.__class__) + ": " + str(self.__dict__)
+
+    def __repr__(self):
+        return repr(vars(self))
 
     def show_image_with_point(self):
         fig = plt.figure()
         a = fig.add_subplot(1, 2, 1)
-        plt.imshow(self.image)
+        plt.imshow(self.image_tile.image)
         plt.plot(self.data_point_in_image.width, self.data_point_in_image.height, color='yellow', marker='+')
         a.set_title(self.name)
 
@@ -67,6 +84,12 @@ class MeasurementPoint:
     def __init__(self, data_point: DataPoint):
         self.data_point = data_point
         self.image_points = list()
+
+    def __str__(self) -> str:
+        return str(self.__class__) + ": " + str(self.__dict__)
+
+    def __repr__(self):
+        return repr(vars(self))
 
     def add_image_point(self, image_point: ImagePoint):
         self.image_points.append(image_point)

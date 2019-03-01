@@ -1,4 +1,22 @@
+import io
+from PIL import Image
 from owslib.wmts import WebMapTileService
+
+
+class ImageTile:
+
+    def __init__(self, tile, level, row, column):
+        self.tile = tile
+        self.level = level
+        self.row = row
+        self.column = column
+        self.image = None
+        self.get_image_from_tile()
+
+    def get_image_from_tile(self):
+        tile_bytes = self.tile.read()
+        image_stream = io.BytesIO(tile_bytes)
+        self.image = Image.open(image_stream)
 
 
 class MapLayer:
@@ -7,13 +25,28 @@ class MapLayer:
         self.layer = layer
         self.split = split
         self.already_splitted = False
-        self.row = None
-        self.column = None
-        self.tile_level = None
+        self.image_tiles = set()
 
-    def add_position_on_layer(self, row, column):
-        self.row = row
-        self.column = column
+    def __str__(self) -> str:
+        return str(self.__class__) + ": " + str(self.__dict__)
+
+    def __repr__(self):
+        return repr(vars(self))
+
+    def add_image_tile(self, image_tile: ImageTile):
+        self.image_tiles.add(image_tile)
+
+    def image_tile_in_layer(self, level, row, column):
+        for item in self.image_tiles:
+            if item.level == level and item.row == row and item.column == column:
+                return True
+        return False
+
+    def get_image_tile(self, level, row, column):
+        for item in self.image_tiles:
+            if item.level == level and item.row == row and item.column == column:
+                return item
+        return None
 
 
 class MapService:
@@ -29,6 +62,12 @@ class MapService:
             self.map_layers.append(MapLayer(layer["name"], layer["layer"], "split" in layer))
         if not self.ignore:
             self.tile_service = WebMapTileService(self.url)
+
+    def __str__(self) -> str:
+        return str(self.__class__) + ": " + str(self.__dict__)
+
+    def __repr__(self):
+        return repr(vars(self))
 
     def get_info(self, map_layer):
         wmts = self.tile_service
