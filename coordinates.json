@@ -10,5 +10,11 @@
     "longitude": 631805.170,
     "level": 15,
     "type": "epsg:3067"
+  },
+  {
+    "latitude": 6854360.810,
+    "longitude": 628053.170,
+    "level": 10,
+    "type": "epsg:3067"
   }
 ]

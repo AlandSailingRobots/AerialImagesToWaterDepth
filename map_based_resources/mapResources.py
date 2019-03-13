@@ -1,5 +1,4 @@
 import io
-from typing import Any
 
 from PIL import Image
 from owslib.wmts import WebMapTileService
@@ -12,13 +11,12 @@ class ImageTile:
         self.level = level
         self.row = row
         self.column = column
-        self.image = None
-        self.get_image_from_tile()
 
     def get_image_from_tile(self):
         tile_bytes = self.tile.read()
         image_stream = io.BytesIO(tile_bytes)
-        self.image = Image.open(image_stream)
+        return Image.open(image_stream)
+
 
 class MapLayer:
     def __init__(self, name, layer, split):

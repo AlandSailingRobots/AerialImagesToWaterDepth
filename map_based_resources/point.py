@@ -75,8 +75,10 @@ class ImagePoint:
     def show_image_with_point(self):
         fig = plt.figure()
         a = fig.add_subplot(1, 2, 1)
-        plt.imshow(self.image_tile.image)
+        plt.imshow(self.image_tile.get_image_from_tile())
         plt.plot(self.data_point_in_image.width, self.data_point_in_image.height, color='yellow', marker='+')
+        print(self.data_point_in_image.width, self.data_point_in_image.height)
+        print(self.image_tile.column, self.image_tile.row)
         a.set_title(self.name)
 
 
