@@ -251,7 +251,7 @@ def get_image_and_plot(info_dict, config, show=True):
     return measured_point
 
 
-def get_information_for_tile(info_dict, config, name_layer=None, show=True):
+def get_information_for_tile(info_dict, config, name_layer=None):
     measured_point = point.MeasurementPoint(info_dict)
     web_map, layer = get_specific_layer(config, name_layer)
     measured_point.add_image_point(get_image_and_information_for_single_point(info_dict, layer, web_map))
