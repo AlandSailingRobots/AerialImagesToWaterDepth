@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import WMTS_Single_Tile_Based as single_tile
@@ -14,7 +14,7 @@ import time
 configuration = fetcher.get_configuration()
 
 
-# In[2]:
+# In[ ]:
 
 
 def get_datapoints(sample, data_source, level, name_set):
@@ -42,14 +42,14 @@ def get_set_from_datapoints(data_source, sample_size, level, name_set, latitude_
         sample = df
     else:
         sample = df.sample(sample_size)
+
     return get_datapoints(sample, data_source, level, name_set)
 
 
-# In[3]:
+# In[ ]:
 
 
 def get_range(value, tiles):
-    print(value, len(tiles))
     min_value = min(i.__dict__[value] for i in tiles)
     max_value = max(i.__dict__[value] for i in tiles)
     ranged = list(range(min_value, max_value + 1))
@@ -70,10 +70,15 @@ def get_missing_tiles(tiles, wmt, layer):
             for column in columns_:
                 if (level, row, column) not in checked_set:
                     missing_set.add((row, column))
+
     print('missing', len(missing_set))
     start = datetime.now()
+    count = 0
     for r, c in missing_set:
-        single_tile.add_tile(wmt, layer, r, c)
+        single_tile.get_tile_image(c, layer, row, wmt)
+        if count % 100 == 0:
+            print(count)
+        count += 1
     duration = datetime.now() - start
     print('Total', duration)
     print('Per item', duration / len(missing_set))
@@ -83,7 +88,7 @@ def compare(normal):
     return normal.level, normal.row, normal.column
 
 
-# In[4]:
+# In[ ]:
 
 
 def plot_data_points(data_dict, points, im, x_offset, y_offset, color, name):
@@ -105,25 +110,29 @@ def plot_data_points(data_dict, points, im, x_offset, y_offset, color, name):
             data_dict['column'].append(image_tile.column)
 
 
-# In[5]:
+# In[ ]:
 
 
 level = 12
 datasets = list()
 name_set = 'ortokuva'
-for source in fetcher.get_data_sources():
+
+# In[ ]:
+
+
+for source in fetcher.get_open_data_sources():
     sample_set = get_set_from_datapoints(source, 10, level, name_set
                                          #                                          (6850000, 6851548), (628982, 630582)
                                          )
     if sample_set is not None:
         datasets.append({"items": sample_set, "color": source["color"], "name": source["name"]})
 
-# In[6]:
+# In[ ]:
 
 
 web_map, layer = single_tile.get_specific_layer(configuration, name_set)
 
-# In[7]:
+# In[ ]:
 
 
 print(len(layer.image_tiles))
@@ -131,7 +140,7 @@ get_missing_tiles(layer.image_tiles, web_map, layer)
 images = layer.image_tiles
 sorted_images = sorted(images, key=compare)
 
-# In[8]:
+# In[ ]:
 
 
 TOOLS = "pan,hover,box_zoom,zoom_in,zoom_out,reset"
