@@ -189,16 +189,22 @@ def get_specific_layer(config, name_layer):
 def add_tile(wmts, layer, row, column):
     tile_image = layer.get_image_tile(layer.level, row, column)
     if tile_image is None:
-        tile = wmts.tile_service.gettile(
-            layer=layer.layer,
-            tilematrixset=wmts.set_name,
-            tilematrix=layer.tile_level,
-            row=row,
-            column=column,
-            format=wmts.tile_service.contents[layer.layer].formats[0])
-        tile_image = mapResources.ImageTile(tile, layer.level, row, column)
-        layer.add_image_tile(tile_image)
-    return tile_image
+        tile_image = get_tile_image(column, layer, row, wmts)
+    yield tile_image
+
+
+def get_tile_image(column, layer, row, wmts):
+    tile = wmts.tile_service.gettile(
+        layer=layer.layer,
+        tilematrixset=wmts.set_name,
+        tilematrix=layer.tile_level,
+        row=row,
+        column=column,
+        format=wmts.tile_service.contents[layer.layer].formats[0])
+    print(tile.url)
+    tile_image = mapResources.ImageTile(tile, layer.level, row, column)
+    layer.add_image_tile(tile_image)
+    yield tile_image
 
 
 # In[10]:

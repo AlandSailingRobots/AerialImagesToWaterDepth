@@ -1,0 +1,278 @@
+[
+  {
+    "name": "JJKJ_D_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "palevioletred",
+    "path": "open_data/JJKJ_D_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_C_MBES_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lightgreen",
+    "path": "open_data/JJKJ_C_MBES_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "dodgerblue",
+    "path": "open_data/JJKJ_E_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "olivedrab",
+    "path": "open_data/JJKJ_A2_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_A1_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "moccasin",
+    "path": "open_data/JJKJ_A1_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_A_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "palegreen",
+    "path": "open_data/JJKJ_A_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_B_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lime",
+    "path": "open_data/JJKJ_B_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_D_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "gainsboro",
+    "path": "open_data/JJKJ_D_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_C_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "darkgoldenrod",
+    "path": "open_data/JJKJ_C_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_A1_MBES_osa3_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "bisque",
+    "path": "open_data/JJKJ_A1_MBES_osa3_SB_2m"
+  },
+  {
+    "name": "JJKJ_B_SBES_osa2_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "rosybrown",
+    "path": "open_data/JJKJ_B_SBES_osa2_SB_5m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa3_2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "darkorange",
+    "path": "open_data/JJKJ_A2_MBES_osa3_2_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "dimgrey",
+    "path": "open_data/JJKJ_E_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_B_MBES_osa3_SB_1m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lemonchiffon",
+    "path": "open_data/JJKJ_B_MBES_osa3_SB_1m"
+  },
+  {
+    "name": "JJKJ_B_SBES_osa1_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "seashell",
+    "path": "open_data/JJKJ_B_SBES_osa1_SB_5m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa3_1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "darkviolet",
+    "path": "open_data/JJKJ_A2_MBES_osa3_1_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_MBES_osa3_SB_1m",
+    "coordinate_system": "EPSG:3067",
+    "color": "limegreen",
+    "path": "open_data/JJKJ_E_MBES_osa3_SB_1m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "oldlace",
+    "path": "open_data/JJKJ_A2_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "slategray",
+    "path": "open_data/JJKJ_E_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_D_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "mediumseagreen",
+    "path": "open_data/JJKJ_D_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa4_SB_1m",
+    "coordinate_system": "EPSG:3067",
+    "color": "mistyrose",
+    "path": "open_data/JJKJ_A2_MBES_osa4_SB_1m"
+  },
+  {
+    "name": "JJKJ_A1_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "navy",
+    "path": "open_data/JJKJ_A1_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_B_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "aqua",
+    "path": "open_data/JJKJ_B_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_D_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "linen",
+    "path": "open_data/JJKJ_D_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_C_MBES_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "mediumvioletred",
+    "path": "open_data/JJKJ_C_MBES_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "dimgray",
+    "path": "open_data/JJKJ_E_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "ghostwhite",
+    "path": "open_data/JJKJ_A2_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_A1_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "darkturquoise",
+    "path": "open_data/JJKJ_A1_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_A_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lightgoldenrodyellow",
+    "path": "open_data/JJKJ_A_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_B_MBES_osa2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "beige",
+    "path": "open_data/JJKJ_B_MBES_osa2_SB_2m"
+  },
+  {
+    "name": "JJKJ_D_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "midnightblue",
+    "path": "open_data/JJKJ_D_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_C_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "aquamarine",
+    "path": "open_data/JJKJ_C_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_A1_MBES_osa3_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "cornsilk",
+    "path": "open_data/JJKJ_A1_MBES_osa3_SB_2m"
+  },
+  {
+    "name": "JJKJ_B_SBES_osa2_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "darkkhaki",
+    "path": "open_data/JJKJ_B_SBES_osa2_SB_5m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa3_2_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "plum",
+    "path": "open_data/JJKJ_A2_MBES_osa3_2_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_SBES_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "crimson",
+    "path": "open_data/JJKJ_E_SBES_SB_5m"
+  },
+  {
+    "name": "JJKJ_B_MBES_osa3_SB_1m",
+    "coordinate_system": "EPSG:3067",
+    "color": "blueviolet",
+    "path": "open_data/JJKJ_B_MBES_osa3_SB_1m"
+  },
+  {
+    "name": "JJKJ_B_SBES_osa1_SB_5m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lightpink",
+    "path": "open_data/JJKJ_B_SBES_osa1_SB_5m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa3_1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "darkgreen",
+    "path": "open_data/JJKJ_A2_MBES_osa3_1_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_MBES_osa3_SB_1m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lightgrey",
+    "path": "open_data/JJKJ_E_MBES_osa3_SB_1m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "grey",
+    "path": "open_data/JJKJ_A2_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_E_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "seagreen",
+    "path": "open_data/JJKJ_E_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_D_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "darkmagenta",
+    "path": "open_data/JJKJ_D_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_A2_MBES_osa4_SB_1m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lightcoral",
+    "path": "open_data/JJKJ_A2_MBES_osa4_SB_1m"
+  },
+  {
+    "name": "JJKJ_A1_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "slateblue",
+    "path": "open_data/JJKJ_A1_MBES_osa1_SB_2m"
+  },
+  {
+    "name": "JJKJ_B_MBES_osa1_SB_2m",
+    "coordinate_system": "EPSG:3067",
+    "color": "lightsteelblue",
+    "path": "open_data/JJKJ_B_MBES_osa1_SB_2m"
+  }
+]

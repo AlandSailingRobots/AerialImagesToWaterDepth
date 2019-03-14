@@ -3,5 +3,4 @@
 \.ipynb_checkpoints/
 \.directory
 venv
-*.jpg
 __pycache__/

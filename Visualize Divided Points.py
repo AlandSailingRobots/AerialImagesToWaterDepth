@@ -30,7 +30,7 @@ def get_datapoints(sample, data_source, level, name_set):
 
 def get_set_from_datapoints(data_source, sample_size, level, name_set, latitude_range=None, longitude_range=None,
                             no_sample=False):
-    df = fetcher.open_xyz_file_as_panda(data_source['name'])
+    df = fetcher.open_xyz_file_as_panda(data_source)
     if latitude_range != None and longitude_range != None:
         df = df[(latitude_range[0] <= df.latitude)
                 & (df.latitude <= latitude_range[1])
