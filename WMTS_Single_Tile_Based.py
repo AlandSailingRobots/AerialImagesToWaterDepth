@@ -144,10 +144,12 @@ def check_fit(wmts, specified_map_layer_split, tile_level, row, column):
 def get_specified_map_layer_if_split_up(wmts, layer_obj, row, column):
     wmts_ = wmts.tile_service
     specified_map_layer = layer_obj.layer
-    if layer_obj.already_splitted:
+
+    if layer_obj.already_splitted and check_fit(wmts, specified_map_layer, layer_obj.tile_level, row, column):
         return
+
     splitted_map_layers = (layer for layer in wmts_.contents if
-                           specified_map_layer in layer and specified_map_layer != layer)
+                           layer_obj.original_layer in layer and layer_obj.original_layer != layer)
     for specified_map_layer_split in splitted_map_layers:
         if check_fit(wmts, specified_map_layer_split, layer_obj.tile_level, row, column):
             layer_obj.layer = specified_map_layer_split

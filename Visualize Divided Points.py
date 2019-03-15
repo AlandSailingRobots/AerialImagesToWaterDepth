@@ -1,25 +1,24 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 import WMTS_Single_Tile_Based as single_tile
 from data_resources import fileToObjects as fetcher, transformObjects as transformer
 from PIL import Image
 from bokeh.plotting import figure, show, output_file
-from datetime import datetime
 import time
+import progressbar
 
 configuration = fetcher.get_configuration()
 
 
-# In[ ]:
+# In[2]:
 
 
 def get_datapoints(sample, data_source, level, name_set):
     data_points = list()
-
     for index, row in sample.iterrows():
         point_dict = transformer.create_info_object_from_panda_row(row, data_source['coordinate_system'], level)
         images_and_info = single_tile.get_information_for_tile(point_dict, configuration, name_set)
@@ -28,7 +27,11 @@ def get_datapoints(sample, data_source, level, name_set):
     return data_points
 
 
-def get_set_from_datapoints(data_source, sample_size, level, name_set, latitude_range=None, longitude_range=None,
+# In[3]:
+
+
+def get_set_from_datapoints(data_source, sample_size, max_depth=None, latitude_range=None,
+                            longitude_range=None,
                             no_sample=False):
     df = fetcher.open_xyz_file_as_panda(data_source)
     if latitude_range != None and longitude_range != None:
@@ -36,17 +39,17 @@ def get_set_from_datapoints(data_source, sample_size, level, name_set, latitude_
                 & (df.latitude <= latitude_range[1])
                 & (longitude_range[0] <= df.longitude)
                 & (df.longitude <= longitude_range[1])]
-        if df.shape[0] == 0:
-            return None
+    if max_depth != None:
+        df = df[df.height <= max_depth]
+    if df.shape[0] == 0:
+        return None
     if no_sample:
-        sample = df
+        return df
     else:
-        sample = df.sample(sample_size)
-
-    return get_datapoints(sample, data_source, level, name_set)
+        return df.sample(sample_size)
 
 
-# In[ ]:
+# In[4]:
 
 
 def get_range(value, tiles):
@@ -57,7 +60,6 @@ def get_range(value, tiles):
         return [min_value]
     else:
         return ranged
-
 
 def get_missing_tiles(tiles, wmt, layer):
     rows_ = get_range('row', tiles)
@@ -70,25 +72,15 @@ def get_missing_tiles(tiles, wmt, layer):
             for column in columns_:
                 if (level, row, column) not in checked_set:
                     missing_set.add((row, column))
-
-    print('missing', len(missing_set))
-    start = datetime.now()
-    count = 0
-    for r, c in missing_set:
-        single_tile.get_tile_image(c, layer, row, wmt)
-        if count % 100 == 0:
-            print(count)
-        count += 1
-    duration = datetime.now() - start
-    print('Total', duration)
-    print('Per item', duration / len(missing_set))
+    for r, c in progressbar.progressbar(missing_set):
+        single_tile.add_tile(wmt, layer, r, c)
 
 
 def compare(normal):
     return normal.level, normal.row, normal.column
 
 
-# In[ ]:
+# In[5]:
 
 
 def plot_data_points(data_dict, points, im, x_offset, y_offset, color, name):
@@ -110,80 +102,80 @@ def plot_data_points(data_dict, points, im, x_offset, y_offset, color, name):
             data_dict['column'].append(image_tile.column)
 
 
-# In[ ]:
+# In[6]:
+
+
+def get_dataset_from_sources(sources, amount, level, name_set, max_depth=None, latitude_range=None,
+                             longitude_range=None):
+    data = list()
+    for source in progressbar.progressbar(sources):
+        sample = get_set_from_datapoints(source, amount, max_depth, latitude_range, longitude_range)
+        sample_set = get_datapoints(sample, source, level, name_set)
+        if sample_set is not None:
+            data.append({"items": sample_set, "color": source["color"], "name": source["name"]})
+    return data
+
+
+# In[7]:
+
+
+def create_image_and_points(sorted_images, datasets):
+    widths = len(set(i.column for i in sorted_images))
+    heights = len(set(i.row for i in sorted_images))
+    image_sizes = sorted_images[0].get_image_from_tile().size
+    new_im = Image.new('RGB', (widths * image_sizes[0], heights * image_sizes[1]))
+    x_offset = 0
+    y_offset = 0
+    data_dict = dict(x=list(), y=list(), name=list(), color=list(), lat=list(), lon=list(), depth=list(), width=list(),
+                     height=list(), row=list(), column=list())
+    previous_im = None
+    for im in progressbar.progressbar(sorted_images):
+        image = im.get_image_from_tile()
+        if previous_im is not None and previous_im.column != im.column:
+            x_offset += image.size[0]
+        if previous_im is not None and previous_im.row != im.row:
+            y_offset += image.size[1]
+            x_offset = 0
+        new_im.paste(image, (x_offset, y_offset))
+        for dataset in datasets:
+            plot_data_points(data_dict, dataset["items"], im, x_offset, y_offset, dataset["color"], dataset["name"])
+        previous_im = im
+    return new_im, data_dict
+
+
+# In[8]:
+
+
+def plot_from_dict(data_dict, image):
+    TOOLS = "pan,hover,box_zoom,zoom_in,zoom_out,reset"
+    p = figure(x_range=(0, image.width), y_range=(image.height, 0), match_aspect=True, tools=TOOLS,
+               tooltips=[("Source", "@name"),
+                         ("Lat", "@lat{0,0.000}"),
+                         ("Long", "@lon{0,0.000}"),
+                         ("Depth", "@depth"),
+                         ("Width", "@width{0,0.0000}"),
+                         ("Height", "@height{0,0.0000}"),
+                         ("Row", "@row"),
+                         ("Column", "@column")]
+               )
+    p.image_url(url=['image.jpg'], x=0, y=0, w=image.width, h=image.height, anchor="top_left")
+    p.circle('x', 'y', source=data_dict, color='color')
+    output_file("pointsplot.html", title="Divided Points")
+    show(p)
+
+
+# In[9]:
 
 
 level = 12
-datasets = list()
-name_set = 'ortokuva'
-
-# In[ ]:
-
-
-for source in fetcher.get_open_data_sources():
-    sample_set = get_set_from_datapoints(source, 10, level, name_set
-                                         #                                          (6850000, 6851548), (628982, 630582)
-                                         )
-    if sample_set is not None:
-        datasets.append({"items": sample_set, "color": source["color"], "name": source["name"]})
-
-# In[ ]:
-
-
+name_set = ['ava_norm_split', 'ortokuva'][1]
+sources = fetcher.get_open_data_sources()
+datasets = get_dataset_from_sources(sources, 10, level, name_set, max_depth=2)
 web_map, layer = single_tile.get_specific_layer(configuration, name_set)
-
-# In[ ]:
-
-
-print(len(layer.image_tiles))
 get_missing_tiles(layer.image_tiles, web_map, layer)
-images = layer.image_tiles
-sorted_images = sorted(images, key=compare)
-
-# In[ ]:
-
-
-TOOLS = "pan,hover,box_zoom,zoom_in,zoom_out,reset"
-
-widths = len(set(i.column for i in sorted_images))
-heights = len(set(i.row for i in sorted_images))
-image_sizes = sorted_images[0].get_image_from_tile().size
-new_im = Image.new('RGB', (widths * image_sizes[0], heights * image_sizes[1]))
-
-x_offset = 0
-y_offset = 0
-previous_im = None
-data_dict = dict(x=list(), y=list(), name=list(), color=list(), lat=list(), lon=list(), depth=list(), width=list(),
-                 height=list(), row=list(), column=list())
-time_start = datetime.now()
-amount = 0
-p = figure(x_range=(0, new_im.width), y_range=(new_im.height, 0), match_aspect=True, tools=TOOLS,
-           tooltips=[("Source", "@name"),
-                     ("Lat", "@lat{0,0.000}"),
-                     ("Long", "@lon{0,0.000}"),
-                     ("Depth", "@depth"),
-                     ("Width", "@width{0,0.0000}"),
-                     ("Height", "@height{0,0.0000}"),
-                     ("Row", "@row"),
-                     ("Column", "@column")]
-           )
-
-for im in sorted_images:
-    image = im.get_image_from_tile()
-    if previous_im is not None and previous_im.column != im.column:
-        x_offset += image.size[0]
-    if previous_im is not None and previous_im.row != im.row:
-        y_offset += image.size[1]
-        x_offset = 0
-    new_im.paste(image, (x_offset, y_offset))
-    for dataset in datasets:
-        plot_data_points(data_dict, dataset["items"], im, x_offset, y_offset, dataset["color"], dataset["name"])
-    previous_im = im
-print(datetime.now() - time_start)
-new_im.save('image.jpg')
+sorted_images = sorted(layer.image_tiles, key=compare)
+image, data_dict = create_image_and_points(sorted_images, datasets)
+image.save('image.jpg')
 time.sleep(1)
-p.image_url(url=['image.jpg'], x=0, y=0, w=new_im.width, h=new_im.height, anchor="top_left")
-p.circle('x', 'y', source=data_dict, color='color')
-output_file("pointsplot.html", title="Divided Points")
+plot_from_dict(data_dict, image)
 
-show(p)
