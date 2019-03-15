@@ -16,15 +16,15 @@ To result in this a few steps first need to be done.
 
 Progress:
 - [ ] Get the images.
-    - [X] [Write a notebook which can get an image for a random point](WMTS_Single_Tile_Based.ipynb).
-    - [X] [Configuration file which gives possible WMTS Urls and their layers](config.json)
+    - [X] [Write a notebook which can get an image for a random point](notebooks/WMTS_Single_Tile_Based.ipynb).
+    - [X] [Configuration file which gives possible WMTS Urls and their layers](resources/config.json)
     - [X] Have a background image to check if the current coordinate is land or sea.
     - [X] Have selected location in image
         - [x] in code.
         - [x] visualized
     - [X] Ability to use different coordinate systems.
     - [X] Read coordinates in from files:
-        - [X] [JSON](coordinates.json)
+        - [X] [JSON](resources/coordinates.json)
         - [X] [XYZ](/data_resources/fileToObjects.py) with different gps systems.
 - [ ] Algorithm to check land, sea or combination.
 - [ ] Cleaning and normalizing data

@@ -4,8 +4,7 @@
 # In[1]:
 
 
-import WMTS_Single_Tile_Based as single_tile
-from data_resources import fileToObjects as fetcher, transformObjects as transformer
+from data_resources import fileToObjects as fetcher, transformObjects as transformer, singleTile as single_tile
 from PIL import Image
 from bokeh.plotting import figure, show, output_file
 import time
