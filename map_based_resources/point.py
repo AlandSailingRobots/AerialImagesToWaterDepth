@@ -76,13 +76,7 @@ class ImagePoint:
     def show_image_with_point(self):
         fig = plt.figure()
         a = fig.add_subplot(1, 2, 1)
-        image = self.image_tile.get_image_from_tile()
-        image_arr = np.array(image)
-        if image_arr.shape[-1] == 2:
-            image.convert("L")
-            plt.imshow(image,cmap='gray')
-        else:
-            plt.imshow(image)
+        plt.imshow(self.image_tile.get_image_from_tile())
 
         plt.plot(self.data_point_in_image.width, self.data_point_in_image.height, color='yellow', marker='+')
         a.set_title(self.name)
