@@ -1,12 +1,19 @@
 import json
 import pandas as pd
+import os
 from data_resources import transformObjects
+
 
 from map_based_resources import mapResources
 
 
 def open_json_file(filename):
-    with open('../' + filename) as f:
+    if not os.path.isfile(filename):
+        if not os.path.isfile('../'+filename):
+            raise FileNotFoundError(filename)
+        else:
+            filename = '../'+filename
+    with open(filename) as f:
         data = json.load(f)
     return data
 
