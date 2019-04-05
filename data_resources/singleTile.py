@@ -157,7 +157,7 @@ def get_specified_map_layer_if_split_up(wmts, layer_obj, row, column):
     else:
         print(specified_map_layer)
         print(layer_obj.original_layer)
-        print(row,column)
+        print(row, column)
         raise ValueError('No splitted layer found')
 
 

@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import pyproj
 from geopy.distance import great_circle
-import numpy as np
-
 from map_based_resources import mapResources
 
 

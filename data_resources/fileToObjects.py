@@ -30,11 +30,11 @@ def get_config_from_json():
 
 
 def get_data(data_type='open_source'):
-    '''
+    """
     Method to get the existing data.
     :param data_type: Name of what kind of data options: open_source, combined or private. default open_source
     :return: json list with source files en their values.
-    '''
+    """
     if data_type == 'open_source':
         return open_json_file('open_data/data_sources.json')
     elif data_type == 'combined':

@@ -36,7 +36,7 @@ def split_part_and_whole(value):
     return whole, part
 
 
-def limit_data_set(df, sample_size, max_depth=None, latitude_range=None,longitude_range=None,no_sample=False):
+def limit_data_set(df, sample_size, max_depth=None, latitude_range=None, longitude_range=None, no_sample=False):
     if latitude_range is not None:
         df = df[(latitude_range[0] <= df.latitude)
                 & (df.latitude <= latitude_range[1])]
