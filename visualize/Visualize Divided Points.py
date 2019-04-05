@@ -1,19 +1,15 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 from data_resources import fileToObjects as fetcher, transformObjects as transformer, singleTile as single_tile
 from PIL import Image
 from bokeh.plotting import figure, show, output_file
 import time
 import progressbar
 
+widgets = [
+    ' [', progressbar.Timer(), '] ',
+    progressbar.Bar(),
+    ' (', progressbar.AdaptiveETA(), ') ',
+]
 configuration = fetcher.get_configuration()
-
-
-# In[2]:
 
 
 def get_datapoints(sample, data_source, level, name_set):
@@ -26,9 +22,6 @@ def get_datapoints(sample, data_source, level, name_set):
     return data_points
 
 
-# In[3]:
-
-
 def get_set_from_datapoints(data_source, sample_size, max_depth=None, latitude_range=None,
                             longitude_range=None,
                             no_sample=False):
@@ -39,16 +32,13 @@ def get_set_from_datapoints(data_source, sample_size, max_depth=None, latitude_r
                 & (longitude_range[0] <= df.longitude)
                 & (df.longitude <= longitude_range[1])]
     if max_depth != None:
-        df = df[df.height <= max_depth]
-    if df.shape[0] == 0:
-        return None
+        df = df[df.height >= max_depth]
+    if df.shape[0] < sample_size:
+        sample_size = df.shape[0]
     if no_sample:
         return df
     else:
         return df.sample(sample_size)
-
-
-# In[4]:
 
 
 def get_range(value, tiles):
@@ -59,6 +49,7 @@ def get_range(value, tiles):
         return [min_value]
     else:
         return ranged
+
 
 def get_missing_tiles(tiles, wmt, layer):
     rows_ = get_range('row', tiles)
@@ -71,15 +62,13 @@ def get_missing_tiles(tiles, wmt, layer):
             for column in columns_:
                 if (level, row, column) not in checked_set:
                     missing_set.add((row, column))
-    for r, c in progressbar.progressbar(missing_set):
+    progress_ = progressbar.ProgressBar(widgets=['Missing Images'] + widgets)
+    for r, c in progress_(missing_set):
         single_tile.add_tile(wmt, layer, r, c)
 
 
 def compare(normal):
     return normal.level, normal.row, normal.column
-
-
-# In[5]:
 
 
 def plot_data_points(data_dict, points, im, x_offset, y_offset, color, name):
@@ -88,34 +77,33 @@ def plot_data_points(data_dict, points, im, x_offset, y_offset, color, name):
         if im.level == image_tile.level and im.row == image_tile.row and im.column == image_tile.column:
             image_location = point_.image_points[-1].data_point_in_image
             data_point = point_.data_point
-            data_dict['width'].append(image_location.width)
-            data_dict['height'].append(image_location.height)
-            data_dict['x'].append(image_location.width + x_offset)
-            data_dict['y'].append(image_location.height + y_offset)
-            data_dict['lat'].append(data_point.latitude)
-            data_dict['lon'].append(data_point.longitude)
-            data_dict['name'].append(name)
-            data_dict['color'].append(color)
-            data_dict['depth'].append(point_.depth)
-            data_dict['row'].append(image_tile.row)
-            data_dict['column'].append(image_tile.column)
-
-
-# In[6]:
+            temp_dict = dict(
+                width=image_location.width,
+                height=image_location.height,
+                x=image_location.width + x_offset,
+                y=image_location.height + y_offset,
+                lat=data_point.latitude,
+                lon=data_point.longitude,
+                name=name,
+                color=color,
+                depth=point_.depth,
+                row=image_tile.row,
+                column=image_tile.column
+            )
+            for item in temp_dict:
+                data_dict[item].append(temp_dict[item])
 
 
 def get_dataset_from_sources(sources, amount, level, name_set, max_depth=None, latitude_range=None,
-                             longitude_range=None):
+                             longitude_range=None, no_sample=False):
     data = list()
-    for source in progressbar.progressbar(sources):
-        sample = get_set_from_datapoints(source, amount, max_depth, latitude_range, longitude_range)
-        sample_set = get_datapoints(sample, source, level, name_set)
+    progress = progressbar.ProgressBar(widgets=['Getting Images'] + widgets)
+    for item in progress(sources):
+        sample = get_set_from_datapoints(item, amount, max_depth, latitude_range, longitude_range, no_sample)
+        sample_set = get_datapoints(sample, item, level, name_set)
         if sample_set is not None:
-            data.append({"items": sample_set, "color": source["color"], "name": source["name"]})
+            data.append({"items": sample_set, "color": item["color"], "name": item["name"]})
     return data
-
-
-# In[7]:
 
 
 def create_image_and_points(sorted_images, datasets):
@@ -128,7 +116,8 @@ def create_image_and_points(sorted_images, datasets):
     data_dict = dict(x=list(), y=list(), name=list(), color=list(), lat=list(), lon=list(), depth=list(), width=list(),
                      height=list(), row=list(), column=list())
     previous_im = None
-    for im in progressbar.progressbar(sorted_images):
+    progress_ = progressbar.ProgressBar(widgets=['Creating images'] + widgets)
+    for im in progress_(sorted_images):
         image = im.get_image_from_tile()
         if previous_im is not None and previous_im.column != im.column:
             x_offset += image.size[0]
@@ -140,9 +129,6 @@ def create_image_and_points(sorted_images, datasets):
             plot_data_points(data_dict, dataset["items"], im, x_offset, y_offset, dataset["color"], dataset["name"])
         previous_im = im
     return new_im, data_dict
-
-
-# In[8]:
 
 
 def plot_from_dict(data_dict, image):
@@ -163,13 +149,10 @@ def plot_from_dict(data_dict, image):
     show(p)
 
 
-# In[9]:
-
-
 level = 12
-name_set = ['ava_norm_split', 'ortokuva'][1]
-sources = fetcher.get_open_data_sources()
-datasets = get_dataset_from_sources(sources, 10, level, name_set, max_depth=2)
+name_set = ['ava_norm_split', 'ava_norm', 'ava_infrared', 'background_map'][0]
+sources = fetcher.get_data()
+datasets = get_dataset_from_sources(sources, 100, level, name_set, max_depth=-2, no_sample=False)
 web_map, layer = single_tile.get_specific_layer(configuration, name_set)
 get_missing_tiles(layer.image_tiles, web_map, layer)
 sorted_images = sorted(layer.image_tiles, key=compare)
@@ -177,4 +160,3 @@ image, data_dict = create_image_and_points(sorted_images, datasets)
 image.save('image.jpg')
 time.sleep(1)
 plot_from_dict(data_dict, image)
-
