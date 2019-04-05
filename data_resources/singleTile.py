@@ -147,7 +147,6 @@ def get_specified_map_layer_if_split_up(wmts, layer_obj, row, column):
 
     if layer_obj.already_splitted and check_fit(wmts, specified_map_layer, layer_obj.tile_level, row, column):
         return
-
     splitted_map_layers = (layer for layer in wmts_.contents if
                            layer_obj.original_layer in layer and layer_obj.original_layer != layer)
     for specified_map_layer_split in splitted_map_layers:
@@ -157,6 +156,8 @@ def get_specified_map_layer_if_split_up(wmts, layer_obj, row, column):
             return
     else:
         print(specified_map_layer)
+        print(layer_obj.original_layer)
+        print(row,column)
         raise ValueError('No splitted layer found')
 
 

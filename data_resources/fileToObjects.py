@@ -3,17 +3,20 @@ import pandas as pd
 import os
 from data_resources import transformObjects
 
-
 from map_based_resources import mapResources
 
 
+def check_path(filename):
+    if os.path.isfile(filename):
+        return filename
+
+    if os.path.isfile('../' + filename):
+        return '../' + filename
+    raise FileNotFoundError(filename)
+
+
 def open_json_file(filename):
-    if not os.path.isfile(filename):
-        if not os.path.isfile('../'+filename):
-            raise FileNotFoundError(filename)
-        else:
-            filename = '../'+filename
-    with open(filename) as f:
+    with open(check_path(filename)) as f:
         data = json.load(f)
     return data
 
@@ -26,12 +29,20 @@ def get_config_from_json():
     return open_json_file('resources/config.json')
 
 
-def get_data_sources():
-    return open_json_file('data/data_sources.json')
-
-
-def get_open_data_sources():
-    return open_json_file('open_data/data_sources.json')
+def get_data(data_type='open_source'):
+    '''
+    Method to get the existing data.
+    :param data_type: Name of what kind of data options: open_source, combined or private. default open_source
+    :return: json list with source files en their values.
+    '''
+    if data_type == 'open_source':
+        return open_json_file('open_data/data_sources.json')
+    elif data_type == 'combined':
+        return open_json_file('data/data_sources.json') + open_json_file('open_data/data_sources.json')
+    elif data_type == 'private':
+        return open_json_file('data/data_sources.json')
+    else:
+        return open_json_file('open_data/data_sources.json')
 
 
 def get_configuration():
@@ -39,5 +50,5 @@ def get_configuration():
 
 
 def open_xyz_file_as_panda(file):
-    return pd.read_csv('../{0}.xyz'.format(file['path']), delim_whitespace=True,
+    return pd.read_csv(check_path(file['path'] + '.xyz'), delim_whitespace=True,
                        names=['longitude', 'latitude', 'height'])
