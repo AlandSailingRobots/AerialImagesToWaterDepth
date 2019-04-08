@@ -37,20 +37,28 @@ def get_config_from_json():
     return open_json_file('resources/config.json')
 
 
-def get_data(data_type='open_source'):
+def get_data(data_type='open_source', corrected=True):
     """
     Method to get the existing data.
+    :param corrected: If the corrected dataset should be used or not.
     :param data_type: Name of what kind of data options: open_source, combined or private. default open_source
     :return: json list with source files en their values.
     """
-    if data_type == 'open_source':
-        return open_json_file('open_data/data_sources.json')
-    elif data_type == 'combined':
-        return open_json_file('data/data_sources.json') + open_json_file('open_data/data_sources.json')
-    elif data_type == 'private':
-        return open_json_file('data/data_sources.json')
+
+    if corrected:
+        private = open_json_file('data/data_sources_corrected.json')
     else:
-        return open_json_file('open_data/data_sources.json')
+        private = open_json_file('data/data_sources.json')
+    open_source = open_json_file('open_data/data_sources.json')
+
+    if data_type == 'open_source':
+        return open_source
+    elif data_type == 'combined':
+        return private + open_source
+    elif data_type == 'private':
+        return private
+    else:
+        return open_source
 
 
 def get_configuration():
@@ -68,4 +76,4 @@ def save_panda_as_file(df, name):
     :param name: Name of the Dataframe
     :type df: Panda Dataframe
     """
-    df.to_csv(check_dir('corrected_data') + '/' + name + '.xyz', sep=' ', header=False, index=False)
+    df.to_csv('{0}/{1}.xyz'.format(check_dir('corrected_data'), name), sep=' ', header=False, index=False)
