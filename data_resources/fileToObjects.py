@@ -6,6 +6,14 @@ from data_resources import transformObjects
 from map_based_resources import mapResources
 
 
+def check_dir(dir_name):
+    if os.path.isdir(dir_name):
+        return dir_name
+    if os.path.isdir('../' + dir_name):
+        return '../' + dir_name
+    raise NotADirectoryError(dir_name)
+
+
 def check_path(filename):
     if os.path.isfile(filename):
         return filename
@@ -52,3 +60,12 @@ def get_configuration():
 def open_xyz_file_as_panda(file):
     return pd.read_csv(check_path(file['path'] + '.xyz'), delim_whitespace=True,
                        names=['longitude', 'latitude', 'height'])
+
+
+def save_panda_as_file(df, name):
+    """
+    Method to save the panda dataframe in the corrected_path
+    :param name: Name of the Dataframe
+    :type df: Panda Dataframe
+    """
+    df.to_csv(check_dir('corrected_data') + '/' + name + '.xyz', sep=' ', header=False, index=False)
