@@ -6,9 +6,9 @@ used_coordinate_system = 'epsg:3067'
 
 
 def transform_row(df_, source):
-    inProj = Proj(init=source['coordinate_system'])
-    outProj = Proj(init=used_coordinate_system)
-    transformer = Transformer.from_proj(inProj, outProj)
+    in_proj = Proj(init=source['coordinate_system'])
+    out_proj = Proj(init=used_coordinate_system)
+    transformer = Transformer.from_proj(in_proj, out_proj)
     longitude, latitude = transformer.transform(list(df_.longitude), list(df_.latitude))
     df_.longitude = longitude
     df_.latitude = latitude

@@ -4,7 +4,7 @@
 # In[1]:
 
 
-from data_resources import fileToObjects as fetcher, transformObjects as transformer
+from data_resources import fileToObjects, transformObjects
 from map_based_resources import point, mapResources
 
 # ## Experimental Testing for getting photo's out of multiple WMTS servers.
@@ -13,14 +13,14 @@ from map_based_resources import point, mapResources
 # 
 # To have the webmap tile services as an object we first get configuration from the json file. In this is the url of
 # the webmap and the name etc. This variable is then initiated so that we can continue using it further the in the
-# code and reduce unnecesary objects.
+# code and reduce unnecessary objects.
 # 
-# The static variables like the standardized rendering pixel size is also avalaible in the json and set globally.
+# The static variables like the standardized rendering pixel size is also available in the json and set globally.
 
 # In[2]:
 
 
-configuration = fetcher.get_configuration()
+configuration = fileToObjects.get_configuration()
 standardized_rendering_pixel_size = configuration.standardized_rendering_pixel_size
 
 
@@ -72,7 +72,7 @@ def get_value_and_value_image(matrix, point_, width=False):
         calculated = calculated_height
         matrix_tile_size = matrix.tileheight
 
-    value, value_part = transformer.split_part_and_whole(calculated(finnish_coordinates, matrix))
+    value, value_part = transformObjects.split_part_and_whole(calculated(finnish_coordinates, matrix))
     return value, position_in_image(matrix_tile_size, value_part)
 
 
@@ -178,7 +178,7 @@ def get_specific_layer(config, name_layer):
 
 # ## Get a tile for a specific coordinate
 # To get the exact tile for a coordinate there are a few steps that need to be done.
-# 1. it is neccesary to see if the the desired levels exists.
+# 1. it is necessary to see if the the desired levels exists.
 # 1. get the correct tile matrix.
 # 1. get the corresponding row, column, height in image and width in image.
 # 1. get the specific layer when it is is split up into multiple files.
@@ -235,7 +235,7 @@ def get_tile_for_coordinate(point_, wmts, layer):
 
 def get_image_and_information_for_single_point(point_, layer, wmts):
     tile, pos_image_height, pos_image_width = get_tile_for_coordinate(point_, wmts, layer)
-    image_point = transformer.get_image_point(tile, pos_image_width, pos_image_height, wmts, layer)
+    image_point = transformObjects.get_image_point(tile, pos_image_width, pos_image_height, wmts, layer)
     return image_point
 
 

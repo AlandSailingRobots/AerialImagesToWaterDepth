@@ -72,8 +72,8 @@ def open_xyz_file_as_panda(file):
 
 def save_panda_as_file(df, name):
     """
-    Method to save the panda dataframe in the corrected_path
-    :param name: Name of the Dataframe
+    Method to save the panda DataFrame in the corrected_path
+    :param name: Name of the DataFrame
     :type df: Panda Dataframe
     """
     df.to_csv('{0}/{1}.xyz'.format(check_dir('corrected_data'), name), sep=' ', header=False, index=False)

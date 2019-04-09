@@ -25,9 +25,9 @@ class DataPoint:
         src = self.coordinate_type
         if inverse:
             src, destination = destination, src
-        proj_src = pyproj.Proj(init=src)
-        proj_dest = pyproj.Proj(init=destination)
-        transformed = pyproj.transform(proj_src, proj_dest, self.longitude, self.latitude)
+        project_src = pyproj.Proj(init=src)
+        project_dest = pyproj.Proj(init=destination)
+        transformed = pyproj.transform(project_src, project_dest, self.longitude, self.latitude)
         return transformed
 
     def calculate_distance_to_point(self, other_point):

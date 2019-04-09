@@ -26,7 +26,7 @@ Progress:
     - [X] Read coordinates in from files:
         - [X] [JSON](resources/coordinates.json)
         - [X] [XYZ](/data_resources/fileToObjects.py) with different gps systems.
-- [ ] Algorithm to check land, sea or combination.
 - [ ] Cleaning and normalizing data
+- [ ] Algorithm to check land, sea or combination.
 - [ ] Estimator for water depth
 - [ ] Integration for website

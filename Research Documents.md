@@ -176,8 +176,7 @@ Uses a lot of lidar data(3.9 Million Points). Has wide range of depth(-20m until
 
 ## [Approaching bathymetry estimation from high resolution multispectral satellite imagesusing a neuro-fuzzy technique](https://www.researchgate.net/publication/235742655_Approaching_bathymetry_estimation_from_high_resolution_multispectral_satellite_images_using_a_neuro-fuzzy_technique)
 
-Through reading in [the previous research](Research%20Documents.md#a-machine-learning-approach-for-estimation-of-shallow-water-depths-from-optical-satellite-images-and-sonar-measurementhttpsiwaponlinecomjharticle-pdf15414083872101408pdf) there where multiple citations including this one.
-
+Through reading in [the previous research](Research%20Documents.md#a-machine-learning-approach-for-estimation-of-shallow-water-depths-from-optical-satellite-images-and-sonar-measurementshttpsiwaponlinecomjharticle15414083487a-machine-learning-approach-for-estimation-of)
 ### Short thoughts:
 Shows good usage of neural networks. Also shows promising results in the detailed level of accuracy.
 

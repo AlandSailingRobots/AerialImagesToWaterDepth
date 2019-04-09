@@ -1,4 +1,4 @@
-from data_resources import fileToObjects as fetcher, transformObjects as transformer, singleTile as single_tile
+from data_resources import fileToObjects, transformObjects, singleTile
 from PIL import Image
 from bokeh.plotting import figure, show, output_file
 import time
@@ -9,14 +9,14 @@ widgets = [
     progressbar.Bar(),
     ' (', progressbar.AdaptiveETA(), ') ',
 ]
-configuration = fetcher.get_configuration()
+configuration = fileToObjects.get_configuration()
 
 
 def get_datapoints(sample, data_source, level, name_set):
     data_points = list()
     for index, row in sample.iterrows():
-        point_dict = transformer.create_info_object_from_panda_row(row, data_source['coordinate_system'], level)
-        images_and_info = single_tile.get_information_for_tile(point_dict, configuration, name_set)
+        point_dict = transformObjects.create_info_object_from_panda_row(row, data_source['coordinate_system'], level)
+        images_and_info = singleTile.get_information_for_tile(point_dict, configuration, name_set)
         images_and_info.depth = row['height']
         data_points.append(images_and_info)
     return data_points
@@ -25,7 +25,7 @@ def get_datapoints(sample, data_source, level, name_set):
 def get_set_from_datapoints(data_source, sample_size, max_depth=None, latitude_range=None,
                             longitude_range=None,
                             no_sample=False):
-    df = fetcher.open_xyz_file_as_panda(data_source)
+    df = fileToObjects.open_xyz_file_as_panda(data_source)
     if latitude_range != None and longitude_range != None:
         df = df[(latitude_range[0] <= df.latitude)
                 & (df.latitude <= latitude_range[1])
@@ -64,7 +64,7 @@ def get_missing_tiles(tiles, wmt, layer):
                     missing_set.add((row, column))
     progress_ = progressbar.ProgressBar(widgets=['Missing Images'] + widgets)
     for r, c in progress_(missing_set):
-        single_tile.add_tile(wmt, layer, r, c)
+        singleTile.add_tile(wmt, layer, r, c)
 
 
 def compare(normal):
@@ -132,8 +132,8 @@ def create_image_and_points(sorted_images, datasets):
 
 
 def plot_from_dict(data_dict, image):
-    TOOLS = "pan,hover,box_zoom,zoom_in,zoom_out,reset"
-    p = figure(x_range=(0, image.width), y_range=(image.height, 0), match_aspect=True, tools=TOOLS,
+    bokeh_tools = "pan,hover,box_zoom,zoom_in,zoom_out,reset"
+    p = figure(x_range=(0, image.width), y_range=(image.height, 0), match_aspect=True, tools=bokeh_tools,
                tooltips=[("Source", "@name"),
                          ("Lat", "@lat{0,0.000}"),
                          ("Long", "@lon{0,0.000}"),
@@ -150,10 +150,10 @@ def plot_from_dict(data_dict, image):
 
 
 level = 12
-name_set = ['ava_norm_split', 'ava_norm', 'ava_infrared', 'background_map'][0]
-sources = fetcher.get_data()
+name_set = ['ava_norm_split', 'ava_norm', 'ava_infrared', 'background_map'][2]
+sources = fileToObjects.get_data()
 datasets = get_dataset_from_sources(sources, 100, level, name_set, max_depth=-2, no_sample=False)
-web_map, layer = single_tile.get_specific_layer(configuration, name_set)
+web_map, layer = singleTile.get_specific_layer(configuration, name_set)
 get_missing_tiles(layer.image_tiles, web_map, layer)
 sorted_images = sorted(layer.image_tiles, key=compare)
 image, data_dict = create_image_and_points(sorted_images, datasets)
