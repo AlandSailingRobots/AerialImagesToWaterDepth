@@ -1,4 +1,4 @@
-from data_resources import fileToObjects as fetcher
+from data_resources import fileToObjects
 import pandas as pd
 from pyproj import Proj, Transformer
 
@@ -17,11 +17,11 @@ def transform_row(df_, source):
 def get_single_df_from_sources(sources, correct_df=False, save=False):
     df = pd.DataFrame()
     for item in sources:
-        temp_df = fetcher.open_xyz_file_as_panda(item)
+        temp_df = fileToObjects.open_xyz_file_as_panda(item)
         if correct_df and item['coordinate_system'] != used_coordinate_system:
             transform_row(temp_df, item)
             if save:
-                fetcher.save_panda_as_file(temp_df.round(2), item['name'])
+                fileToObjects.save_panda_as_file(temp_df.round(2), item['name'])
         temp_df['name'] = '' + item['name']
         df = df.append(temp_df)
     return df
@@ -43,10 +43,10 @@ def get_height_difference_in_location_points(df_, uncorrected_name):
 def change_height_and_save(df_, name, difference):
     df_ = df_[df_.name == name].copy()
     df_['height'] = df_['height'].apply(lambda x: round(x - difference, 2))
-    fetcher.save_panda_as_file(df_.drop('name', axis=1), name)
+    fileToObjects.save_panda_as_file(df_.drop('name', axis=1), name)
 
 
-sources = fetcher.get_data('private')
+sources = fileToObjects.get_data(fileToObjects.DatasourceType.private)
 df = get_single_df_from_sources(sources, correct_df=True, save=True)
 dif = get_height_difference_in_location_points(df.copy(), 'LIDAR_WMA_malli_2m')
 change_height_and_save(df, 'LIDAR_WMA_malli_2m', dif)

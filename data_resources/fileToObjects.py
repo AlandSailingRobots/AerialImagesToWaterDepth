@@ -1,9 +1,19 @@
 import json
+from enum import Enum
+
 import pandas as pd
 import os
 from data_resources import transformObjects
 
 from map_based_resources import mapResources
+
+
+class DatasourceType(Enum):
+    open_source = ['open_data/data_sources.json']
+    private = ['data/data_sources.json']
+    corrected = ['data/data_sources_corrected.json']
+    combined = open_source + private
+    combined_corrected = open_source + corrected
 
 
 def check_dir(dir_name):
@@ -37,28 +47,18 @@ def get_config_from_json():
     return open_json_file('resources/config.json')
 
 
-def get_data(data_type='open_source', corrected=True):
+def get_data(data_type=DatasourceType.open_source):
     """
     Method to get the existing data.
-    :param corrected: If the corrected dataset should be used or not.
-    :param data_type: Name of what kind of data options: open_source, combined or private. default open_source
+    :type data_type: DatasourceType
+    :param data_type: Name of what kind of data options: open_source, combined, private, corrected and combined
+    corrected. default open_source
     :return: json list with source files en their values.
     """
-
-    if corrected:
-        private = open_json_file('data/data_sources_corrected.json')
-    else:
-        private = open_json_file('data/data_sources.json')
-    open_source = open_json_file('open_data/data_sources.json')
-
-    if data_type == 'open_source':
-        return open_source
-    elif data_type == 'combined':
-        return private + open_source
-    elif data_type == 'private':
-        return private
-    else:
-        return open_source
+    json_list = list()
+    for source in data_type.value:
+        json_list += open_json_file(source)
+    return json_list
 
 
 def get_configuration():
