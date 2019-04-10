@@ -4,7 +4,7 @@ from enum import Enum
 import pandas as pd
 import os
 from data_resources import transformObjects
-
+import urllib.request as req
 from map_based_resources import mapResources
 
 
@@ -21,7 +21,7 @@ def check_dir(dir_name):
         return dir_name
     if os.path.isdir('../' + dir_name):
         return '../' + dir_name
-    raise NotADirectoryError(dir_name)
+    return None
 
 
 def check_path(filename):
@@ -30,11 +30,14 @@ def check_path(filename):
 
     if os.path.isfile('../' + filename):
         return '../' + filename
-    raise FileNotFoundError(filename)
+    return None
 
 
 def open_json_file(filename):
-    with open(check_path(filename)) as f:
+    path = check_path(filename)
+    if path is None:
+        raise FileNotFoundError(filename)
+    with open(path) as f:
         data = json.load(f)
     return data
 
@@ -66,7 +69,15 @@ def get_configuration():
 
 
 def open_xyz_file_as_panda(file):
-    return pd.read_csv(check_path(file['path'] + '.xyz'), delim_whitespace=True,
+    path = check_path(file['path'])
+    if path is None and not 'url' in file:
+        raise FileNotFoundError(file['name'])
+    if path is None and 'url' in file:
+        print('Missing {0}, retrieving from url {1}'.format(file['name'], file['url']))
+        directory = check_dir(file['path'].split('/')[0])
+        req.urlretrieve(file['url'], '{0}/{1}.xyz'.format(directory, file['name']))
+        path = file['url']
+    return pd.read_csv(path, delim_whitespace=True,
                        names=['longitude', 'latitude', 'height'])
 
 
