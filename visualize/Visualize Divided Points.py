@@ -26,12 +26,12 @@ def get_set_from_datapoints(data_source, sample_size, max_depth=None, latitude_r
                             longitude_range=None,
                             no_sample=False):
     df = fileToObjects.open_xyz_file_as_panda(data_source)
-    if latitude_range != None and longitude_range != None:
+    if latitude_range is not None and longitude_range is not None:
         df = df[(latitude_range[0] <= df.latitude)
                 & (df.latitude <= latitude_range[1])
                 & (longitude_range[0] <= df.longitude)
                 & (df.longitude <= longitude_range[1])]
-    if max_depth != None:
+    if max_depth is not None:
         df = df[df.height >= max_depth]
     if df.shape[0] < sample_size:
         sample_size = df.shape[0]

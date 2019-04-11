@@ -166,7 +166,7 @@ def get_specified_map_layer_if_split_up(wmts, layer_obj, row, column):
 
 
 def get_specific_layer(config, name_layer):
-    if name_layer != None:
+    if name_layer is not None:
         for web_map_ in config.web_maps:
             if not web_map_.ignore:
                 for layer_ in web_map_.map_layers:
