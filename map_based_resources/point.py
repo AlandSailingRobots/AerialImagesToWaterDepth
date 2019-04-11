@@ -25,13 +25,16 @@ class DataPoint:
         src = self.coordinate_type
         if inverse:
             src, destination = destination, src
-        project_src = pyproj.Proj(init=src)
-        project_dest = pyproj.Proj(init=destination)
-        transformed = pyproj.transform(project_src, project_dest, self.longitude, self.latitude)
-        return transformed
+        if src != destination:
+            project_src = pyproj.Proj(init=src)
+            project_dest = pyproj.Proj(init=destination)
+            transformed = pyproj.transform(project_src, project_dest, self.longitude, self.latitude)
+            return transformed
+        else:
+            return self.longitude, self.latitude
 
     def calculate_distance_to_point(self, other_point):
-        correct_coordinate_system = 'epsg:4326'
+        correct_coordinate_system = 'epsg:4326'  # This is the only coordinate system in which it can be calculated.
         if other_point.coordinate_type != correct_coordinate_system:
             point_other = other_point.convert_coordinate_systems(destination=correct_coordinate_system)
         else:
