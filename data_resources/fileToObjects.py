@@ -70,7 +70,7 @@ def get_configuration():
 
 def open_xyz_file_as_panda(file):
     path = check_path(file['path'])
-    if path is None and not 'url' in file:
+    if path is None and 'url' not in file:
         raise FileNotFoundError(file['name'])
     if path is None and 'url' in file:
         print('Missing {0}, retrieving from url {1}'.format(file['name'], file['url']))

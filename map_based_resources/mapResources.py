@@ -11,11 +11,14 @@ class ImageTile:
         self.level = level
         self.row = row
         self.column = column
+        self.image = None
 
     def get_image_from_tile(self):
-        tile_bytes = self.tile.read()
-        image_stream = io.BytesIO(tile_bytes)
-        return Image.open(image_stream)
+        if self.image is None:
+            tile_bytes = self.tile.read()
+            image_stream = io.BytesIO(tile_bytes)
+            self.image = Image.open(image_stream)
+        return self.image
 
 
 class MapLayer:
@@ -27,6 +30,7 @@ class MapLayer:
         self.original_layer = layer
         self.pixel_size = None
         self.image_tiles = set()
+        self.level = None
 
     def __str__(self) -> str:
         return str(self.__class__) + ": " + str(self.__dict__)
