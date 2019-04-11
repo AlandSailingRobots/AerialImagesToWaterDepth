@@ -80,7 +80,7 @@ def get_single_height_width(matrix, point_):
     height, height_in_image = get_value_and_value_image(matrix, point_)
     width, width_in_image = get_value_and_value_image(matrix, point_, width=True)
     pixel_size = matrix.scaledenominator * standardized_rendering_pixel_size
-    return height, width, height_in_image, width_in_image,pixel_size
+    return height, width, height_in_image, width_in_image, pixel_size
 
 
 # ## Get the matrix at a specific level
@@ -218,7 +218,7 @@ def get_tile_for_coordinate(point_, wmts, layer):
     get_tile_level(wmts, layer)
     matrix = get_matrix_at_level(wmts, layer.level)
     codes = get_single_height_width(matrix, point_)
-    row, column, pos_image_height, pos_image_width,pixel_size = codes
+    row, column, pos_image_height, pos_image_width, pixel_size = codes
     if layer.split:
         get_specified_map_layer_if_split_up(wmts, layer, row, column)
     layer.pixel_size = pixel_size
