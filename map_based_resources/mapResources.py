@@ -25,6 +25,7 @@ class MapLayer:
         self.split = split
         self.already_splitted = False
         self.original_layer = layer
+        self.pixel_size = None
         self.image_tiles = set()
 
     def __str__(self) -> str:

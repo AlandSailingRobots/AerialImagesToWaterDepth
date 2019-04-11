@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import pyproj
 from geopy.distance import great_circle
 from map_based_resources import mapResources
@@ -61,11 +62,12 @@ class LocationInImage:
 
 class ImagePoint:
 
-    def __init__(self, data_point_in_image: LocationInImage, image_tile: mapResources.ImageTile, web_map, layer):
+    def __init__(self, data_point_in_image: LocationInImage, image_tile: mapResources.ImageTile,
+                 web_map: mapResources.MapService, layer: mapResources.MapLayer):
         self.image_tile = image_tile
         self.web_map = web_map
         self.layer = layer
-        self.name = '{0} {1} {2}'.format(web_map.name, layer.name, layer.level)
+        self.name = '{0} {1}'.format(web_map.name, layer.name)
         self.data_point_in_image = data_point_in_image
 
     def __str__(self) -> str:
@@ -74,13 +76,27 @@ class ImagePoint:
     def __repr__(self):
         return repr(vars(self))
 
-    def show_image_with_point(self):
+    def get_box_around(self, size):
+        distance_in_pixels = size / self.layer.pixel_size
+        left_lower_coordinates = (self.data_point_in_image.width - distance_in_pixels,
+                                  self.data_point_in_image.height - distance_in_pixels)
+        width = 2 * distance_in_pixels
+        height = 2 * distance_in_pixels
+
+        return left_lower_coordinates, width, height
+
+    def show_image_with_point(self,box_size):
         fig = plt.figure()
         a = fig.add_subplot(1, 2, 1)
         plt.imshow(self.image_tile.get_image_from_tile())
 
         plt.plot(self.data_point_in_image.width, self.data_point_in_image.height, color='yellow', marker='+')
+        coord, w, h = self.get_box_around(box_size)
+        box = patches.Rectangle(coord, w, h,fill=False, color='White')
+        a.add_patch(box)
         a.set_title(self.name)
+
+
 
 
 class MeasurementPoint:
