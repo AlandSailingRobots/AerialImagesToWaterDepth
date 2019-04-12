@@ -19,9 +19,7 @@ from map_based_resources import point, mapResources
 
 # In[2]:
 
-
-configuration = fileToObjects.get_configuration()
-standardized_rendering_pixel_size = configuration.standardized_rendering_pixel_size
+standardized_rendering_pixel_size = None
 
 
 # ## Calculate the position of the coordinate in WMTS
@@ -249,6 +247,8 @@ def get_image_and_information_for_single_point(point_, layer, wmts):
 
 
 def get_image_and_plot(info_dict, config, show=True):
+    global standardized_rendering_pixel_size
+    standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
     measured_point = point.MeasurementPoint(info_dict)
     for web_map in config.web_maps:
         if not web_map.ignore:
@@ -261,6 +261,8 @@ def get_image_and_plot(info_dict, config, show=True):
 
 
 def get_information_for_tile(info_dict, config, name_layer=None):
+    global standardized_rendering_pixel_size
+    standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
     measured_point = point.MeasurementPoint(info_dict)
     web_map, layer = get_specific_layer(config, name_layer)
     measured_point.add_image_point(get_image_and_information_for_single_point(info_dict, layer, web_map))
