@@ -32,12 +32,6 @@ class MapLayer:
         self.image_tiles = set()
         self.level = None
 
-    def __str__(self) -> str:
-        return str(self.__class__) + ": " + str(self.__dict__)
-
-    def __repr__(self):
-        return repr(vars(self))
-
     def add_image_tile(self, image_tile: ImageTile):
         self.image_tiles.add(image_tile)
 
@@ -67,12 +61,6 @@ class MapService:
             self.map_layers.append(MapLayer(layer["name"], layer["layer"], "split" in layer))
         if not self.ignore:
             self.tile_service = WebMapTileService(self.url)
-
-    def __str__(self) -> str:
-        return str(self.__class__) + ": " + str(self.__dict__)
-
-    def __repr__(self):
-        return repr(vars(self))
 
     def get_info(self, map_layer):
         wmts = self.tile_service

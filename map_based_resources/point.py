@@ -13,12 +13,6 @@ class DataPoint:
         self.coordinate_type = coordinate_type
         self.level = level
 
-    def __str__(self) -> str:
-        return str(self.__class__) + ": " + str(self.__dict__)
-
-    def __repr__(self):
-        return repr(vars(self))
-
     def convert_coordinate_systems(self, inverse=False, destination='epsg:3067'):
         """Converts Coordinate System to a different System.
         Default From WGS84 to Finnish System(ETRS-TM35FIN). If inverse is passed then they are swapped around.
@@ -54,12 +48,6 @@ class LocationInImage:
         self.width = width
         self.height = height
 
-    def __str__(self) -> str:
-        return str(self.__class__) + ": " + str(self.__dict__)
-
-    def __repr__(self):
-        return repr(vars(self))
-
 
 class ImagePoint:
 
@@ -71,12 +59,6 @@ class ImagePoint:
         self.name = '{0} {1}'.format(web_map.name, layer.name)
         self.data_point_in_image = data_point_in_image
         self.cropped_images = dict()
-
-    def __str__(self) -> str:
-        return str(self.__class__) + ": " + str(self.__dict__)
-
-    def __repr__(self):
-        return repr(vars(self))
 
     def get_box_around(self, size, image=None):
         if image is None:
@@ -143,12 +125,6 @@ class MeasurementPoint:
     def __init__(self, data_point: DataPoint):
         self.data_point = data_point
         self.image_points = list()
-
-    def __str__(self) -> str:
-        return str(self.__class__) + ": " + str(self.__dict__)
-
-    def __repr__(self):
-        return repr(vars(self))
 
     def add_image_point(self, image_point: ImagePoint):
         self.image_points.append(image_point)
