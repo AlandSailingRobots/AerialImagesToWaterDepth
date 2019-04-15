@@ -189,6 +189,8 @@ def get_specific_layer(config, name_layer):
 
 
 def add_tile(wmts, layer, row, column):
+    if layer.split:
+        get_specified_map_layer_if_split_up(wmts, layer, row, column)
     tile_image = layer.get_image_tile(layer.level, row, column)
     if tile_image is None:
         tile_image = get_tile_image(column, layer, row, wmts)
@@ -217,10 +219,8 @@ def get_tile_for_coordinate(point_, wmts, layer):
     matrix = get_matrix_at_level(wmts, layer.level)
     codes = get_single_height_width(matrix, point_)
     row, column, pos_image_height, pos_image_width, pixel_size = codes
-    if layer.split:
-        get_specified_map_layer_if_split_up(wmts, layer, row, column)
-    layer.pixel_size = pixel_size
     tile_image = add_tile(wmts, layer, row, column)
+    layer.pixel_size = pixel_size
     return tile_image, pos_image_height, pos_image_width,
 
 
