@@ -97,8 +97,8 @@ class ImagePoint:
             image_ = None
             begin = -(square_size // 2)
             end = (square_size // 2) + 1
-            for column_item in range(column - begin, column + end):
-                for row_item in range(row - begin, row + end):
+            for column_item in range(column + begin, column + end):
+                for row_item in range(row + begin, row + end):
                     image_ = singleTile.add_tile(self.web_map, self.layer, row_item, column_item).get_image_from_tile()
                     new_im.paste(image_, (column_offset, row_offset))
                     row_offset += image_.width
