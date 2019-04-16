@@ -12,6 +12,7 @@ class DatasourceType(Enum):
     open_source = ['open_data/data_sources.json']
     private = ['data/data_sources.json']
     corrected = ['data/data_sources_corrected.json']
+    height_corrected = ['/height_corrected_data/data_sources.json']
     combined = open_source + private
     combined_corrected = open_source + corrected
 
@@ -81,10 +82,13 @@ def open_xyz_file_as_panda(file):
                        names=['longitude', 'latitude', 'height'])
 
 
-def save_panda_as_file(df, name):
+def save_panda_as_file(df, name, dir_name='corrected_data'):
     """
     Method to save the panda DataFrame in the corrected_path
+    :param dir_name: Directory to put the file in
     :param name: Name of the DataFrame
     :type df: Panda DataFrame
     """
-    df.to_csv('{0}/{1}.xyz'.format(check_dir('corrected_data'), name), sep=' ', header=False, index=False)
+    file_path = '{0}/{1}.xyz'.format(check_dir(dir_name), name)
+    df.to_csv(file_path, sep=' ', header=False, index=False)
+    return file_path
