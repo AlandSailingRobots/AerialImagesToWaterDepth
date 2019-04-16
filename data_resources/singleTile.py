@@ -4,7 +4,7 @@
 # In[1]:
 
 
-from data_resources import fileToObjects, transformObjects
+from data_resources import transformObjects
 from map_based_resources import point, mapResources
 
 # ## Experimental Testing for getting photo's out of multiple WMTS servers.
