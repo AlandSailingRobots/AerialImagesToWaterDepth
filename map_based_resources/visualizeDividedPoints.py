@@ -148,15 +148,15 @@ def plot_from_dict(data_dict, image):
     output_file("pointsplot.html", title="Divided Points")
     show(p)
 
-
-level = 12
-name_set = ['ava_norm_split', 'ava_norm', 'ava_infrared', 'background_map'][2]
-sources = fileToObjects.get_data()
-datasets = get_dataset_from_sources(sources, 100, level, name_set, max_depth=-2, no_sample=False)
-web_map, layer = singleTile.get_specific_layer(configuration, name_set)
-get_missing_tiles(layer.image_tiles, web_map, layer)
-sorted_images = sorted(layer.image_tiles, key=compare)
-image, data_dict = create_image_and_points(sorted_images, datasets)
-image.save('image.jpg')
-time.sleep(1)
-plot_from_dict(data_dict, image)
+def create_visualization():
+    level = 10
+    name_set = ['ava_norm_split', 'ava_norm', 'ava_infrared', 'background_map'][-1]
+    sources = fileToObjects.get_data(fileToObjects.DatasourceType.combined_corrected)
+    datasets = get_dataset_from_sources(sources, 100, level, name_set, max_depth=-2, no_sample=False)
+    web_map, layer = singleTile.get_specific_layer(configuration, name_set)
+    get_missing_tiles(layer.image_tiles, web_map, layer)
+    sorted_images = sorted(layer.image_tiles, key=compare)
+    image, data_dict = create_image_and_points(sorted_images, datasets)
+    image.save('image.jpg')
+    time.sleep(1)
+    plot_from_dict(data_dict, image)
