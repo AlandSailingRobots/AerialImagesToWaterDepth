@@ -4,7 +4,7 @@
 # In[1]:
 
 
-from data_resources import transformObjects
+from data_resources import transformObjects, fileToObjects
 from map_based_resources import point, mapResources
 
 # ## Experimental Testing for getting photo's out of multiple WMTS servers.
@@ -198,14 +198,18 @@ def add_tile(wmts, layer, row, column):
 
 
 def get_tile_image(column, layer, row, wmts):
-    tile = wmts.tile_service.gettile(
-        layer=layer.layer,
-        tilematrixset=wmts.set_name,
-        tilematrix=layer.tile_level,
-        row=row,
-        column=column,
-        format=wmts.tile_service.contents[layer.layer].formats[0])
-    tile_image = mapResources.ImageTile(tile, layer.level, row, column)
+    image = fileToObjects.get_image(wmts.set_name, layer.layer, row, column)
+    if image is None:
+        tile = wmts.tile_service.gettile(
+            layer=layer.layer,
+            tilematrixset=wmts.set_name,
+            tilematrix=layer.tile_level,
+            row=row,
+            column=column,
+            format=wmts.tile_service.contents[layer.layer].formats[0])
+    else:
+        tile = None
+    tile_image = mapResources.ImageTile(tile, layer.name, layer.level, row, column, image)
     layer.add_image_tile(tile_image)
     return tile_image
 

@@ -1,23 +1,25 @@
 import io
-
+from data_resources import fileToObjects
 from PIL import Image
 from owslib.wmts import WebMapTileService
 
 
 class ImageTile:
 
-    def __init__(self, tile, level, row, column):
+    def __init__(self, tile, layer_name, level, row, column, image=None):
         self.tile = tile
+        self.layer_name = layer_name
         self.level = level
         self.row = row
         self.column = column
-        self.image = None
+        self.image = image
 
     def get_image_from_tile(self):
         if self.image is None:
             tile_bytes = self.tile.read()
             image_stream = io.BytesIO(tile_bytes)
             self.image = Image.open(image_stream)
+            fileToObjects.save_image(self.image, self.layer_name, self.level, self.row, self.column)
         return self.image
 
 

@@ -5,7 +5,10 @@ import pandas as pd
 import os
 from data_resources import transformObjects
 import urllib.request as req
+from PIL import Image
 from map_based_resources import mapResources
+
+images_map = '/Volumes/SD Opslag/AerialImages'
 
 
 class DatasourceType(Enum):
@@ -92,3 +95,25 @@ def save_panda_as_file(df, name, dir_name='corrected_data'):
     file_path = '{0}/{1}.xyz'.format(check_dir(dir_name), name)
     df.to_csv(file_path, sep=' ', header=False, index=False)
     return file_path
+
+
+def get_image(set_name, level, row, column):
+    path = images_map
+    for sub_dir in [set_name, level, row]:
+        path += f'/{sub_dir}'
+        if not os.path.exists(path):
+            return None
+    if os.path.exists(path + '/' + column):
+        return Image.open(path + '/' + column)
+    else:
+        return None
+
+
+def save_image(image: Image, layer_name, level, row, column):
+    path = images_map
+    for sub_dir in [layer_name, level, row]:
+        path += f'/{sub_dir}'
+        if not os.path.exists(path):
+            os.mkdir(path)
+    path += '/{0}.png'.format(column)
+    image.save(path,format='PNG')
