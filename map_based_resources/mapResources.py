@@ -14,6 +14,15 @@ class ImageTile:
         self.column = column
         self.image = image
 
+    def save_image(self, lock):
+        tile_bytes = self.tile.read()
+        image_stream = io.BytesIO(tile_bytes)
+        self.image = Image.open(image_stream)
+        fileToObjects.save_image(self.image, self.layer_name, self.level, self.row, self.column, lock)
+        self.image.close()
+        del image_stream
+        del tile_bytes
+
     def get_image_from_tile(self):
         if self.image is None:
             tile_bytes = self.tile.read()
@@ -32,16 +41,18 @@ class MapLayer:
         self.original_layer = layer
         self.pixel_size = None
         self.image_tiles = set()
+        self.images_gotten = set()
         self.level = None
+
+    def add_image_gotten(self, image_tile: ImageTile):
+        self.images_gotten.add((image_tile.level, image_tile.row, image_tile.column))
 
     def add_image_tile(self, image_tile: ImageTile):
         self.image_tiles.add(image_tile)
 
     def image_tile_in_layer(self, level, row, column):
-        for item in self.image_tiles:
-            if item.level == level and item.row == row and item.column == column:
-                return True
-        return False
+        found = (level, row, column) in self.images_gotten
+        return found
 
     def get_image_tile(self, level, row, column):
         for item in self.image_tiles:

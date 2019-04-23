@@ -20,6 +20,7 @@ from map_based_resources import point, mapResources
 # In[2]:
 
 standardized_rendering_pixel_size = None
+only_save = False
 
 
 # ## Calculate the position of the coordinate in WMTS
@@ -188,18 +189,23 @@ def get_specific_layer(config, name_layer):
 # In[9]:
 
 
-def add_tile(wmts, layer, row, column):
+def add_tile(wmts, layer, row, column, lock=None):
     if layer.split:
         get_specified_map_layer_if_split_up(wmts, layer, row, column)
+    image_exists = fileToObjects.check_image(layer.name, layer.level, row, column)
+    if only_save and image_exists:
+        return None
     tile_image = layer.get_image_tile(layer.level, row, column)
     if tile_image is None:
-        tile_image = get_tile_image(column, layer, row, wmts)
+        tile_image = get_tile_image(column, layer, row, wmts, lock)
     return tile_image
 
 
-def get_tile_image(column, layer, row, wmts):
-    image = fileToObjects.get_image(wmts.set_name, layer.layer, row, column)
-    if image is None:
+def get_tile_image(column, layer, row, wmts, lock):
+    image_exists = fileToObjects.check_image(layer.name, layer.level, row, column)
+    if only_save and image_exists:
+        return None
+    if image_exists is False:
         tile = wmts.tile_service.gettile(
             layer=layer.layer,
             tilematrixset=wmts.set_name,
@@ -207,23 +213,32 @@ def get_tile_image(column, layer, row, wmts):
             row=row,
             column=column,
             format=wmts.tile_service.contents[layer.layer].formats[0])
+        image = None
     else:
+        image = fileToObjects.get_image(layer.name, layer.level, row, column)
         tile = None
     tile_image = mapResources.ImageTile(tile, layer.name, layer.level, row, column, image)
-    layer.add_image_tile(tile_image)
+    if only_save:
+        layer.add_image_gotten(tile_image)
+        tile_image.save_image(lock)
+        del tile_image
+        return None
+    else:
+        layer.add_image_tile(tile_image)
+
     return tile_image
 
 
 # In[10]:
 
 
-def get_tile_for_coordinate(point_, wmts, layer):
+def get_tile_for_coordinate(point_, wmts, layer, lock):
     layer.level = point_.level
     get_tile_level(wmts, layer)
     matrix = get_matrix_at_level(wmts, layer.level)
     codes = get_single_height_width(matrix, point_)
     row, column, pos_image_height, pos_image_width, pixel_size = codes
-    tile_image = add_tile(wmts, layer, row, column)
+    tile_image = add_tile(wmts, layer, row, column, lock)
     layer.pixel_size = pixel_size
     return tile_image, pos_image_height, pos_image_width,
 
@@ -236,10 +251,11 @@ def get_tile_for_coordinate(point_, wmts, layer):
 # In[11]:
 
 
-def get_image_and_information_for_single_point(point_, layer, wmts):
-    tile, pos_image_height, pos_image_width = get_tile_for_coordinate(point_, wmts, layer)
-    image_point = transformObjects.get_image_point(tile, pos_image_width, pos_image_height, wmts, layer)
-    return image_point
+def get_image_and_information_for_single_point(point_, layer, wmts, lock=None):
+    tile, pos_image_height, pos_image_width = get_tile_for_coordinate(point_, wmts, layer, lock)
+    if tile is not None:
+        return transformObjects.get_image_point(tile, pos_image_width, pos_image_height, wmts, layer)
+    return None
 
 
 # ## Get all the images for a specific point
@@ -257,11 +273,23 @@ def get_image_and_plot(info_dict, config, show=True):
     for web_map in config.web_maps:
         if not web_map.ignore:
             for layer in web_map.map_layers:
-                measured_point.add_image_point(get_image_and_information_for_single_point(info_dict, layer, web_map))
+                measured_point.add_image_point(
+                    get_image_and_information_for_single_point(info_dict, layer, web_map))
     if show:
         for image_point in measured_point.image_points:
             image_point.show_image_with_point()
     return measured_point
+
+
+def get_image_and_save(info_dict, config, lock):
+    global standardized_rendering_pixel_size
+    standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
+    for web_map in config.web_maps:
+        if web_map.ignore:
+            continue
+        for layer in web_map.map_layers:
+            get_image_and_information_for_single_point(info_dict, layer,
+                                                       web_map, lock)
 
 
 def get_information_for_tile(info_dict, config, name_layer=None):

@@ -97,23 +97,30 @@ def save_panda_as_file(df, name, dir_name='corrected_data'):
     return file_path
 
 
-def get_image(set_name, level, row, column):
+def check_image(layer_name, level, row, column):
     path = images_map
-    for sub_dir in [set_name, level, row]:
-        path += f'/{sub_dir}'
-        if not os.path.exists(path):
-            return None
-    if os.path.exists(path + '/' + column):
-        return Image.open(path + '/' + column)
+    path += '/{0}/{1}/{2}/{3}.png'.format(layer_name, level, row, column)
+    return os.path.exists(path)
+
+
+def get_image(layer_name, level, row, column):
+    path = images_map
+    path += '/{0}/{1}/{2}/{3}.png'.format(layer_name, level, row, column)
+    if os.path.exists(path):
+        return Image.open(path)
     else:
         return None
 
 
-def save_image(image: Image, layer_name, level, row, column):
+def save_image(image: Image, layer_name, level, row, column, lock=None):
     path = images_map
     for sub_dir in [layer_name, level, row]:
         path += f'/{sub_dir}'
         if not os.path.exists(path):
             os.mkdir(path)
     path += '/{0}.png'.format(column)
-    image.save(path,format='PNG')
+    if lock is not None:
+        lock.acquire()
+    image.save(path, format='PNG')
+    if lock is not None:
+        lock.release()

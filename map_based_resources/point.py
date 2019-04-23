@@ -134,3 +134,7 @@ class MeasurementPoint:
         for point in self.image_points:
             cropped_images.append(point.get_cropped_image(size))
         return cropped_images
+
+    def retrieve_all_images(self):
+        for point in self.image_points:
+            point.image_tile.get_image_from_tile().close()
