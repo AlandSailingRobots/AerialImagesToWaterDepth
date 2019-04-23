@@ -240,7 +240,7 @@ def get_tile_for_coordinate(point_, wmts, layer, lock):
     row, column, pos_image_height, pos_image_width, pixel_size = codes
     tile_image = add_tile(wmts, layer, row, column, lock)
     layer.pixel_size = pixel_size
-    return tile_image, pos_image_height, pos_image_width,
+    return tile_image, pos_image_height, pos_image_width
 
 
 # ## Get a image for a specific point
