@@ -3,647 +3,647 @@
         "color": "midnightblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa1_SB_1m",
-        "path": "../height_corrected_data/SSSU_A_MBES_osa1_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_A_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa1_SB_1m.xyz"
     },
     {
         "color": "paleturquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa2_SB_1m",
-        "path": "../height_corrected_data/SSSU_A_MBES_osa2_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_A_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa2_SB_1m.xyz"
     },
     {
         "color": "coral",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa3_SB_1m",
-        "path": "../height_corrected_data/SSSU_A_MBES_osa3_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_A_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa3_SB_1m.xyz"
     },
     {
         "color": "ghostwhite",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa4_SB_1m",
-        "path": "../height_corrected_data/SSSU_A_MBES_osa4_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_A_MBES_osa4_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa4_SB_1m.xyz"
     },
     {
         "color": "darkturquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_SBES_osa1_SB_5m",
-        "path": "../height_corrected_data/SSSU_A_SBES_osa1_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_A_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_SBES_osa1_SB_5m.xyz"
     },
     {
         "color": "olivedrab",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_SBES_osa2_SB_5m",
-        "path": "../height_corrected_data/SSSU_A_SBES_osa2_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_A_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_SBES_osa2_SB_5m.xyz"
     },
     {
         "color": "lightyellow",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_MBES_osa1_SB_1m",
-        "path": "../height_corrected_data/SSSU_B_MBES_osa1_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_B_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_MBES_osa1_SB_1m.xyz"
     },
     {
         "color": "lightpink",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_MBES_osa2_SB_1m",
-        "path": "../height_corrected_data/SSSU_B_MBES_osa2_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_B_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_MBES_osa2_SB_1m.xyz"
     },
     {
         "color": "palegoldenrod",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_SBES_osa1_SB_5m",
-        "path": "../height_corrected_data/SSSU_B_SBES_osa1_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_B_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_SBES_osa1_SB_5m.xyz"
     },
     {
         "color": "red",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_SBES_osa2_SB_5m",
-        "path": "../height_corrected_data/SSSU_B_SBES_osa2_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_B_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_SBES_osa2_SB_5m.xyz"
     },
     {
         "color": "dimgray",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_C_MBES_SB_1m",
-        "path": "../height_corrected_data/SSSU_C_MBES_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_C_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_C_MBES_SB_1m.xyz"
     },
     {
         "color": "antiquewhite",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_C_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_C_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_C_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_C_SBES_SB_5m.xyz"
     },
     {
         "color": "teal",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_D_MBES_osa1_SB_1m",
-        "path": "../height_corrected_data/SSSU_D_MBES_osa1_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_D_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_D_MBES_osa1_SB_1m.xyz"
     },
     {
         "color": "oldlace",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_D_MBES_osa2_SB_1m",
-        "path": "../height_corrected_data/SSSU_D_MBES_osa2_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_D_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_D_MBES_osa2_SB_1m.xyz"
     },
     {
         "color": "chartreuse",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_D_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_D_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_D_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_D_SBES_SB_5m.xyz"
     },
     {
         "color": "aqua",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_E_MBES_SB_2m",
-        "path": "../height_corrected_data/SSSU_E_MBES_SB_2m.xyz",
+        "path": "height_corrected_data/SSSU_E_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_E_MBES_SB_2m.xyz"
     },
     {
         "color": "ivory",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_E_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_E_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_E_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_E_SBES_SB_5m.xyz"
     },
     {
         "color": "lightgoldenrodyellow",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_F_MBES_SB_2m",
-        "path": "../height_corrected_data/SSSU_F_MBES_SB_2m.xyz",
+        "path": "height_corrected_data/SSSU_F_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_F_MBES_SB_2m.xyz"
     },
     {
         "color": "mediumvioletred",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_F_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_F_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_F_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_F_SBES_SB_5m.xyz"
     },
     {
         "color": "crimson",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_G_MBES_SB_1m",
-        "path": "../height_corrected_data/SSSU_G_MBES_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_G_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_G_MBES_SB_1m.xyz"
     },
     {
         "color": "palevioletred",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_G_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_G_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_G_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_G_SBES_SB_5m.xyz"
     },
     {
         "color": "lightseagreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_H_MBES_osa1_SB_2m",
-        "path": "../height_corrected_data/SSSU_H_MBES_osa1_SB_2m.xyz",
+        "path": "height_corrected_data/SSSU_H_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_H_MBES_osa1_SB_2m.xyz"
     },
     {
         "color": "darkcyan",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_H_MBES_osa2_SB_1m",
-        "path": "../height_corrected_data/SSSU_H_MBES_osa2_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_H_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_H_MBES_osa2_SB_1m.xyz"
     },
     {
         "color": "mediumseagreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_H_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_H_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_H_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_H_SBES_SB_5m.xyz"
     },
     {
         "color": "plum",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_J_MBES_SB_1m",
-        "path": "../height_corrected_data/SSSU_J_MBES_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_J_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_J_MBES_SB_1m.xyz"
     },
     {
         "color": "burlywood",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_J_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_J_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_J_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_J_SBES_SB_5m.xyz"
     },
     {
         "color": "hotpink",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa1_SB_2m",
-        "path": "../height_corrected_data/SSSU_K_MBES_osa1_SB_2m.xyz",
+        "path": "height_corrected_data/SSSU_K_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa1_SB_2m.xyz"
     },
     {
         "color": "darkorange",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa2_SB_2m",
-        "path": "../height_corrected_data/SSSU_K_MBES_osa2_SB_2m.xyz",
+        "path": "height_corrected_data/SSSU_K_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa2_SB_2m.xyz"
     },
     {
         "color": "thistle",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa3_SB_1m",
-        "path": "../height_corrected_data/SSSU_K_MBES_osa3_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_K_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa3_SB_1m.xyz"
     },
     {
         "color": "orchid",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa4_SB_1m",
-        "path": "../height_corrected_data/SSSU_K_MBES_osa4_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_K_MBES_osa4_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa4_SB_1m.xyz"
     },
     {
         "color": "olive",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_K_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_K_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_SBES_SB_5m.xyz"
     },
     {
         "color": "lightsteelblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_L_MBES_SB_1m",
-        "path": "../height_corrected_data/SSSU_L_MBES_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_L_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_L_MBES_SB_1m.xyz"
     },
     {
         "color": "indianred",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_L_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_L_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_L_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_L_SBES_SB_5m.xyz"
     },
     {
         "color": "rosybrown",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_M_MBES_SB_1m",
-        "path": "../height_corrected_data/SSSU_M_MBES_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_M_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_M_MBES_SB_1m.xyz"
     },
     {
         "color": "mediumblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_M_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_M_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_M_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_M_SBES_SB_5m.xyz"
     },
     {
         "color": "wheat",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_N_MBES_osa1_SB_1m",
-        "path": "../height_corrected_data/SSSU_N_MBES_osa1_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_N_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_N_MBES_osa1_SB_1m.xyz"
     },
     {
         "color": "sandybrown",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_N_MBES_osa2_SB_1m",
-        "path": "../height_corrected_data/SSSU_N_MBES_osa2_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_N_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_N_MBES_osa2_SB_1m.xyz"
     },
     {
         "color": "darkorchid",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_N_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_N_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_N_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_N_SBES_SB_5m.xyz"
     },
     {
         "color": "silver",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_O_MBES_osa1_SB_1m",
-        "path": "../height_corrected_data/SSSU_O_MBES_osa1_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_O_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_O_MBES_osa1_SB_1m.xyz"
     },
     {
         "color": "aquamarine",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_O_MBES_osa2_SB_1m",
-        "path": "../height_corrected_data/SSSU_O_MBES_osa2_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_O_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_O_MBES_osa2_SB_1m.xyz"
     },
     {
         "color": "royalblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_O_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_O_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_O_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_O_SBES_SB_5m.xyz"
     },
     {
         "color": "lavenderblush",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_P_MBES_SB_2m",
-        "path": "../height_corrected_data/SSSU_P_MBES_SB_2m.xyz",
+        "path": "height_corrected_data/SSSU_P_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_P_MBES_SB_2m.xyz"
     },
     {
         "color": "salmon",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_P_SBES_osa1_SB_5m",
-        "path": "../height_corrected_data/SSSU_P_SBES_osa1_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_P_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_P_SBES_osa1_SB_5m.xyz"
     },
     {
         "color": "darkgreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_P_SBES_osa2_SB_5m",
-        "path": "../height_corrected_data/SSSU_P_SBES_osa2_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_P_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_P_SBES_osa2_SB_5m.xyz"
     },
     {
         "color": "turquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_R_MBES_SB_1m",
-        "path": "../height_corrected_data/SSSU_R_MBES_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_R_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_R_MBES_SB_1m.xyz"
     },
     {
         "color": "mediumturquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_R_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_R_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_R_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_R_SBES_SB_5m.xyz"
     },
     {
         "color": "darkgoldenrod",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_U_MBES_osa1_SB_1m",
-        "path": "../height_corrected_data/SSSU_U_MBES_osa1_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_U_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_U_MBES_osa1_SB_1m.xyz"
     },
     {
         "color": "yellowgreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_U_MBES_osa2_SB_1m",
-        "path": "../height_corrected_data/SSSU_U_MBES_osa2_SB_1m.xyz",
+        "path": "height_corrected_data/SSSU_U_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_U_MBES_osa2_SB_1m.xyz"
     },
     {
         "color": "bisque",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_U_SBES_SB_5m",
-        "path": "../height_corrected_data/SSSU_U_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSSU_U_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_U_SBES_SB_5m.xyz"
     },
     {
         "color": "maroon",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_L_SBES_SB_5m",
-        "path": "../height_corrected_data/SAVA_L_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SAVA_L_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_L_SBES_SB_5m.xyz"
     },
     {
         "color": "white",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_L_osa1_MBES_SB_2m",
-        "path": "../height_corrected_data/SAVA_L_osa1_MBES_SB_2m.xyz",
+        "path": "height_corrected_data/SAVA_L_osa1_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_L_osa1_MBES_SB_2m.xyz"
     },
     {
         "color": "lightslategrey",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_L_osa2_MBES_SB_2m",
-        "path": "../height_corrected_data/SAVA_L_osa2_MBES_SB_2m.xyz",
+        "path": "height_corrected_data/SAVA_L_osa2_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_L_osa2_MBES_SB_2m.xyz"
     },
     {
         "color": "linen",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_M_SBES_SB_5m",
-        "path": "../height_corrected_data/SAVA_M_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SAVA_M_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_M_SBES_SB_5m.xyz"
     },
     {
         "color": "greenyellow",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_M_osa1_MBES_SB_2m",
-        "path": "../height_corrected_data/SAVA_M_osa1_MBES_SB_2m.xyz",
+        "path": "height_corrected_data/SAVA_M_osa1_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_M_osa1_MBES_SB_2m.xyz"
     },
     {
         "color": "mediumorchid",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_M_osa2_MBES_SB_1m",
-        "path": "../height_corrected_data/SAVA_M_osa2_MBES_SB_1m.xyz",
+        "path": "height_corrected_data/SAVA_M_osa2_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_M_osa2_MBES_SB_1m.xyz"
     },
     {
         "color": "chocolate",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_MBES_osa2_SB_2m",
-        "path": "../height_corrected_data/SSMI2014_E_MBES_osa2_SB_2m.xyz",
+        "path": "height_corrected_data/SSMI2014_E_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_MBES_osa2_SB_2m.xyz"
     },
     {
         "color": "deepskyblue",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_MBES_osa3_SB_2m",
-        "path": "../height_corrected_data/SSMI2014_E_MBES_osa3_SB_2m.xyz",
+        "path": "height_corrected_data/SSMI2014_E_MBES_osa3_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_MBES_osa3_SB_2m.xyz"
     },
     {
         "color": "tan",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_SBES_SB_5m",
-        "path": "../height_corrected_data/SSMI2014_E_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/SSMI2014_E_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_SBES_SB_5m.xyz"
     },
     {
         "color": "honeydew",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_MBES_osa1_SB_1m",
-        "path": "../height_corrected_data/SSMI2014_E_MBES_osa1_SB_1m.xyz",
+        "path": "height_corrected_data/SSMI2014_E_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_MBES_osa1_SB_1m.xyz"
     },
     {
         "color": "navy",
         "coordinate_system": "epsg:3067",
         "name": "SSSU2015_P_2m",
-        "path": "../height_corrected_data/SSSU2015_P_2m.xyz",
+        "path": "height_corrected_data/SSSU2015_P_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/examples/SSSU2015_P_2m.xyz"
     },
     {
         "color": "pink",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A1_MBES_osa1_SB_2m",
-        "path": "../height_corrected_data/JJKJ_A1_MBES_osa1_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_A1_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A1_MBES_osa1_SB_2m.xyz"
     },
     {
         "color": "papayawhip",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A1_MBES_osa2_SB_2m",
-        "path": "../height_corrected_data/JJKJ_A1_MBES_osa2_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_A1_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A1_MBES_osa2_SB_2m.xyz"
     },
     {
         "color": "dodgerblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A1_MBES_osa3_SB_2m",
-        "path": "../height_corrected_data/JJKJ_A1_MBES_osa3_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_A1_MBES_osa3_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A1_MBES_osa3_SB_2m.xyz"
     },
     {
         "color": "cornsilk",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa1_SB_2m",
-        "path": "../height_corrected_data/JJKJ_A2_MBES_osa1_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_A2_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa1_SB_2m.xyz"
     },
     {
         "color": "lightgrey",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa2_SB_2m",
-        "path": "../height_corrected_data/JJKJ_A2_MBES_osa2_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_A2_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa2_SB_2m.xyz"
     },
     {
         "color": "mediumaquamarine",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa3_1_SB_2m",
-        "path": "../height_corrected_data/JJKJ_A2_MBES_osa3_1_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_A2_MBES_osa3_1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa3_1_SB_2m.xyz"
     },
     {
         "color": "blanchedalmond",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa3_2_SB_2m",
-        "path": "../height_corrected_data/JJKJ_A2_MBES_osa3_2_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_A2_MBES_osa3_2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa3_2_SB_2m.xyz"
     },
     {
         "color": "magenta",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa4_SB_1m",
-        "path": "../height_corrected_data/JJKJ_A2_MBES_osa4_SB_1m.xyz",
+        "path": "height_corrected_data/JJKJ_A2_MBES_osa4_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa4_SB_1m.xyz"
     },
     {
         "color": "beige",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A_SBES_SB_5m",
-        "path": "../height_corrected_data/JJKJ_A_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/JJKJ_A_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A_SBES_SB_5m.xyz"
     },
     {
         "color": "cornflowerblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_MBES_osa1_SB_2m",
-        "path": "../height_corrected_data/JJKJ_B_MBES_osa1_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_B_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_MBES_osa1_SB_2m.xyz"
     },
     {
         "color": "mediumslateblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_MBES_osa2_SB_2m",
-        "path": "../height_corrected_data/JJKJ_B_MBES_osa2_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_B_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_MBES_osa2_SB_2m.xyz"
     },
     {
         "color": "grey",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_MBES_osa3_SB_1m",
-        "path": "../height_corrected_data/JJKJ_B_MBES_osa3_SB_1m.xyz",
+        "path": "height_corrected_data/JJKJ_B_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_MBES_osa3_SB_1m.xyz"
     },
     {
         "color": "darkseagreen",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_SBES_osa1_SB_5m",
-        "path": "../height_corrected_data/JJKJ_B_SBES_osa1_SB_5m.xyz",
+        "path": "height_corrected_data/JJKJ_B_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_SBES_osa1_SB_5m.xyz"
     },
     {
         "color": "peachpuff",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_SBES_osa2_SB_5m",
-        "path": "../height_corrected_data/JJKJ_B_SBES_osa2_SB_5m.xyz",
+        "path": "height_corrected_data/JJKJ_B_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_SBES_osa2_SB_5m.xyz"
     },
     {
         "color": "orangered",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_C_MBES_SB_2m",
-        "path": "../height_corrected_data/JJKJ_C_MBES_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_C_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_C_MBES_SB_2m.xyz"
     },
     {
         "color": "navajowhite",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_C_SBES_SB_5m",
-        "path": "../height_corrected_data/JJKJ_C_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/JJKJ_C_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_C_SBES_SB_5m.xyz"
     },
     {
         "color": "cadetblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_D_MBES_osa1_SB_2m",
-        "path": "../height_corrected_data/JJKJ_D_MBES_osa1_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_D_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_D_MBES_osa1_SB_2m.xyz"
     },
     {
         "color": "cyan",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_D_MBES_osa2_SB_2m",
-        "path": "../height_corrected_data/JJKJ_D_MBES_osa2_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_D_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_D_MBES_osa2_SB_2m.xyz"
     },
     {
         "color": "lightsalmon",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_D_SBES_SB_5m",
-        "path": "../height_corrected_data/JJKJ_D_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/JJKJ_D_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_D_SBES_SB_5m.xyz"
     },
     {
         "color": "orange",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_MBES_osa1_SB_2m",
-        "path": "../height_corrected_data/JJKJ_E_MBES_osa1_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_E_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_MBES_osa1_SB_2m.xyz"
     },
     {
         "color": "lightcyan",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_MBES_osa2_SB_2m",
-        "path": "../height_corrected_data/JJKJ_E_MBES_osa2_SB_2m.xyz",
+        "path": "height_corrected_data/JJKJ_E_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_MBES_osa2_SB_2m.xyz"
     },
     {
         "color": "lightskyblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_MBES_osa3_SB_1m",
-        "path": "../height_corrected_data/JJKJ_E_MBES_osa3_SB_1m.xyz",
+        "path": "height_corrected_data/JJKJ_E_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_MBES_osa3_SB_1m.xyz"
     },
     {
         "color": "springgreen",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_SBES_SB_5m",
-        "path": "../height_corrected_data/JJKJ_E_SBES_SB_5m.xyz",
+        "path": "height_corrected_data/JJKJ_E_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_SBES_SB_5m.xyz"
     },
     {
         "color": "darkgrey",
         "coordinate_system": "epsg:3067",
         "name": "ENA052mKa_MBES_WMA_2m_xyz",
-        "path": "../height_corrected_data/ENA052mKa_MBES_WMA_2m_xyz.xyz"
+        "path": "height_corrected_data/ENA052mKa_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "firebrick",
         "coordinate_system": "epsg:3067",
         "name": "F_MBES_WMA_2m",
-        "path": "../height_corrected_data/F_MBES_WMA_2m.xyz"
+        "path": "height_corrected_data/F_MBES_WMA_2m.xyz"
     },
     {
         "color": "lightgray",
         "coordinate_system": "epsg:3067",
         "name": "LIDAR_WMA_malli_2m",
-        "path": "../height_corrected_data/LIDAR_WMA_malli_2m.xyz"
+        "path": "height_corrected_data/LIDAR_WMA_malli_2m.xyz"
     },
     {
         "color": "saddlebrown",
         "coordinate_system": "epsg:3067",
         "name": "E_MBES_del2_WMA_2m",
-        "path": "../height_corrected_data/E_MBES_del2_WMA_2m.xyz"
+        "path": "height_corrected_data/E_MBES_del2_WMA_2m.xyz"
     },
     {
         "color": "greenyellow",
         "coordinate_system": "epsg:3067",
         "name": "E_SBES_WMA_2m",
-        "path": "../height_corrected_data/E_SBES_WMA_2m.xyz"
+        "path": "height_corrected_data/E_SBES_WMA_2m.xyz"
     },
     {
         "color": "beige",
         "coordinate_system": "epsg:3067",
         "name": "ENA052mKb_MBES_WMA_2m_xyz",
-        "path": "../height_corrected_data/ENA052mKb_MBES_WMA_2m_xyz.xyz"
+        "path": "height_corrected_data/ENA052mKb_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "palevioletred",
         "coordinate_system": "epsg:3067",
         "name": "AKS052mKb_MBES_WMA_2m_xyz",
-        "path": "../height_corrected_data/AKS052mKb_MBES_WMA_2m_xyz.xyz"
+        "path": "height_corrected_data/AKS052mKb_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "gold",
         "coordinate_system": "epsg:3067",
         "name": "ENA052mKc_MBES_WMA_2m_xyz",
-        "path": "../height_corrected_data/ENA052mKc_MBES_WMA_2m_xyz.xyz"
+        "path": "height_corrected_data/ENA052mKc_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "navy",
         "coordinate_system": "epsg:3067",
         "name": "F_SBES_WMA_2m",
-        "path": "../height_corrected_data/F_SBES_WMA_2m.xyz"
+        "path": "height_corrected_data/F_SBES_WMA_2m.xyz"
     },
     {
         "color": "lightyellow",
         "coordinate_system": "epsg:3067",
         "name": "E_MBES_del1_WMA_2m",
-        "path": "../height_corrected_data/E_MBES_del1_WMA_2m.xyz"
+        "path": "height_corrected_data/E_MBES_del1_WMA_2m.xyz"
     },
     {
         "color": "chocolate",
         "coordinate_system": "epsg:3067",
         "name": "PKM052mKa_MBES_WMA_2m_xyz",
-        "path": "../height_corrected_data/PKM052mKa_MBES_WMA_2m_xyz.xyz"
+        "path": "height_corrected_data/PKM052mKa_MBES_WMA_2m_xyz.xyz"
     }
 ]
