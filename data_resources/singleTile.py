@@ -29,7 +29,7 @@ only_save = False
 # This is done by the following formula's:
 # $height = \frac{\text{matrix top left corner height}\;-\; longitude}{scale \;\times\; pixelsize \;\times\; \text{
 # length of matrix}}
-# $ and  $width = \frac{lattitude \;-\; \text{matrix top left corner width}}{scale \;\times\; pixelsize
+# $ and  $width = \frac{latitude \;-\; \text{matrix top left corner width}}{scale \;\times\; pixelsize
 # \;\times\;\text{width of matrix}}$
 # 
 # The result is decimal number and the rows and columns are only whole numbers. the integer part of the results are

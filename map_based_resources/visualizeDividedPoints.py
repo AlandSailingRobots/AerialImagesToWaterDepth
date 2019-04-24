@@ -148,6 +148,7 @@ def plot_from_dict(data_dict, image):
     output_file("pointsplot.html", title="Divided Points")
     show(p)
 
+
 def create_visualization():
     level = 10
     name_set = ['ava_norm_split', 'ava_norm', 'ava_infrared', 'background_map'][-1]

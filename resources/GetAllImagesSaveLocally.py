@@ -27,6 +27,6 @@ def source_execute(source_, lock):
     file.close()
 
 
-lock = Lock()
+image_lock = Lock()
 for source in sources[1:]:
-    Process(target=source_execute, args=(source, lock)).start()
+    Process(target=source_execute, args=(source, image_lock)).start()
