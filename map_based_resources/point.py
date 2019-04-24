@@ -60,17 +60,17 @@ class ImagePoint:
         self.data_point_in_image = data_point_in_image
         self.cropped_images = dict()
 
-    def get_box_around(self, size, image=None):
-        if image is None:
-            image = self.data_point_in_image
+    def get_box_around(self, size, data_point=None):
+        if data_point is None:
+            data_point = self.data_point_in_image
         distance_in_pixels = size / self.layer.pixel_size
 
-        left_lower_coordinates = (image.width - distance_in_pixels,
-                                  image.height - distance_in_pixels)
+        left_lower_coordinates = (data_point.width - distance_in_pixels,
+                                  data_point.height - distance_in_pixels)
 
         width = 2 * distance_in_pixels
         height = 2 * distance_in_pixels
-        return left_lower_coordinates, width, height
+        return left_lower_coordinates + (left_lower_coordinates[0] + width, left_lower_coordinates[1] + height)
 
     def get_cropped_image(self, size, square_size=3):
         if size not in self.cropped_images:
@@ -89,29 +89,34 @@ class ImagePoint:
             make_bigger = True
 
         if make_bigger:
-            new_im = Image.new('RGB', (image.width * square_size, image.height * square_size))
-            column = self.image_tile.column
-            row = self.image_tile.row
-            row_offset = 0
-            column_offset = 0
-            image_ = None
-            begin = -(square_size // 2)
-            end = (square_size // 2) + 1
-            for column_item in range(column + begin, column + end):
-                for row_item in range(row + begin, row + end):
-                    image_ = singleTile.add_tile(self.web_map, self.layer, row_item, column_item).get_image_from_tile()
-                    new_im.paste(image_, (column_offset, row_offset))
-                    row_offset += image_.width
-                row_offset = 0
-                column_offset += image_.height
-                image = new_im
-            data_point_image.width += image_.width
-            data_point_image.height += image_.height
+            min_square_size = (size * 2) / (image.width * self.layer.pixel_size)
+            while min_square_size > square_size:
+                square_size += 2
+            new_image_size = (image.width * square_size, image.height * square_size)
+            floor_square_size = square_size // 2
+            image = self.make_image_bigger(data_point_image, new_image_size, floor_square_size)
 
-        lower_coordinates, width, height = self.get_box_around(size, data_point_image)
-        image = image.crop(
-            (lower_coordinates[0], lower_coordinates[1], lower_coordinates[0] + width, lower_coordinates[1] + height))
-        return image
+        return image.crop(self.get_box_around(size, data_point=data_point_image))
+
+    def make_image_bigger(self, data_point_image, new_image_size, floor_square_size):
+        new_im = Image.new('RGB', new_image_size)
+        column = self.image_tile.column
+        row = self.image_tile.row
+        column_offset = 0
+        begin = -floor_square_size
+        end = floor_square_size + 1
+        image_ = None
+        for column_item in range(column + begin, column + end):
+            row_offset = 0
+            for row_item in range(row + begin, row + end):
+                image_ = singleTile.get_pillow_image_from_tile(self.web_map, self.layer, row_item, column_item)
+                new_im.paste(image_, (column_offset, row_offset))
+                row_offset += image_.width
+            column_offset += image_.height
+
+        data_point_image.width += (image_.width * floor_square_size)
+        data_point_image.height += (image_.height * floor_square_size)
+        return new_im
 
     def show_image_with_point(self):
         fig = plt.figure()
@@ -130,10 +135,7 @@ class MeasurementPoint:
         self.image_points.append(image_point)
 
     def get_cropped_images(self, size):
-        cropped_images = list()
-        for point in self.image_points:
-            cropped_images.append(point.get_cropped_image(size))
-        return cropped_images
+        return list(point.get_cropped_image(size) for point in self.image_points)
 
     def retrieve_all_images(self):
         for point in self.image_points:

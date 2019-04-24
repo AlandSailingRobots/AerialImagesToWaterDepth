@@ -14,21 +14,21 @@ class ImageTile:
         self.column = column
         self.image = image
 
-    def save_image(self, lock):
+    def read_and_save(self, lock=None):
         tile_bytes = self.tile.read()
         image_stream = io.BytesIO(tile_bytes)
         self.image = Image.open(image_stream)
         fileToObjects.save_image(self.image, self.layer_name, self.level, self.row, self.column, lock)
-        self.image.close()
         del image_stream
         del tile_bytes
 
+    def save_image(self, lock):
+        self.read_and_save(lock)
+        self.image.close()
+
     def get_image_from_tile(self):
         if self.image is None:
-            tile_bytes = self.tile.read()
-            image_stream = io.BytesIO(tile_bytes)
-            self.image = Image.open(image_stream)
-            fileToObjects.save_image(self.image, self.layer_name, self.level, self.row, self.column)
+            self.read_and_save()
         return self.image
 
 
@@ -48,6 +48,7 @@ class MapLayer:
         self.images_gotten.add((image_tile.level, image_tile.row, image_tile.column))
 
     def add_image_tile(self, image_tile: ImageTile):
+        self.add_image_gotten(image_tile)
         self.image_tiles.add(image_tile)
 
     def image_tile_in_layer(self, level, row, column):

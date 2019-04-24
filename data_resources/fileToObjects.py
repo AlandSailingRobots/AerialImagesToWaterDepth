@@ -82,7 +82,7 @@ def open_xyz_file_as_panda(file):
                        names=['longitude', 'latitude', 'height'])
 
 
-def save_panda_as_file(df, name, dir_name='corrected_data'):
+def save_panda_as_file(df: pd.DataFrame, name, dir_name='corrected_data'):
     """
     Method to save the panda DataFrame in the corrected_path
     :param dir_name: Directory to put the file in

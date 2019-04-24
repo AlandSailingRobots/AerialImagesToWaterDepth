@@ -104,25 +104,20 @@ def get_matrix_at_level(wmts, level):
 # In[6]:
 
 
-def set_level_normal(tile_matrix_set_name, level):
-    return '{0}'.format(level)
-
-
-def set_level_special(tile_matrix_set_name, level):
-    return '{0}:{1}'.format(tile_matrix_set_name, level)
+def set_level(tile_matrix_set_name, level, special_level):
+    if special_level:
+        return '{0}:{1}'.format(tile_matrix_set_name, level)
+    else:
+        return '{0}'.format(level)
 
 
 def get_tile_level(wmts, layer):
-    if not wmts.special_level:
-        set_level = set_level_normal
-    else:
-        set_level = set_level_special
     tms = wmts.tile_service.contents[layer.layer]
-    tile_level = set_level(wmts.set_name, layer.level)
+    tile_level = set_level(wmts.set_name, layer.level, wmts.special_level)
     limits = tms.tilematrixsetlinks[wmts.set_name].tilematrixlimits
     while tile_level not in limits and len(limits) > 0:
         layer.level -= 1
-        tile_level = set_level(wmts.set_name, layer.level)
+        tile_level = set_level(wmts.set_name, layer.level, wmts.special_level)
     layer.tile_level = tile_level
 
 
@@ -187,6 +182,9 @@ def get_specific_layer(config, name_layer):
 # Then the tile is returned with the corresponding point on the image and the level. 
 
 # In[9]:
+
+def get_pillow_image_from_tile(wmts, layer, row, column):
+    return add_tile(wmts, layer, row, column).get_image_from_tile()
 
 
 def add_tile(wmts, layer, row, column, lock=None):
