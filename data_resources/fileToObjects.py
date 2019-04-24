@@ -62,10 +62,7 @@ def get_data(data_type=DatasourceType.open_source):
     corrected. default open_source
     :return: json list with source files en their values.
     """
-    json_list = list()
-    for source in data_type.value:
-        json_list += open_json_file(source)
-    return json_list
+    return list(open_json_file(source) for source in data_type.value)
 
 
 def get_configuration():

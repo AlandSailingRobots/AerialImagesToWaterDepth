@@ -68,10 +68,9 @@ class MapService:
         self.ignore = "ignore" in json_object
         self.url = json_object["url"]
         self.set_name = json_object["set_name"]
-        self.map_layers = list()
+        self.map_layers = list(
+            MapLayer(layer["name"], layer["layer"], "split" in layer) for layer in json_object["map_layers"])
         self.special_level = "special_level" in json_object
-        for layer in json_object["map_layers"]:
-            self.map_layers.append(MapLayer(layer["name"], layer["layer"], "split" in layer))
         if not self.ignore:
             self.tile_service = WebMapTileService(self.url)
 
@@ -87,6 +86,4 @@ class MapService:
 class MapResources:
     def __init__(self, config):
         self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]
-        self.web_maps = list()
-        for wmts in config["wmts"]:
-            self.web_maps.append(MapService(wmts))
+        self.web_maps = list(MapService(wmts) for wmts in config["wmts"])
