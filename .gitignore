@@ -6,3 +6,7 @@ venv
 __pycache__/
 *.xyz
 *.egg-info
+*.html
+*.jpg
+*.csv
+.vscode
