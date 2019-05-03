@@ -27,9 +27,9 @@ only_save = False
 # By using the Webmap tile matrix we can calculate the position of where the coordinate on the whole map. 
 # 
 # This is done by the following formula's:
-# $height = \frac{\text{matrix top left corner height}\;-\; longitude}{scale \;\times\; pixelsize \;\times\; \text{
+# $height = \frac{\text{matrix top left corner height}\;-\; longitude}{scale \;\times\; pixel_size \;\times\; \text{
 # length of matrix}}
-# $ and  $width = \frac{latitude \;-\; \text{matrix top left corner width}}{scale \;\times\; pixelsize
+# $ and  $width = \frac{latitude \;-\; \text{matrix top left corner width}}{scale \;\times\; pixel_size
 # \;\times\;\text{width of matrix}}$
 # 
 # The result is decimal number and the rows and columns are only whole numbers. the integer part of the results are
@@ -91,8 +91,8 @@ def get_single_height_width(matrix, point_):
 
 def get_matrix_at_level(wmts, level):
     tileset = wmts.tile_service.tilematrixsets[wmts.set_name]
-    list_of_tilematrixes = list(tileset.tilematrix.keys())
-    return tileset.tilematrix[list_of_tilematrixes[level]]
+    tile_matrix_keys = list(tileset.tilematrix.keys())
+    return tileset.tilematrix[tile_matrix_keys[level]]
 
 
 # ## Get the desired level in a layer
@@ -122,7 +122,7 @@ def get_tile_level(wmts, layer):
 
 
 # ## Dealing with split up layers
-# Sometimes to have a better resolution of the images, the map is split up in the different tilematrix widths. This
+# Sometimes to have a better resolution of the images, the map is split up in the different tile matrix widths. This
 # then has an extension of 0 to 9. To execute this function `split` has to be in the `config.json` file for this
 # specific layer. the generator function first looks for layers that are similar to the base layer but not the
 # original layer.
