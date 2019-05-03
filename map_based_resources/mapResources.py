@@ -61,6 +61,11 @@ class MapLayer:
                 return item
         return None
 
+    def clear_images(self):
+        del self.image_tiles
+        del self.images_gotten
+        self.image_tiles=set()
+        self.images_gotten=set()
 
 class MapService:
 
@@ -83,8 +88,15 @@ class MapService:
         print('length of the formats', len(wmts.tilematrixsets[self.set_name].tilematrix))
         print('length of the formats', wmts.tilematrixsets[self.set_name].tilematrix)
 
+    def clear_images(self):
+        for i in range(len(self.map_layers)):
+            self.map_layers[i].clear_images()
+
 
 class MapResources:
     def __init__(self, config):
         self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]
         self.web_maps = list(MapService(wmts) for wmts in config["wmts"])
+    def clear_images(self):
+        for i in range(len(self.web_maps)):
+            self.web_maps[i].clear_images()
