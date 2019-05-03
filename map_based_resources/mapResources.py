@@ -62,10 +62,11 @@ class MapLayer:
         return None
 
     def clear_images(self):
-        del self.image_tiles
-        del self.images_gotten
-        self.image_tiles=set()
-        self.images_gotten=set()
+        for image_tile in self.image_tiles:
+            image_tile.image.close()
+        self.image_tiles.clear()
+        self.images_gotten.clear()
+
 
 class MapService:
 
@@ -97,6 +98,7 @@ class MapResources:
     def __init__(self, config):
         self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]
         self.web_maps = list(MapService(wmts) for wmts in config["wmts"])
+
     def clear_images(self):
         for i in range(len(self.web_maps)):
             self.web_maps[i].clear_images()
