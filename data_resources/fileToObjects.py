@@ -31,6 +31,8 @@ def check_dir(dir_name):
 def check_path(filename):
     if os.path.isfile(filename):
         return filename
+    if filename[0] == '/' and os.path.isfile('..' + filename):
+        return '..' + filename
     if os.path.isfile('../' + filename):
         return '../' + filename
     return None
