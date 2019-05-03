@@ -36,7 +36,7 @@ def check_path(filename):
     return None
 
 
-def open_json_file(filename,lock=None):
+def open_json_file(filename, lock=None):
     path = check_path(filename)
     if path is None:
         raise FileNotFoundError(filename)
@@ -54,7 +54,7 @@ def get_coordinates_from_file():
 
 
 def get_config_from_json(lock=None):
-    return open_json_file('resources/config.json',lock)
+    return open_json_file('resources/config.json', lock)
 
 
 def get_data(data_type=DatasourceType.open_source):

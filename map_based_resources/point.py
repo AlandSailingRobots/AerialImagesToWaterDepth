@@ -72,12 +72,12 @@ class ImagePoint:
         height = 2 * distance_in_pixels
         return left_lower_coordinates + (left_lower_coordinates[0] + width, left_lower_coordinates[1] + height)
 
-    def get_cropped_image(self, size, square_size=3,lock=None):
+    def get_cropped_image(self, size, square_size=3, lock=None):
         if size not in self.cropped_images:
-            self.cropped_images[size] = self.get_image_bounding_box(size, square_size,lock)
+            self.cropped_images[size] = self.get_image_bounding_box(size, square_size, lock)
         return self.cropped_images[size]
 
-    def get_image_bounding_box(self, size, square_size,lock=None):
+    def get_image_bounding_box(self, size, square_size, lock=None):
         distance_in_pixels = size / self.layer.pixel_size
         image = self.image_tile.get_image_from_tile(lock)
         data_point_image = self.data_point_in_image
@@ -94,11 +94,11 @@ class ImagePoint:
                 square_size += 2
             new_image_size = (image.width * square_size, image.height * square_size)
             floor_square_size = square_size // 2
-            image = self.make_image_bigger(data_point_image, new_image_size, floor_square_size,lock)
+            image = self.make_image_bigger(data_point_image, new_image_size, floor_square_size, lock)
 
         return image.crop(self.get_box_around(size, data_point=data_point_image))
 
-    def make_image_bigger(self, data_point_image, new_image_size, floor_square_size,lock=None):
+    def make_image_bigger(self, data_point_image, new_image_size, floor_square_size, lock=None):
         new_im = Image.new('RGB', new_image_size)
         column = self.image_tile.column
         row = self.image_tile.row
@@ -109,7 +109,7 @@ class ImagePoint:
         for column_item in range(column + begin, column + end):
             row_offset = 0
             for row_item in range(row + begin, row + end):
-                image_ = singleTile.get_pillow_image_from_tile(self.web_map, self.layer, row_item, column_item,lock)
+                image_ = singleTile.get_pillow_image_from_tile(self.web_map, self.layer, row_item, column_item, lock)
                 new_im.paste(image_, (column_offset, row_offset))
                 row_offset += image_.width
             column_offset += image_.height
@@ -134,10 +134,10 @@ class MeasurementPoint:
     def add_image_point(self, image_point: ImagePoint):
         self.image_points.append(image_point)
 
-    def get_cropped_images(self, size,lock=None):
-        return list(point.get_cropped_image(size,lock=lock) for point in self.image_points)
+    def get_cropped_images(self, size, lock=None):
+        return list(point.get_cropped_image(size, lock=lock) for point in self.image_points)
 
-    def get_cropped_image_single(self,size,position):
+    def get_cropped_image_single(self, size, position):
         return self.image_points[position].get_cropped_image(size)
 
     def retrieve_all_images(self):
