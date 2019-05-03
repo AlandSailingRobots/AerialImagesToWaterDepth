@@ -183,8 +183,8 @@ def get_specific_layer(config, name_layer):
 
 # In[9]:
 
-def get_pillow_image_from_tile(wmts, layer, row, column):
-    return add_tile(wmts, layer, row, column).get_image_from_tile()
+def get_pillow_image_from_tile(wmts, layer, row, column, lock=None):
+    return add_tile(wmts, layer, row, column).get_image_from_tile(lock)
 
 
 def add_tile(wmts, layer, row, column, lock=None):

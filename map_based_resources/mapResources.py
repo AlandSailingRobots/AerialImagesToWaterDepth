@@ -26,9 +26,9 @@ class ImageTile:
         self.read_and_save(lock)
         self.image.close()
 
-    def get_image_from_tile(self):
+    def get_image_from_tile(self, lock=None):
         if self.image is None:
-            self.read_and_save()
+            self.read_and_save(lock)
         return self.image
 
 

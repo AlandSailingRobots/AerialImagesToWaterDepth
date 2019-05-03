@@ -31,18 +31,21 @@ def check_dir(dir_name):
 def check_path(filename):
     if os.path.isfile(filename):
         return filename
-
     if os.path.isfile('../' + filename):
         return '../' + filename
     return None
 
 
-def open_json_file(filename):
+def open_json_file(filename,lock=None):
     path = check_path(filename)
     if path is None:
         raise FileNotFoundError(filename)
     with open(path) as f:
+        if lock is not None:
+            lock.acquire()
         data = json.load(f)
+        if lock is not None:
+            lock.release()
     return data
 
 
@@ -50,8 +53,8 @@ def get_coordinates_from_file():
     return transformObjects.get_datapoints_from_json(open_json_file('resources/coordinates.json'))
 
 
-def get_config_from_json():
-    return open_json_file('resources/config.json')
+def get_config_from_json(lock=None):
+    return open_json_file('resources/config.json',lock)
 
 
 def get_data(data_type=DatasourceType.open_source):
@@ -68,8 +71,9 @@ def get_data(data_type=DatasourceType.open_source):
     return json_list
 
 
-def get_configuration():
-    return mapResources.MapResources(get_config_from_json())
+def get_configuration(lock=None):
+    conf = mapResources.MapResources(get_config_from_json(lock))
+    return conf
 
 
 def open_xyz_file_as_panda(file):
