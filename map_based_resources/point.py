@@ -134,8 +134,11 @@ class MeasurementPoint:
     def add_image_point(self, image_point: ImagePoint):
         self.image_points.append(image_point)
 
-    def get_cropped_images(self, size):
-        return list(point.get_cropped_image(size) for point in self.image_points)
+    def get_cropped_images(self, size,lock=None):
+        return list(point.get_cropped_image(size,lock=lock) for point in self.image_points)
+
+    def get_cropped_image_single(self,size,position):
+        return self.image_points[position].get_cropped_image(size)
 
     def retrieve_all_images(self):
         for point in self.image_points:
