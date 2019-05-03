@@ -3,6 +3,7 @@
         "color": "midnightblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa1_SB_1m",
+        "number_of_points": 2030724,
         "path": "height_corrected_data/SSSU_A_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa1_SB_1m.xyz"
     },
@@ -10,6 +11,7 @@
         "color": "paleturquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa2_SB_1m",
+        "number_of_points": 4576882,
         "path": "height_corrected_data/SSSU_A_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa2_SB_1m.xyz"
     },
@@ -17,6 +19,7 @@
         "color": "coral",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa3_SB_1m",
+        "number_of_points": 10285673,
         "path": "height_corrected_data/SSSU_A_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa3_SB_1m.xyz"
     },
@@ -24,6 +27,7 @@
         "color": "ghostwhite",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_MBES_osa4_SB_1m",
+        "number_of_points": 8913549,
         "path": "height_corrected_data/SSSU_A_MBES_osa4_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_MBES_osa4_SB_1m.xyz"
     },
@@ -31,6 +35,7 @@
         "color": "darkturquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_SBES_osa1_SB_5m",
+        "number_of_points": 252080,
         "path": "height_corrected_data/SSSU_A_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_SBES_osa1_SB_5m.xyz"
     },
@@ -38,6 +43,7 @@
         "color": "olivedrab",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_A_SBES_osa2_SB_5m",
+        "number_of_points": 261956,
         "path": "height_corrected_data/SSSU_A_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_A_SBES_osa2_SB_5m.xyz"
     },
@@ -45,6 +51,7 @@
         "color": "lightyellow",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_MBES_osa1_SB_1m",
+        "number_of_points": 252091,
         "path": "height_corrected_data/SSSU_B_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_MBES_osa1_SB_1m.xyz"
     },
@@ -52,6 +59,7 @@
         "color": "lightpink",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_MBES_osa2_SB_1m",
+        "number_of_points": 10976091,
         "path": "height_corrected_data/SSSU_B_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_MBES_osa2_SB_1m.xyz"
     },
@@ -59,6 +67,7 @@
         "color": "palegoldenrod",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_SBES_osa1_SB_5m",
+        "number_of_points": 171680,
         "path": "height_corrected_data/SSSU_B_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_SBES_osa1_SB_5m.xyz"
     },
@@ -66,6 +75,7 @@
         "color": "red",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_B_SBES_osa2_SB_5m",
+        "number_of_points": 173446,
         "path": "height_corrected_data/SSSU_B_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_B_SBES_osa2_SB_5m.xyz"
     },
@@ -73,6 +83,7 @@
         "color": "dimgray",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_C_MBES_SB_1m",
+        "number_of_points": 5652036,
         "path": "height_corrected_data/SSSU_C_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_C_MBES_SB_1m.xyz"
     },
@@ -80,6 +91,7 @@
         "color": "antiquewhite",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_C_SBES_SB_5m",
+        "number_of_points": 257699,
         "path": "height_corrected_data/SSSU_C_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_C_SBES_SB_5m.xyz"
     },
@@ -87,6 +99,7 @@
         "color": "teal",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_D_MBES_osa1_SB_1m",
+        "number_of_points": 7971359,
         "path": "height_corrected_data/SSSU_D_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_D_MBES_osa1_SB_1m.xyz"
     },
@@ -94,6 +107,7 @@
         "color": "oldlace",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_D_MBES_osa2_SB_1m",
+        "number_of_points": 383416,
         "path": "height_corrected_data/SSSU_D_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_D_MBES_osa2_SB_1m.xyz"
     },
@@ -101,6 +115,7 @@
         "color": "chartreuse",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_D_SBES_SB_5m",
+        "number_of_points": 228720,
         "path": "height_corrected_data/SSSU_D_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_D_SBES_SB_5m.xyz"
     },
@@ -108,6 +123,7 @@
         "color": "aqua",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_E_MBES_SB_2m",
+        "number_of_points": 7658477,
         "path": "height_corrected_data/SSSU_E_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_E_MBES_SB_2m.xyz"
     },
@@ -115,6 +131,7 @@
         "color": "ivory",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_E_SBES_SB_5m",
+        "number_of_points": 227283,
         "path": "height_corrected_data/SSSU_E_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_E_SBES_SB_5m.xyz"
     },
@@ -122,6 +139,7 @@
         "color": "lightgoldenrodyellow",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_F_MBES_SB_2m",
+        "number_of_points": 5335064,
         "path": "height_corrected_data/SSSU_F_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_F_MBES_SB_2m.xyz"
     },
@@ -129,6 +147,7 @@
         "color": "mediumvioletred",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_F_SBES_SB_5m",
+        "number_of_points": 132836,
         "path": "height_corrected_data/SSSU_F_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_F_SBES_SB_5m.xyz"
     },
@@ -136,6 +155,7 @@
         "color": "crimson",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_G_MBES_SB_1m",
+        "number_of_points": 4784324,
         "path": "height_corrected_data/SSSU_G_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_G_MBES_SB_1m.xyz"
     },
@@ -143,6 +163,7 @@
         "color": "palevioletred",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_G_SBES_SB_5m",
+        "number_of_points": 174956,
         "path": "height_corrected_data/SSSU_G_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_G_SBES_SB_5m.xyz"
     },
@@ -150,6 +171,7 @@
         "color": "lightseagreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_H_MBES_osa1_SB_2m",
+        "number_of_points": 4990955,
         "path": "height_corrected_data/SSSU_H_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_H_MBES_osa1_SB_2m.xyz"
     },
@@ -157,6 +179,7 @@
         "color": "darkcyan",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_H_MBES_osa2_SB_1m",
+        "number_of_points": 355426,
         "path": "height_corrected_data/SSSU_H_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_H_MBES_osa2_SB_1m.xyz"
     },
@@ -164,6 +187,7 @@
         "color": "mediumseagreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_H_SBES_SB_5m",
+        "number_of_points": 134280,
         "path": "height_corrected_data/SSSU_H_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_H_SBES_SB_5m.xyz"
     },
@@ -171,6 +195,7 @@
         "color": "plum",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_J_MBES_SB_1m",
+        "number_of_points": 4345958,
         "path": "height_corrected_data/SSSU_J_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_J_MBES_SB_1m.xyz"
     },
@@ -178,6 +203,7 @@
         "color": "burlywood",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_J_SBES_SB_5m",
+        "number_of_points": 132247,
         "path": "height_corrected_data/SSSU_J_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_J_SBES_SB_5m.xyz"
     },
@@ -185,6 +211,7 @@
         "color": "hotpink",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa1_SB_2m",
+        "number_of_points": 5427579,
         "path": "height_corrected_data/SSSU_K_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa1_SB_2m.xyz"
     },
@@ -192,6 +219,7 @@
         "color": "darkorange",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa2_SB_2m",
+        "number_of_points": 3972019,
         "path": "height_corrected_data/SSSU_K_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa2_SB_2m.xyz"
     },
@@ -199,6 +227,7 @@
         "color": "thistle",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa3_SB_1m",
+        "number_of_points": 93441,
         "path": "height_corrected_data/SSSU_K_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa3_SB_1m.xyz"
     },
@@ -206,6 +235,7 @@
         "color": "orchid",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_MBES_osa4_SB_1m",
+        "number_of_points": 177758,
         "path": "height_corrected_data/SSSU_K_MBES_osa4_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_MBES_osa4_SB_1m.xyz"
     },
@@ -213,6 +243,7 @@
         "color": "olive",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_K_SBES_SB_5m",
+        "number_of_points": 221588,
         "path": "height_corrected_data/SSSU_K_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_K_SBES_SB_5m.xyz"
     },
@@ -220,6 +251,7 @@
         "color": "lightsteelblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_L_MBES_SB_1m",
+        "number_of_points": 3630457,
         "path": "height_corrected_data/SSSU_L_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_L_MBES_SB_1m.xyz"
     },
@@ -227,6 +259,7 @@
         "color": "indianred",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_L_SBES_SB_5m",
+        "number_of_points": 110672,
         "path": "height_corrected_data/SSSU_L_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_L_SBES_SB_5m.xyz"
     },
@@ -234,6 +267,7 @@
         "color": "rosybrown",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_M_MBES_SB_1m",
+        "number_of_points": 3285918,
         "path": "height_corrected_data/SSSU_M_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_M_MBES_SB_1m.xyz"
     },
@@ -241,6 +275,7 @@
         "color": "mediumblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_M_SBES_SB_5m",
+        "number_of_points": 96917,
         "path": "height_corrected_data/SSSU_M_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_M_SBES_SB_5m.xyz"
     },
@@ -248,6 +283,7 @@
         "color": "wheat",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_N_MBES_osa1_SB_1m",
+        "number_of_points": 3209852,
         "path": "height_corrected_data/SSSU_N_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_N_MBES_osa1_SB_1m.xyz"
     },
@@ -255,6 +291,7 @@
         "color": "sandybrown",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_N_MBES_osa2_SB_1m",
+        "number_of_points": 4458849,
         "path": "height_corrected_data/SSSU_N_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_N_MBES_osa2_SB_1m.xyz"
     },
@@ -262,6 +299,7 @@
         "color": "darkorchid",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_N_SBES_SB_5m",
+        "number_of_points": 172072,
         "path": "height_corrected_data/SSSU_N_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_N_SBES_SB_5m.xyz"
     },
@@ -269,6 +307,7 @@
         "color": "silver",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_O_MBES_osa1_SB_1m",
+        "number_of_points": 7508501,
         "path": "height_corrected_data/SSSU_O_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_O_MBES_osa1_SB_1m.xyz"
     },
@@ -276,6 +315,7 @@
         "color": "aquamarine",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_O_MBES_osa2_SB_1m",
+        "number_of_points": 869992,
         "path": "height_corrected_data/SSSU_O_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_O_MBES_osa2_SB_1m.xyz"
     },
@@ -283,6 +323,7 @@
         "color": "royalblue",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_O_SBES_SB_5m",
+        "number_of_points": 211137,
         "path": "height_corrected_data/SSSU_O_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_O_SBES_SB_5m.xyz"
     },
@@ -290,6 +331,7 @@
         "color": "lavenderblush",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_P_MBES_SB_2m",
+        "number_of_points": 4083459,
         "path": "height_corrected_data/SSSU_P_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_P_MBES_SB_2m.xyz"
     },
@@ -297,6 +339,7 @@
         "color": "salmon",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_P_SBES_osa1_SB_5m",
+        "number_of_points": 95463,
         "path": "height_corrected_data/SSSU_P_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_P_SBES_osa1_SB_5m.xyz"
     },
@@ -304,6 +347,7 @@
         "color": "darkgreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_P_SBES_osa2_SB_5m",
+        "number_of_points": 9280,
         "path": "height_corrected_data/SSSU_P_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_P_SBES_osa2_SB_5m.xyz"
     },
@@ -311,6 +355,7 @@
         "color": "turquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_R_MBES_SB_1m",
+        "number_of_points": 5642980,
         "path": "height_corrected_data/SSSU_R_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_R_MBES_SB_1m.xyz"
     },
@@ -318,6 +363,7 @@
         "color": "mediumturquoise",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_R_SBES_SB_5m",
+        "number_of_points": 155275,
         "path": "height_corrected_data/SSSU_R_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_R_SBES_SB_5m.xyz"
     },
@@ -325,6 +371,7 @@
         "color": "darkgoldenrod",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_U_MBES_osa1_SB_1m",
+        "number_of_points": 3404068,
         "path": "height_corrected_data/SSSU_U_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_U_MBES_osa1_SB_1m.xyz"
     },
@@ -332,6 +379,7 @@
         "color": "yellowgreen",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_U_MBES_osa2_SB_1m",
+        "number_of_points": 1604721,
         "path": "height_corrected_data/SSSU_U_MBES_osa2_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_U_MBES_osa2_SB_1m.xyz"
     },
@@ -339,6 +387,7 @@
         "color": "bisque",
         "coordinate_system": "epsg:3067",
         "name": "SSSU_U_SBES_SB_5m",
+        "number_of_points": 116075,
         "path": "height_corrected_data/SSSU_U_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSSU/SSSU_U_SBES_SB_5m.xyz"
     },
@@ -346,6 +395,7 @@
         "color": "maroon",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_L_SBES_SB_5m",
+        "number_of_points": 66727,
         "path": "height_corrected_data/SAVA_L_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_L_SBES_SB_5m.xyz"
     },
@@ -353,6 +403,7 @@
         "color": "white",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_L_osa1_MBES_SB_2m",
+        "number_of_points": 837520,
         "path": "height_corrected_data/SAVA_L_osa1_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_L_osa1_MBES_SB_2m.xyz"
     },
@@ -360,6 +411,7 @@
         "color": "lightslategrey",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_L_osa2_MBES_SB_2m",
+        "number_of_points": 1535474,
         "path": "height_corrected_data/SAVA_L_osa2_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_L_osa2_MBES_SB_2m.xyz"
     },
@@ -367,6 +419,7 @@
         "color": "linen",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_M_SBES_SB_5m",
+        "number_of_points": 104759,
         "path": "height_corrected_data/SAVA_M_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_M_SBES_SB_5m.xyz"
     },
@@ -374,6 +427,7 @@
         "color": "greenyellow",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_M_osa1_MBES_SB_2m",
+        "number_of_points": 1515009,
         "path": "height_corrected_data/SAVA_M_osa1_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_M_osa1_MBES_SB_2m.xyz"
     },
@@ -381,6 +435,7 @@
         "color": "mediumorchid",
         "coordinate_system": "epsg:3067",
         "name": "SAVA_M_osa2_MBES_SB_1m",
+        "number_of_points": 274340,
         "path": "height_corrected_data/SAVA_M_osa2_MBES_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SAVA/SAVA_M_osa2_MBES_SB_1m.xyz"
     },
@@ -388,6 +443,7 @@
         "color": "chocolate",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_MBES_osa2_SB_2m",
+        "number_of_points": 4151520,
         "path": "height_corrected_data/SSMI2014_E_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_MBES_osa2_SB_2m.xyz"
     },
@@ -395,6 +451,7 @@
         "color": "deepskyblue",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_MBES_osa3_SB_2m",
+        "number_of_points": 2462609,
         "path": "height_corrected_data/SSMI2014_E_MBES_osa3_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_MBES_osa3_SB_2m.xyz"
     },
@@ -402,6 +459,7 @@
         "color": "tan",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_SBES_SB_5m",
+        "number_of_points": 623974,
         "path": "height_corrected_data/SSMI2014_E_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_SBES_SB_5m.xyz"
     },
@@ -409,6 +467,7 @@
         "color": "honeydew",
         "coordinate_system": "epsg:3067",
         "name": "SSMI2014_E_MBES_osa1_SB_1m",
+        "number_of_points": 818245,
         "path": "height_corrected_data/SSMI2014_E_MBES_osa1_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/SSMI/SSMI2014_E_MBES_osa1_SB_1m.xyz"
     },
@@ -416,6 +475,7 @@
         "color": "navy",
         "coordinate_system": "epsg:3067",
         "name": "SSSU2015_P_2m",
+        "number_of_points": 1197246,
         "path": "height_corrected_data/SSSU2015_P_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/examples/SSSU2015_P_2m.xyz"
     },
@@ -423,6 +483,7 @@
         "color": "pink",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A1_MBES_osa1_SB_2m",
+        "number_of_points": 770390,
         "path": "height_corrected_data/JJKJ_A1_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A1_MBES_osa1_SB_2m.xyz"
     },
@@ -430,6 +491,7 @@
         "color": "papayawhip",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A1_MBES_osa2_SB_2m",
+        "number_of_points": 2095389,
         "path": "height_corrected_data/JJKJ_A1_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A1_MBES_osa2_SB_2m.xyz"
     },
@@ -437,6 +499,7 @@
         "color": "dodgerblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A1_MBES_osa3_SB_2m",
+        "number_of_points": 1251117,
         "path": "height_corrected_data/JJKJ_A1_MBES_osa3_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A1_MBES_osa3_SB_2m.xyz"
     },
@@ -444,6 +507,7 @@
         "color": "cornsilk",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa1_SB_2m",
+        "number_of_points": 2140605,
         "path": "height_corrected_data/JJKJ_A2_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa1_SB_2m.xyz"
     },
@@ -451,6 +515,7 @@
         "color": "lightgrey",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa2_SB_2m",
+        "number_of_points": 1365943,
         "path": "height_corrected_data/JJKJ_A2_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa2_SB_2m.xyz"
     },
@@ -458,6 +523,7 @@
         "color": "mediumaquamarine",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa3_1_SB_2m",
+        "number_of_points": 1301601,
         "path": "height_corrected_data/JJKJ_A2_MBES_osa3_1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa3_1_SB_2m.xyz"
     },
@@ -465,6 +531,7 @@
         "color": "blanchedalmond",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa3_2_SB_2m",
+        "number_of_points": 1797781,
         "path": "height_corrected_data/JJKJ_A2_MBES_osa3_2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa3_2_SB_2m.xyz"
     },
@@ -472,6 +539,7 @@
         "color": "magenta",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A2_MBES_osa4_SB_1m",
+        "number_of_points": 362224,
         "path": "height_corrected_data/JJKJ_A2_MBES_osa4_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A2_MBES_osa4_SB_1m.xyz"
     },
@@ -479,6 +547,7 @@
         "color": "beige",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_A_SBES_SB_5m",
+        "number_of_points": 669259,
         "path": "height_corrected_data/JJKJ_A_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_A_SBES_SB_5m.xyz"
     },
@@ -486,6 +555,7 @@
         "color": "cornflowerblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_MBES_osa1_SB_2m",
+        "number_of_points": 1246362,
         "path": "height_corrected_data/JJKJ_B_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_MBES_osa1_SB_2m.xyz"
     },
@@ -493,6 +563,7 @@
         "color": "mediumslateblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_MBES_osa2_SB_2m",
+        "number_of_points": 763588,
         "path": "height_corrected_data/JJKJ_B_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_MBES_osa2_SB_2m.xyz"
     },
@@ -500,6 +571,7 @@
         "color": "grey",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_MBES_osa3_SB_1m",
+        "number_of_points": 433526,
         "path": "height_corrected_data/JJKJ_B_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_MBES_osa3_SB_1m.xyz"
     },
@@ -507,6 +579,7 @@
         "color": "darkseagreen",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_SBES_osa1_SB_5m",
+        "number_of_points": 85972,
         "path": "height_corrected_data/JJKJ_B_SBES_osa1_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_SBES_osa1_SB_5m.xyz"
     },
@@ -514,6 +587,7 @@
         "color": "peachpuff",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_B_SBES_osa2_SB_5m",
+        "number_of_points": 49187,
         "path": "height_corrected_data/JJKJ_B_SBES_osa2_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_B_SBES_osa2_SB_5m.xyz"
     },
@@ -521,6 +595,7 @@
         "color": "orangered",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_C_MBES_SB_2m",
+        "number_of_points": 439915,
         "path": "height_corrected_data/JJKJ_C_MBES_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_C_MBES_SB_2m.xyz"
     },
@@ -528,6 +603,7 @@
         "color": "navajowhite",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_C_SBES_SB_5m",
+        "number_of_points": 34798,
         "path": "height_corrected_data/JJKJ_C_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_C_SBES_SB_5m.xyz"
     },
@@ -535,6 +611,7 @@
         "color": "cadetblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_D_MBES_osa1_SB_2m",
+        "number_of_points": 1076169,
         "path": "height_corrected_data/JJKJ_D_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_D_MBES_osa1_SB_2m.xyz"
     },
@@ -542,6 +619,7 @@
         "color": "cyan",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_D_MBES_osa2_SB_2m",
+        "number_of_points": 971198,
         "path": "height_corrected_data/JJKJ_D_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_D_MBES_osa2_SB_2m.xyz"
     },
@@ -549,6 +627,7 @@
         "color": "lightsalmon",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_D_SBES_SB_5m",
+        "number_of_points": 256407,
         "path": "height_corrected_data/JJKJ_D_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_D_SBES_SB_5m.xyz"
     },
@@ -556,6 +635,7 @@
         "color": "orange",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_MBES_osa1_SB_2m",
+        "number_of_points": 906599,
         "path": "height_corrected_data/JJKJ_E_MBES_osa1_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_MBES_osa1_SB_2m.xyz"
     },
@@ -563,6 +643,7 @@
         "color": "lightcyan",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_MBES_osa2_SB_2m",
+        "number_of_points": 1013026,
         "path": "height_corrected_data/JJKJ_E_MBES_osa2_SB_2m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_MBES_osa2_SB_2m.xyz"
     },
@@ -570,6 +651,7 @@
         "color": "lightskyblue",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_MBES_osa3_SB_1m",
+        "number_of_points": 237496,
         "path": "height_corrected_data/JJKJ_E_MBES_osa3_SB_1m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_MBES_osa3_SB_1m.xyz"
     },
@@ -577,6 +659,7 @@
         "color": "springgreen",
         "coordinate_system": "epsg:3067",
         "name": "JJKJ_E_SBES_SB_5m",
+        "number_of_points": 107083,
         "path": "height_corrected_data/JJKJ_E_SBES_SB_5m.xyz",
         "url": "https://aineistot.vayla.fi/bathymetry/JJKJ/JJKJ_E_SBES_SB_5m.xyz"
     },
@@ -584,66 +667,77 @@
         "color": "darkgrey",
         "coordinate_system": "epsg:3067",
         "name": "ENA052mKa_MBES_WMA_2m_xyz",
+        "number_of_points": 274508,
         "path": "height_corrected_data/ENA052mKa_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "firebrick",
         "coordinate_system": "epsg:3067",
         "name": "F_MBES_WMA_2m",
+        "number_of_points": 1408559,
         "path": "height_corrected_data/F_MBES_WMA_2m.xyz"
     },
     {
         "color": "lightgray",
         "coordinate_system": "epsg:3067",
         "name": "LIDAR_WMA_malli_2m",
+        "number_of_points": 1520093,
         "path": "height_corrected_data/LIDAR_WMA_malli_2m.xyz"
     },
     {
         "color": "saddlebrown",
         "coordinate_system": "epsg:3067",
         "name": "E_MBES_del2_WMA_2m",
+        "number_of_points": 502496,
         "path": "height_corrected_data/E_MBES_del2_WMA_2m.xyz"
     },
     {
         "color": "greenyellow",
         "coordinate_system": "epsg:3067",
         "name": "E_SBES_WMA_2m",
+        "number_of_points": 1244773,
         "path": "height_corrected_data/E_SBES_WMA_2m.xyz"
     },
     {
         "color": "beige",
         "coordinate_system": "epsg:3067",
         "name": "ENA052mKb_MBES_WMA_2m_xyz",
+        "number_of_points": 131984,
         "path": "height_corrected_data/ENA052mKb_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "palevioletred",
         "coordinate_system": "epsg:3067",
         "name": "AKS052mKb_MBES_WMA_2m_xyz",
+        "number_of_points": 332877,
         "path": "height_corrected_data/AKS052mKb_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "gold",
         "coordinate_system": "epsg:3067",
         "name": "ENA052mKc_MBES_WMA_2m_xyz",
+        "number_of_points": 273458,
         "path": "height_corrected_data/ENA052mKc_MBES_WMA_2m_xyz.xyz"
     },
     {
         "color": "navy",
         "coordinate_system": "epsg:3067",
         "name": "F_SBES_WMA_2m",
+        "number_of_points": 337252,
         "path": "height_corrected_data/F_SBES_WMA_2m.xyz"
     },
     {
         "color": "lightyellow",
         "coordinate_system": "epsg:3067",
         "name": "E_MBES_del1_WMA_2m",
+        "number_of_points": 453337,
         "path": "height_corrected_data/E_MBES_del1_WMA_2m.xyz"
     },
     {
         "color": "chocolate",
         "coordinate_system": "epsg:3067",
         "name": "PKM052mKa_MBES_WMA_2m_xyz",
+        "number_of_points": 140838,
         "path": "height_corrected_data/PKM052mKa_MBES_WMA_2m_xyz.xyz"
     }
 ]
