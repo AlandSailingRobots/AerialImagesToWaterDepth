@@ -8,8 +8,8 @@ import urllib.request as req
 from PIL import Image
 from map_based_resources import mapResources
 
-images_map = '/Volumes/SD Opslag/AerialImages'
-
+images_map = '/Users/thijs/AerialImages'
+# images_map = '/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/AerialImages'
 
 class DatasourceType(Enum):
     open_source = ['open_data/data_sources.json']
@@ -46,8 +46,9 @@ def open_json_file(filename, lock=None):
         if lock is not None:
             lock.acquire()
         data = json.load(f)
-        if lock is not None:
-            lock.release()
+    f.close()
+    if lock is not None:
+        lock.release()
     return data
 
 
