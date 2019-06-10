@@ -73,9 +73,7 @@ class ImagePoint:
         return left_lower_coordinates + (left_lower_coordinates[0] + width, left_lower_coordinates[1] + height)
 
     def get_cropped_image(self, size, square_size=3, lock=None):
-        if size not in self.cropped_images:
-            self.cropped_images[size] = self.get_image_bounding_box(size, square_size, lock)
-        return self.cropped_images[size]
+        return self.get_image_bounding_box(size, square_size, lock)
 
     def get_image_bounding_box(self, size, square_size, lock=None):
         distance_in_pixels = size / self.layer.pixel_size
