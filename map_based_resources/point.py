@@ -13,7 +13,7 @@ class DataPoint:
         self.coordinate_type = coordinate_type
         self.level = level
 
-    def convert_coordinate_systems(self, inverse=False, destination='epsg:3067'):
+    def convert_coordinate_systems(self, inverse=False, destination='epsg:3067', save_in_point=False):
         """Converts Coordinate System to a different System.
         Default From WGS84 to Finnish System(ETRS-TM35FIN). If inverse is passed then they are swapped around.
         returns tuple with 0 being E/Longitude, and 1 begin N/Latitude
@@ -25,6 +25,9 @@ class DataPoint:
             project_src = pyproj.Proj(init=src)
             project_dest = pyproj.Proj(init=destination)
             transformed = pyproj.transform(project_src, project_dest, self.longitude, self.latitude)
+            if save_in_point:
+                self.longitude, self.latitude = transformed
+                self.coordinate_type = destination
             return transformed
         else:
             return self.longitude, self.latitude
