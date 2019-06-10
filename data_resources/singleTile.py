@@ -6,6 +6,7 @@
 
 from data_resources import transformObjects, fileToObjects
 from map_based_resources import point, mapResources
+import time
 
 # ## Experimental Testing for getting photo's out of multiple WMTS servers.
 # This Notebook experiments with a way  to get photo's as a datasource to later integrate it into the SailingRobots
@@ -21,6 +22,7 @@ from map_based_resources import point, mapResources
 
 standardized_rendering_pixel_size = None
 only_save = False
+count = 0
 
 
 # ## Calculate the position of the coordinate in WMTS
@@ -200,21 +202,40 @@ def add_tile(wmts, layer, row, column, lock=None):
 
 
 def get_tile_image(column, layer, row, wmts, lock):
+    global count
     image_exists = fileToObjects.check_image(layer.name, layer.level, row, column)
     if only_save and image_exists:
         return None
+    tile = None
+    image = None
     if image_exists is False:
-        tile = wmts.tile_service.gettile(
-            layer=layer.layer,
-            tilematrixset=wmts.set_name,
-            tilematrix=layer.tile_level,
-            row=row,
-            column=column,
-            format=wmts.tile_service.contents[layer.layer].formats[0])
-        image = None
+        # print('Getting', layer.name, layer.level, row, column)
+        # count += 1
+        # print('Amount of images gotten is ', count)
+        for attempt_number in range(3):
+            try:
+                tile = wmts.tile_service.gettile(
+                    layer=layer.layer,
+                    tilematrixset=wmts.set_name,
+                    tilematrix=layer.tile_level,
+                    row=row,
+                    column=column,
+                    format=wmts.tile_service.contents[layer.layer].formats[0])
+                image = None
+                break
+            except (TimeoutError, ConnectionResetError, ConnectionError) as e:
+                print('Timeout error', layer.name, 'Trying again in 60 seconds')
+                time.sleep(60)
+
+                if attempt_number == 2:
+                    print(e)
+                    raise TimeoutError(layer.name, layer.layer)
+                print('Trying again', layer.name)
     else:
         image = fileToObjects.get_image(layer.name, layer.level, row, column)
         tile = None
+    if tile is None and image is None:
+        raise AttributeError("Tile and Image are both none")
     tile_image = mapResources.ImageTile(tile, layer.name, layer.level, row, column, image)
     if only_save:
         layer.add_image_gotten(tile_image)

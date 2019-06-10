@@ -63,7 +63,8 @@ class MapLayer:
 
     def clear_images(self):
         for image_tile in self.image_tiles:
-            image_tile.image.close()
+            if image_tile.image != None:
+                image_tile.image.close()
         self.image_tiles.clear()
         self.images_gotten.clear()
 
