@@ -13,7 +13,8 @@ class DataPoint:
         self.coordinate_type = coordinate_type
         self.level = level
 
-    def convert_coordinate_systems(self, inverse=False, destination='epsg:3067', save_in_point=False):
+    def convert_coordinate_systems(self, inverse=False, destination='epsg:3067', save_in_point=False,
+                                   return_point=False):
         """Converts Coordinate System to a different System.
         Default From WGS84 to Finnish System(ETRS-TM35FIN). If inverse is passed then they are swapped around.
         returns tuple with 0 being E/Longitude, and 1 begin N/Latitude
@@ -28,8 +29,14 @@ class DataPoint:
             if save_in_point:
                 self.longitude, self.latitude = transformed
                 self.coordinate_type = destination
+            if return_point:
+                self.longitude, self.latitude = transformed
+                self.coordinate_type = destination
+                return self
             return transformed
         else:
+            if return_point:
+                return self
             return self.longitude, self.latitude
 
     def calculate_distance_to_point(self, other_point):
@@ -43,6 +50,14 @@ class DataPoint:
         else:
             point_self = (self.latitude, self.longitude)
         return great_circle(point_self, point_other)
+
+    def __str__(self):
+        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.latitude, self.longitude,
+                                                                                       self.level, self.coordinate_type)
+
+    def __repr__(self) -> str:
+        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.latitude, self.longitude,
+                                                                                       self.level, self.coordinate_type)
 
 
 class LocationInImage:
