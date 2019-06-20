@@ -1,7 +1,6 @@
 import json
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
 import time
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from backend.GeoJsonHandler import GeoJsonHandler
 

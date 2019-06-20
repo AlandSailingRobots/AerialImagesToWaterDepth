@@ -1,11 +1,13 @@
-from map_based_resources import point
 import geopandas as gpd
-from shapely.geometry import Polygon
 import json
 import urllib.parse
+from shapely.geometry import Polygon
+
+from map_based_resources import point
 
 defaultCrs = 4326
-boundingBoxCrs = {'init': f'epsg:{defaultCrs}'}
+defaultEPSG = f"EPSG:{defaultCrs}"
+boundingBoxCrs = {'init': defaultEPSG.lower()}
 osm_finland = {
     'url': "http://avaa.tdata.fi/geoserver/osm_finland/ows?",
     'version': '1.3.0',
@@ -18,8 +20,8 @@ water_depth = {
 }
 default_params = {"service": "WFS",
                   "request": "GetFeature",
-                  "maxFeatures": "10",
-                  "srsName": "EPSG:4326",
+                  "maxFeatures": 10,
+                  "srsName": defaultEPSG,
                   "bbox": None,
                   "outputFormat": "application/json"}
 
@@ -113,6 +115,6 @@ class GeoJsonHandler:
         print(points_dict['nw'].calculate_distance_to_point(points_dict['ne']) / 2)
         listed_points = []
         for key in points_dict.keys():
-            point = points_dict[key].convert_coordinate_systems(destination='EPSG:4326', return_point=True)
+            point = points_dict[key].convert_coordinate_systems(destination=defaultEPSG, return_point=True)
             listed_points.append({"key": key, "point": point.__dict__})
         return json.dumps(listed_points)
