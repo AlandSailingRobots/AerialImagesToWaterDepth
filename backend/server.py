@@ -16,6 +16,13 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = (self.rfile.read(content_length)).decode('utf8')  # <--- Gets the data itself
         return json.loads(post_data)
 
+    def sendSuccesfullJson(self, json):
+        self.send_response(200, "ok")
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        self.wfile.write(json.encode())
+
     def do_GET(self):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
@@ -33,13 +40,12 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
-        self.send_response(200, "ok")
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
         print("post", "incoming http: ", self.path)
-        returned_json = self.geoJsonHandler.doAction(self.path, self.getJsonData())
-        self.wfile.write(returned_json.encode())
+        try:
+            returned_json = self.geoJsonHandler.doAction(self.path, self.getJsonData())
+            self.sendSuccesfullJson(returned_json)
+        except Exception as e:
+            self.send_error(501, repr(e))
 
 
 myServer = HTTPServer((hostName, hostPort), MyServer)

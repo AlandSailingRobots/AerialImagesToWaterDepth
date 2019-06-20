@@ -54,9 +54,7 @@ class GeoJsonHandler:
         bbox = "{0},{1},{2},{3}".format(sw.longitude, sw.latitude, ne.longitude, ne.latitude)
         params = default_params
         params.update(properties)
-        print(type(bbox), bbox)
         params['bbox'] = bbox
-        print(params)
         return params.pop('url') + urllib.parse.urlencode(params)
 
     def readGeoJson(self, minimalize=False):
