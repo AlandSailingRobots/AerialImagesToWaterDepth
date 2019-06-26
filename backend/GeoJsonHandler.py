@@ -36,10 +36,7 @@ class GeoJsonHandler:
             "getLocalGeoJson": self.readLocalGeoJson,
             "getWaterDepthAreas": self.getWaterDepth,
         }
-
-        splitted_path = path.strip().split('/')
-        call = splitted_path[1]
-        action = calls.get(call, self.getPoints)
+        action = calls.get(path[1], self.getPoints)
         return action()
 
     def make_point_from_json(self, data, item):

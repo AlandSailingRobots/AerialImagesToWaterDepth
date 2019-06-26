@@ -11,6 +11,9 @@ hostPort = 80
 class MyServer(BaseHTTPRequestHandler):
     geoJsonHandler = GeoJsonHandler()
 
+    def dissect_path(self):
+        return self.path.strip().split('/')
+
     def getJsonData(self):
         content_length = int(self.headers.get('Content-Length'))  # <--- Gets the size of data
         post_data = (self.rfile.read(content_length)).decode('utf8')  # <--- Gets the data itself
@@ -24,12 +27,9 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(json.encode())
 
     def do_GET(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        print(self.headers)
-        self.connection.shutdown(1)
+        if self.dissect_path()[1] == "MapSettings":
+            map_settings = json.dumps(json.loads(open("map_settings.json").read()))
+            self.sendSuccesfullJson(map_settings)
 
     def do_OPTIONS(self):
         self.send_response(200, "ok")
@@ -42,7 +42,7 @@ class MyServer(BaseHTTPRequestHandler):
     def do_POST(self):
         print("post", "incoming http: ", self.path)
         try:
-            returned_json = self.geoJsonHandler.doAction(self.path, self.getJsonData())
+            returned_json = self.geoJsonHandler.doAction(self.dissect_path(), self.getJsonData())
             self.sendSuccesfullJson(returned_json)
         except Exception as e:
             self.send_error(501, repr(e))
