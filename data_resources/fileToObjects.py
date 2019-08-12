@@ -8,8 +8,11 @@ import urllib.request as req
 from PIL import Image
 from map_based_resources import mapResources
 
-images_map = '/Users/thijs/AerialImages'
-# images_map = '/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/AerialImages'
+# images_map = '/Users/thijs/AerialImages'
+backup_map = '/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/'
+images_map = backup_map + 'AerialImages'
+data_map = backup_map + 'AerialImagesHeight/'
+
 
 class DatasourceType(Enum):
     open_source = ['open_data/data_sources.json']

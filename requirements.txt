@@ -1,4 +1,6 @@
+absl-py==0.7.1
 appnope==0.1.0
+astor==0.8.0
 attrs==19.1.0
 autopep8==1.4.4
 backcall==0.1.0
@@ -14,9 +16,12 @@ decorator==4.4.0
 defusedxml==0.6.0
 entrypoints==0.3
 Fiona==1.8.6
+gast==0.2.2
 geographiclib==1.49
 geopandas==0.5.0
 geopy==1.19.0
+grpcio==1.22.0
+h5py==2.9.0
 idna==2.8
 imageio==2.5.0
 ipykernel==5.1.0
@@ -30,11 +35,15 @@ jupyter==1.0.0
 jupyter-client==5.2.4
 jupyter-console==6.0.0
 jupyter-core==4.4.0
+Keras-Applications==1.0.8
+Keras-Preprocessing==1.1.0
 kiwisolver==1.1.0
 mahotas==1.4.5
+Markdown==3.1.1
 MarkupSafe==1.1.1
 matplotlib==3.0.2
 mistune==0.8.4
+mock==3.0.5
 munch==2.3.2
 nbconvert==5.5.0
 nbformat==4.4.0
@@ -53,6 +62,7 @@ Pillow==6.0.0
 progressbar==2.5
 prometheus-client==0.6.0
 prompt-toolkit==2.0.9
+protobuf==3.9.1
 ptyprocess==0.6.0
 pycodestyle==2.5.0
 Pygments==2.3.1
@@ -66,12 +76,17 @@ PyYAML==5.1
 pyzmq==18.0.1
 qtconsole==4.4.3
 requests==2.21.0
+Rtree==0.8.3
 scikit-image==0.15.0
 scikit-learn==0.20.3
 scipy==1.2.1
 Send2Trash==1.5.0
 Shapely==1.6.4.post2
 six==1.12.0
+tensorboard==1.13.1
+tensorflow==1.13.1
+tensorflow-estimator==1.13.0
+termcolor==1.1.0
 terminado==0.8.2
 testpath==0.4.2
 tornado==6.0.2
@@ -79,4 +94,5 @@ traitlets==4.3.2
 urllib3==1.24.1
 wcwidth==0.1.7
 webencodings==0.5.1
+Werkzeug==0.15.5
 widgetsnbextension==3.4.2
