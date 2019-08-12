@@ -29,7 +29,7 @@ def execution(file, source, config, cropped_size, lock=None):
 
 
 def create_process(source, cropped_size, lock):
-    file = open(fileToObjects.check_path(source['path']))
+    file = open(fileToObjects.check_path(fileToObjects.data_map + source['path']))
     configuration = fileToObjects.get_configuration()
     return Process(target=execution, args=(file, source, configuration, cropped_size, lock))
 

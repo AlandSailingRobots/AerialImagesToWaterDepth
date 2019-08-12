@@ -3,13 +3,17 @@ from enum import Enum
 
 import pandas as pd
 import os
+import platform
 from data_resources import transformObjects
 import urllib.request as req
 from PIL import Image
 from map_based_resources import mapResources
 
 # images_map = '/Users/thijs/AerialImages'
-backup_map = '/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/'
+if platform.system() == 'Darwin':
+    backup_map = '/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/'
+else:
+    backup_map = '/home/pi/images/'
 images_map = backup_map + 'AerialImages'
 data_map = backup_map + 'AerialImagesHeight/'
 
@@ -83,7 +87,7 @@ def get_configuration(lock=None):
 
 
 def open_xyz_file_as_panda(file):
-    path = check_path(file['path'])
+    path = check_path(data_map + file['path'])
     if path is None and 'url' not in file:
         raise FileNotFoundError(file['name'])
     if path is None and 'url' in file:
