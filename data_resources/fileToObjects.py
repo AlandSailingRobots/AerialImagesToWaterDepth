@@ -42,6 +42,10 @@ def check_path(filename):
         return '..' + filename
     if os.path.isfile('../' + filename):
         return '../' + filename
+    if os.path.isfile(data_map + filename):
+        return data_map + filename
+    if os.path.isfile(images_map + filename):
+        return images_map + filename
     return None
 
 
