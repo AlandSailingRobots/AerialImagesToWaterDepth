@@ -35,6 +35,7 @@ class GeoJsonHandler:
             "getGeoJson": self.readGeoJson,
             "getLocalGeoJson": self.readLocalGeoJson,
             "getWaterDepthAreas": self.getWaterDepth,
+            "getWaterDepthPoints": self.calculateDepthPoints
         }
         action = calls.get(path[1], self.getPoints)
         return action()
@@ -48,7 +49,7 @@ class GeoJsonHandler:
     def create_query_url(self, properties, box):
         sw = self.make_point_from_json(box, 'sw')
         ne = self.make_point_from_json(box, 'ne')
-        bbox = "{0},{1},{2},{3}".format(sw.longitude, sw.latitude, ne.longitude, ne.latitude)
+        bbox = "{0},{1},{2},{3}".format(sw.x, sw.y, ne.x, ne.y)
         params = default_params
         params.update(properties)
         params['bbox'] = bbox
@@ -69,7 +70,7 @@ class GeoJsonHandler:
             df_retrieved = self.getMinimalized(df_retrieved, box, df_retrieved.crs)
         return df_retrieved
 
-    def getWaterDepth(self):
+    def getWaterDepth(self, retrieve_json=True):
         box = self.jsonData
         query = self.create_query_url(water_depth, box)
         print(query)
@@ -79,7 +80,10 @@ class GeoJsonHandler:
             print('limiting from', len(df_retrieved), box['extra']['limitDepth'])
             df_retrieved = df_retrieved[df_retrieved['MAXDEPTH'] <= float(box['extra']['limitDepth'])]
             print('limited to', len(df_retrieved))
-        return df_retrieved.to_json()
+        if retrieve_json:
+            return df_retrieved.to_json()
+        else:
+            return df_retrieved
 
     def createPoint(self, item, swap=False):
         direction = ['lng', 'lat']
@@ -99,14 +103,46 @@ class GeoJsonHandler:
         df.crs = crs
         return df
 
+    def calculateDepthPoints(self):
+        df = self.getWaterDepth(False)
+        df = self.getMinimalized(df, self.jsonData)
+        bounds = self.create_points_dict()
+        points = []
+        origin_point = bounds['nw']
+        distance_between_points = bounds['ne'].calculate_distance_to_point(bounds['nw']) / 100
+        print(distance_between_points)
+        long_point = origin_point
+        new_point = origin_point
+        number_of_points_checked = 0
+        append = points.append
+        contains = df.geometry.contains
+        lat_check = bounds['se'].y
+        long_check = bounds['ne'].x
+        distance_between_points = origin_point.circle_distance(float(distance_between_points.km))
+        print('long', long_check, 'lat', lat_check)
+        while new_point.x <= long_check:
+            while new_point.y >= lat_check:
+                if contains(new_point).any():
+                    append(new_point)
+                number_of_points_checked += 1
+                new_point = new_point.create_neighbouring_point(distance_between_points, 180)
+            long_point = long_point.create_neighbouring_point(distance_between_points, 90)
+            new_point = long_point
+        print(len(points), number_of_points_checked)
+
     def getMinimalized(self, df_retrieved, box, crs=None):
         return gpd.overlay(df_retrieved, self.getCurrentBoundingBox(box, crs), how='intersection')
 
-    def getPoints(self):
+    def create_points_dict(self):
         points_dict = dict()
         json_data = self.jsonData
         for item in json_data['box']:
-            points_dict[item] = self.make_point_from_json(json_data, item)
+            points_dict[item] = self.make_point_from_json(json_data, item).convert_coordinate_systems(
+                destination=defaultEPSG, return_point=True)
+        return points_dict
+
+    def getPoints(self):
+        points_dict = self.create_points_dict()
         print(points_dict['nw'].calculate_distance_to_point(points_dict['ne']) / 2)
         listed_points = []
         for key in points_dict.keys():

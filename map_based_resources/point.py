@@ -1,19 +1,24 @@
 import matplotlib.pyplot as plt
 import pyproj
 from PIL import Image
+import geopy
 from geopy.distance import great_circle
 from map_based_resources import mapResources
 from data_resources import singleTile
+from shapely.geometry import Point
 
 
-class DataPoint:
-    def __init__(self, latitude, longitude, coordinate_type, level):
-        self.latitude = latitude
-        self.longitude = longitude
+class DataPoint(Point):
+    FinnishSystem = 'epsg:3067'
+    MeasurableSystem = 'epsg:4326'
+    decimals_in_point = 5
+
+    def __init__(self, latitude, longitude, coordinate_type, level, *args):
+        super().__init__(longitude, latitude)
         self.coordinate_type = coordinate_type
         self.level = level
 
-    def convert_coordinate_systems(self, inverse=False, destination='epsg:3067', save_in_point=False,
+    def convert_coordinate_systems(self, inverse=False, destination=FinnishSystem, save_in_point=False,
                                    return_point=False):
         """Converts Coordinate System to a different System.
         Default From WGS84 to Finnish System(ETRS-TM35FIN). If inverse is passed then they are swapped around.
@@ -25,39 +30,48 @@ class DataPoint:
         if src != destination:
             project_src = pyproj.Proj(init=src)
             project_dest = pyproj.Proj(init=destination)
-            transformed = pyproj.transform(project_src, project_dest, self.longitude, self.latitude)
+            transformed = pyproj.transform(project_src, project_dest, self.x, self.y)
             if save_in_point:
-                self.longitude, self.latitude = transformed
+                super().__init__(transformed)
                 self.coordinate_type = destination
             if return_point:
-                self.longitude, self.latitude = transformed
+                super().__init__(transformed)
                 self.coordinate_type = destination
                 return self
             return transformed
         else:
             if return_point:
                 return self
-            return self.longitude, self.latitude
+            return self.x, self.y
+
+    def convert_to_correct_coordinate_system(self, initial_point, correct_coordinate_system=MeasurableSystem):
+        return initial_point.convert_coordinate_systems(destination=correct_coordinate_system)
 
     def calculate_distance_to_point(self, other_point):
-        correct_coordinate_system = 'epsg:4326'  # This is the only coordinate system in which it can be calculated.
-        if other_point.coordinate_type != correct_coordinate_system:
-            point_other = other_point.convert_coordinate_systems(destination=correct_coordinate_system)
-        else:
-            point_other = (other_point.latitude, other_point.longitude)
-        if self.coordinate_type != correct_coordinate_system:
-            point_self = self.convert_coordinate_systems(destination=correct_coordinate_system)
-        else:
-            point_self = (self.latitude, self.longitude)
+        point_other = self.convert_to_correct_coordinate_system(other_point)
+        point_self = self.convert_to_correct_coordinate_system(self)
         return great_circle(point_self, point_other)
 
+    def circle_distance(self, distance):
+        return geopy.distance.great_circle(kilometers=distance)
+
+    def create_neighbouring_point(self, distance, heading):
+        # point_begin = self.convert_to_correct_coordinate_system(self)
+        new_point = distance.destination(geopy.Point(self.y, self.x), bearing=heading)
+        data = DataPoint(new_point.latitude, new_point.longitude, self.MeasurableSystem, self.level)
+        return data
+
     def __str__(self):
-        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.latitude, self.longitude,
-                                                                                       self.level, self.coordinate_type)
+        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.y,
+                                                                                       self.x,
+                                                                                       self.level,
+                                                                                       self.coordinate_type)
 
     def __repr__(self) -> str:
-        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.latitude, self.longitude,
-                                                                                       self.level, self.coordinate_type)
+        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.y,
+                                                                                       self.x,
+                                                                                       self.level,
+                                                                                       self.coordinate_type)
 
 
 class LocationInImage:
@@ -125,7 +139,8 @@ class ImagePoint:
         for column_item in range(column + begin, column + end):
             row_offset = 0
             for row_item in range(row + begin, row + end):
-                image_ = singleTile.get_pillow_image_from_tile(self.web_map, self.layer, row_item, column_item, lock)
+                image_ = singleTile.get_pillow_image_from_tile(self.web_map, self.layer, row_item, column_item,
+                                                               lock)
                 new_im.paste(image_, (column_offset, row_offset))
                 row_offset += image_.width
             column_offset += image_.height
