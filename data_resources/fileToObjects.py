@@ -12,7 +12,10 @@ from map_based_resources import mapResources
 # images_map = '/Users/thijs/AerialImages'
 if platform.system() == 'Darwin':
     backup_map = '/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/'
+elif platform.system() == 'Linux':
+    backup_map = '/home/thijs/images'
 else:
+    print('Check platform System', platform.system())
     backup_map = '/home/pi/images/'
 images_map = backup_map + 'AerialImages'
 data_map = backup_map + 'AerialImagesHeight/'
