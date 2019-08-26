@@ -1,0 +1,34 @@
+{
+  "GeoJson": {
+    "defaultCrs": 4326,
+    "defaultEPSG": "EPSG:4326",
+    "boundingBoxCrs": {
+      "init": "epsg:4326"
+    },
+    "osm_finland": {
+      "url": "http://avaa.tdata.fi/geoserver/osm_finland/ows?",
+      "version": "1.3.0",
+      "typeName": "osm_finland:sea_detailed"
+    },
+    "water_depth": {
+      "url": "https://julkinen.vayla.fi/inspirepalvelu/rajoitettu/wfs?",
+      "version": "2.0.0",
+      "typeName": "rajoitettu:syvyysalue_a"
+    },
+    "default_params": {
+      "service": "WFS",
+      "request": "GetFeature",
+      "maxFeatures": 10,
+      "srsName": "EPSG:4326",
+      "bbox": null,
+      "outputFormat": "application/json"
+    }
+  },
+  "PostGis": {
+    "host": "localhost",
+    "db": "thijs",
+    "user": "thijs",
+    "port": 5432,
+    "driver_name": "postgresql+psycopg2"
+  }
+}
