@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import pyproj
 from PIL import Image
-import geopy
 from geopy.distance import great_circle
+from geopy import Point as GeoPoint, distance as geo_distance
 from map_based_resources import mapResources
 from data_resources import singleTile
 from shapely.geometry import Point
@@ -17,6 +17,10 @@ class DataPoint(Point):
         super().__init__(longitude, latitude)
         self.coordinate_type = coordinate_type
         self.level = level
+
+    def reduceDecimals(self, decimal=decimals_in_point):
+        super().__init__(round(self.x, decimal), round(self.y, decimal))
+        return self
 
     def convert_coordinate_systems(self, inverse=False, destination=FinnishSystem, save_in_point=False,
                                    return_point=False):
@@ -53,12 +57,12 @@ class DataPoint(Point):
         return great_circle(point_self, point_other)
 
     def circle_distance(self, distance):
-        return geopy.distance.great_circle(kilometers=distance)
+        return geo_distance.great_circle(kilometers=distance)
 
-    def create_neighbouring_point(self, distance, heading):
-        # point_begin = self.convert_to_correct_coordinate_system(self)
-        new_point = distance.destination(geopy.Point(self.y, self.x), bearing=heading)
-        data = DataPoint(new_point.latitude, new_point.longitude, self.MeasurableSystem, self.level)
+    def create_neighbouring_point(self, distance, heading, rounding=decimals_in_point):
+        new_point = distance.destination(GeoPoint(self.y, self.x), bearing=heading)
+        data = DataPoint(round(new_point.latitude, rounding), round(new_point.longitude, rounding),
+                         self.MeasurableSystem, self.level)
         return data
 
     def __str__(self):
