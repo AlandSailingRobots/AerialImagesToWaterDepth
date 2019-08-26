@@ -47,6 +47,11 @@ class MyServer(BaseHTTPRequestHandler):
         except Exception as e:
             self.send_error(501, repr(e))
 
+        self.saveFiles()
+
+    def saveFiles(self):
+        self.geoJsonHandler.save()
+
 
 myServer = HTTPServer((hostName, hostPort), MyServer)
 print(time.asctime(), "Server Starts - %s:%s" % (hostName, hostPort))
@@ -57,4 +62,5 @@ except KeyboardInterrupt:
     pass
 
 myServer.server_close()
+
 print(time.asctime(), "Server Stops - %s:%s" % (hostName, hostPort))

@@ -1,33 +1,33 @@
 import geopandas as gpd
 import json
 import urllib.parse
-from shapely.geometry import Polygon
-
+from shapely.geometry import Polygon, Point
+from data_resources import fileToObjects
 from map_based_resources import point
 
-defaultCrs = 4326
-defaultEPSG = f"EPSG:{defaultCrs}"
-boundingBoxCrs = {'init': defaultEPSG.lower()}
-osm_finland = {
-    'url': "http://avaa.tdata.fi/geoserver/osm_finland/ows?",
-    'version': '1.3.0',
-    'typeName': 'osm_finland:sea_detailed'
-}
-water_depth = {
-    'url': "https://julkinen.vayla.fi/inspirepalvelu/rajoitettu/wfs?",
-    'version': '2.0.0',
-    'typeName': 'rajoitettu:syvyysalue_a'
-}
-default_params = {"service": "WFS",
-                  "request": "GetFeature",
-                  "maxFeatures": 10,
-                  "srsName": defaultEPSG,
-                  "bbox": None,
-                  "outputFormat": "application/json"}
+server_settings = fileToObjects.open_json_file('backend/server_settings.json')["GeoJson"]
+
+
+def checkorCreateGeoDF(name, columns={'geometry': []}):
+    if fileToObjects.check_dir(name) is None:
+        return gpd.GeoDataFrame(columns)
+    else:
+        print('reading file', name)
+        return gpd.read_file(name)
 
 
 class GeoJsonHandler:
-    jsonData = None
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.return_df = checkorCreateGeoDF('temp_file')
+        self.poly_df = checkorCreateGeoDF('poly_file', {'zoom_level': [], 'geometry': []})
+        self.jsonData = None
+
+    def save(self):
+        print('saving files')
+        self.return_df.to_file('temp_file')
+        self.poly_df.to_file('poly_file')
 
     def doAction(self, path, jsonData):
         self.jsonData = jsonData
@@ -50,14 +50,14 @@ class GeoJsonHandler:
         sw = self.make_point_from_json(box, 'sw')
         ne = self.make_point_from_json(box, 'ne')
         bbox = "{0},{1},{2},{3}".format(sw.x, sw.y, ne.x, ne.y)
-        params = default_params
+        params = server_settings["default_params"]
         params.update(properties)
         params['bbox'] = bbox
         return params.pop('url') + urllib.parse.urlencode(params)
 
     def readGeoJson(self, minimalize=False):
         box = self.jsonData
-        query = self.create_query_url(osm_finland, box)
+        query = self.create_query_url(server_settings["osm_finland"], box)
         print(query)
         return self.readGeoPanda(query, box, minimalize).to_json()
 
@@ -72,7 +72,7 @@ class GeoJsonHandler:
 
     def getWaterDepth(self, retrieve_json=True):
         box = self.jsonData
-        query = self.create_query_url(water_depth, box)
+        query = self.create_query_url(server_settings["water_depth"], box)
         print(query)
         df_retrieved = self.readGeoPanda(query, box, True)
         print(box)
@@ -93,59 +93,82 @@ class GeoJsonHandler:
 
         return float(item[direction[0]]), float(item[direction[1]])
 
-    def getCurrentBoundingBox(self, box, crs=None, swap_coordinates=False):
+    def getCurrentBoundingBox(self, box, crs=None, swap_coordinates=False, get_poly=False):
         polygonBox = []
         for name in ['ne', 'nw', 'sw', 'se']:
             polygonBox.append(self.createPoint(box['box'][name], swap_coordinates))
+        if get_poly:
+            return Polygon(polygonBox)
         df = gpd.GeoDataFrame(geometry=gpd.GeoSeries([Polygon(polygonBox)]))
         if crs is None:
-            crs = boundingBoxCrs
+            crs = server_settings["boundingBoxCrs"]
         df.crs = crs
         return df
 
     def calculateDepthPoints(self):
-        df = self.getWaterDepth(False)
-        df = self.getMinimalized(df, self.jsonData)
+        df = self.getMinimalized(self.getWaterDepth(False), self.jsonData)
+        limiting_poly = self.poly_df[self.poly_df.zoom_level == self.jsonData['zoom']]
+        if len(limiting_poly) is not 0:
+            print()
+            df = gpd.overlay(df, limiting_poly, how='difference')
+        if len(df) != 0:
+            geo_list, new_point = self.check_points(df)
+            self.return_df = self.return_df.append(gpd.GeoDataFrame(geometry=geo_list))
+        new_poly = self.getCurrentBoundingBox(self.jsonData, get_poly=True)
+        if not self.poly_df.contains(new_poly).any():
+            self.poly_df = self.poly_df.append(gpd.GeoDataFrame({'zoom_level': self.jsonData['zoom'], 'geometry': [
+                new_poly]}))
+
+        returning_points = self.return_df[self.return_df.intersects(new_poly)]
+        # print(len(geo_list), len(returning_points))
+        return returning_points.to_json()
+
+    def check_points(self, df):
         bounds = self.create_points_dict()
         points = []
-        origin_point = bounds['nw']
-        distance_between_points = bounds['ne'].calculate_distance_to_point(bounds['nw']) / 100
-        print(distance_between_points)
+        origin_point = bounds['nw'].reduceDecimals()
+        distance_between_points_km = bounds['ne'].calculate_distance_to_point(origin_point) / 100
+        bbox = self
+        # Distance between the points differs per level. this so that the amount of points is always the same and
+        # reduces load.
         long_point = origin_point
         new_point = origin_point
         number_of_points_checked = 0
-        append = points.append
         contains = df.geometry.contains
-        lat_check = bounds['se'].y
-        long_check = bounds['ne'].x
-        distance_between_points = origin_point.circle_distance(float(distance_between_points.km))
-        print('long', long_check, 'lat', lat_check)
+        lat_check = bounds['se'].reduceDecimals().y
+        long_check = bounds['ne'].reduceDecimals().x
+        distance_between_points = origin_point.circle_distance(float(distance_between_points_km.km))
+        geo_list = []
         while new_point.x <= long_check:
             while new_point.y >= lat_check:
                 if contains(new_point).any():
-                    append(new_point)
+                    local = Point(new_point.x, new_point.y)
+                    geo_list.append(local)
                 number_of_points_checked += 1
                 new_point = new_point.create_neighbouring_point(distance_between_points, 180)
             long_point = long_point.create_neighbouring_point(distance_between_points, 90)
             new_point = long_point
-        print(len(points), number_of_points_checked)
+        print(len(geo_list), number_of_points_checked)
+        df_ = gpd.GeoDataFrame(geometry=geo_list)
+        print('compare', len(df_[df_.intersects(df)]), len(geo_list))
+        return geo_list, new_point
 
-    def getMinimalized(self, df_retrieved, box, crs=None):
-        return gpd.overlay(df_retrieved, self.getCurrentBoundingBox(box, crs), how='intersection')
+    def getMinimalized(self, df_retrieved, box, crs=None, method_overlay='intersection'):
+        return gpd.overlay(df_retrieved, self.getCurrentBoundingBox(box, crs), how=method_overlay)
 
     def create_points_dict(self):
         points_dict = dict()
         json_data = self.jsonData
         for item in json_data['box']:
             points_dict[item] = self.make_point_from_json(json_data, item).convert_coordinate_systems(
-                destination=defaultEPSG, return_point=True)
+                destination=server_settings["defaultEPSG"], return_point=True)
         return points_dict
 
     def getPoints(self):
         points_dict = self.create_points_dict()
-        print(points_dict['nw'].calculate_distance_to_point(points_dict['ne']) / 2)
         listed_points = []
         for key in points_dict.keys():
-            point = points_dict[key].convert_coordinate_systems(destination=defaultEPSG, return_point=True)
+            point = points_dict[key].convert_coordinate_systems(destination=server_settings["defaultEPSG"],
+                                                                return_point=True)
             listed_points.append({"key": key, "point": point.__dict__})
         return json.dumps(listed_points)
