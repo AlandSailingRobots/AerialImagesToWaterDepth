@@ -2,6 +2,8 @@ import geopandas as gpd
 import json
 import urllib.parse
 from shapely.geometry import Polygon, Point
+
+from backend.PostGisHandler import PostGisHandler
 from data_resources import fileToObjects
 from map_based_resources import point
 
@@ -20,6 +22,7 @@ class GeoJsonHandler:
 
     def __init__(self) -> None:
         super().__init__()
+        self.PostGisConnection = PostGisHandler()
         self.return_df = checkorCreateGeoDF('temp_file')
         self.poly_df = checkorCreateGeoDF('poly_file', {'zoom_level': [], 'geometry': []})
         self.jsonData = None
@@ -99,29 +102,47 @@ class GeoJsonHandler:
             polygonBox.append(self.createPoint(box['box'][name], swap_coordinates))
         if get_poly:
             return Polygon(polygonBox)
-        df = gpd.GeoDataFrame(geometry=gpd.GeoSeries([Polygon(polygonBox)]))
+        df = gpd.GeoDataFrame({'zoom_level': [self.jsonData["zoom"]], 'geometry': [Polygon(polygonBox)]})
         if crs is None:
             crs = server_settings["boundingBoxCrs"]
         df.crs = crs
         return df
 
     def calculateDepthPoints(self):
-        df = self.getMinimalized(self.getWaterDepth(False), self.jsonData)
-        limiting_poly = self.poly_df[self.poly_df.zoom_level == self.jsonData['zoom']]
-        if len(limiting_poly) is not 0:
-            print()
-            df = gpd.overlay(df, limiting_poly, how='difference')
+        # First check if the current area is already calculated:
+        print(self.jsonData)
+        # Create Polygon from current bounding box
+        df = self.getCurrentBoundingBox(self.jsonData, self.jsonData["crs"], swap_coordinates=False)
+        bounds = df.bounds
+        crs = int(df.crs.split(':')[1])
+        # Get all the polygons where the boundingbox overlaps with
+        print('df', len(df))
+        df_envelope = self.PostGisConnection.get_envelope("test_polygon",
+                                                          df.bounds,
+                                                          int(df.crs.split(':')[1]),
+                                                          int(self.jsonData["zoom"]))
+        # Get all the areas in the bounding box which are not calculated yet.
+
+        if df_envelope is not None and len(df_envelope) != 0:
+            print('overlay starting')
+            df = gpd.overlay(df_envelope, df, how='difference')
+            print('overlay done', len(df))
+        print('df', len(df))
         if len(df) != 0:
             geo_list, new_point = self.check_points(df)
-            self.return_df = self.return_df.append(gpd.GeoDataFrame(geometry=geo_list))
-        new_poly = self.getCurrentBoundingBox(self.jsonData, get_poly=True)
-        if not self.poly_df.contains(new_poly).any():
-            self.poly_df = self.poly_df.append(gpd.GeoDataFrame({'zoom_level': self.jsonData['zoom'], 'geometry': [
-                new_poly]}))
+            points_df = gpd.GeoDataFrame({'zoom_level': [self.jsonData["zoom"]] * len(geo_list), 'geometry': geo_list})
+            points_df.crs = df.crs
+            self.PostGisConnection.put_into_table(points_df, "Point", 'test_points', create_table=True)
+            self.PostGisConnection.put_into_table(df, "Polygon", 'test_polygon', create_table=True,
+                                                  if_exists_action='replace')
 
-        returning_points = self.return_df[self.return_df.intersects(new_poly)]
+        df_all_points = self.PostGisConnection.get_envelope("test_points",
+                                                            bounds,
+                                                            crs,
+                                                            int(self.jsonData["zoom"]))
         # print(len(geo_list), len(returning_points))
-        return returning_points.to_json()
+
+        return df_all_points.to_json()
 
     def check_points(self, df):
         bounds = self.create_points_dict()

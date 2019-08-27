@@ -41,26 +41,43 @@ class PostGisHandler:
         session.close()
         return data
 
-    def get_envelope(self, table_name, bounds, crs, type_of_intersection="intersects"):
+    def get_envelope(self, table_name, bounds, crs, zoom_level, all_higher_levels=False,
+                     type_of_intersection="intersects"):
         if table_name not in self.engine.table_names():
             print('No table name', table_name, "in", self.engine.table_names())
-        type_of_intersect = {"intersects": "&&", "contained": "@", "contains": "`~"}
+            return None
+        type_of_intersect = {"intersects": "&&", "contained": "@", "contains": "~"}
+        if all_higher_levels:
+            comp_operator = '>='
+        else:
+            comp_operator = '='
+        select_from = "SELECT * FROM {0} ".format(table_name)
+        where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator,zoom_level)
+        and_geom = "AND geom {0} ".format(type_of_intersect[type_of_intersection])
+        envelope = "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][0],
+                                                                     bounds["miny"][0],
+                                                                     bounds["maxx"][0],
+                                                                     bounds["maxy"][0],
+                                                                     crs)
         session = self.Session()
-        sql = "SELECT * FROM   my_table WHERE  coordinates {0} ST_MakeEnvelope ( {1}, {2},{3}, {4}, {5})".format(
-            type_of_intersect[type_of_intersection], bounds["xmin"], bounds["ymin"], bounds["xmax"], bounds["ymax"],
-            crs)
-
+        sql = select_from + where_zoom_level + and_geom + envelope
+        print(sql)
         # Pull the data
         data = gpd.read_postgis(sql=sql, con=self.engine)
         session.close()
+        print('session close')
         return data
 
-    def put_into_table(self, data, geometry_type, table_name, crs=None):
-        if table_name not in self.engine.table_names():
+
+    def put_into_table(self, data, geometry_type, table_name, crs=None, create_table=False, if_exists_action='replace'):
+        if table_name not in self.engine.table_names() and create_table is not False:
             print('No table name', table_name, "in", self.engine.table_names())
         if crs is None:
-            crs = int(data.crs['init'].split(':')[1])
-        # Convert Shapely geometries to WKTElements into column 'geom' (default in PostGIS)
+            if type(data.crs) is dict:
+                crs = int(data.crs['init'].split(':')[1])
+            else:
+                crs = int(data.crs.split(':')[1])
+            # Convert Shapely geometries to WKTElements into column 'geom' (default in PostGIS)
         data['geom'] = data['geometry'].apply(lambda row: WKTElement(row.wkt, srid=crs))
 
         # Drop Shapely geometries
@@ -69,6 +86,7 @@ class PostGisHandler:
         # Write to PostGIS (overwrite if table exists, be careful with this! )
         # Possible behavior: 'replace', 'append', 'fail'
         session = self.Session()
-        data.to_sql(table_name, self.engine, if_exists='replace', index=False,
+        data.to_sql(table_name, self.engine, if_exists=if_exists_action, index=False,
                     dtype={'geom': Geometry(geometry_type=geometry_type, srid=crs)})
         session.close()
+        print('Session Closed')
