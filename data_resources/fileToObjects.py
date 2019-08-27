@@ -9,14 +9,10 @@ import urllib.request as req
 from PIL import Image
 from map_based_resources import mapResources
 
-# images_map = '/Users/thijs/AerialImages'
-if platform.system() == 'Darwin':
-    backup_map = '/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/'
-elif platform.system() == 'Linux':
-    backup_map = '/home/thijs/images/'
-else:
-    print('Check platform System', platform.system())
-    backup_map = '/home/pi/images/'
+system_dict = {"Darwin": "/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/",
+               "Linux": "/home/thijs/images/",
+               "Other": "/home/pi/images/"}
+backup_map = system_dict.get(platform.system(), system_dict["Other"])
 images_map = backup_map + 'AerialImages'
 data_map = backup_map + 'AerialImagesHeight/'
 
@@ -26,6 +22,7 @@ class DatasourceType(Enum):
     private = ['data/data_sources.json']
     corrected = ['data/data_sources_corrected.json']
     height_corrected = ['/height_corrected_data/data_sources.json']
+    csv = ['/csv_correct/data_sources.json']
     combined = open_source + private
     combined_corrected = open_source + corrected
 
