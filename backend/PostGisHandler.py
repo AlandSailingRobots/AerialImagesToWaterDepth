@@ -8,7 +8,7 @@ import geopandas as gpd
 
 from data_resources import fileToObjects
 
-# Source: https://automating-gis-processes.github.io/CSC/notebooks/L2/data_io.html
+# Referenced from: https://automating-gis-processes.github.io/CSC/notebooks/L2/data_io.html
 
 
 server_settings = fileToObjects.open_json_file('backend/server_settings.json')["PostGis"]
@@ -23,7 +23,11 @@ class PostGisHandler:
 
     def __init__(self) -> None:
         self.engine = create_engine(db_url)
-
+        try:
+            self.engine.connect()
+        except:
+            print("No Connection To Database")
+            raise
         # Init Metadata
         meta = MetaData()
 
