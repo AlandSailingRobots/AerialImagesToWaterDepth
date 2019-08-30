@@ -12,8 +12,11 @@ from data_resources import fileToObjects
 
 
 server_settings = fileToObjects.open_json_file('backend/server_settings.json')["PostGis"]
-db_url = URL(drivername=server_settings["driver_name"], host=server_settings["host"], database=server_settings["db"],
-             username=server_settings["user"], port=server_settings["port"])
+db_url = URL(drivername=server_settings["driver_name"],
+             host=server_settings["host"],
+             database=server_settings["db"],
+             username=server_settings["user"],
+             port=server_settings["port"])
 
 
 class PostGisHandler:
@@ -52,7 +55,7 @@ class PostGisHandler:
         else:
             comp_operator = '='
         select_from = "SELECT * FROM {0} ".format(table_name)
-        where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator,zoom_level)
+        where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator, zoom_level)
         and_geom = "AND geom {0} ".format(type_of_intersect[type_of_intersection])
         envelope = "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][0],
                                                                      bounds["miny"][0],
@@ -67,7 +70,6 @@ class PostGisHandler:
         session.close()
         print('session close')
         return data
-
 
     def put_into_table(self, data, geometry_type, table_name, crs=None, create_table=False, if_exists_action='replace'):
         if table_name not in self.engine.table_names() and create_table is not False:
