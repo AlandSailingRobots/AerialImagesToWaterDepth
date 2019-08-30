@@ -1,4 +1,8 @@
 {
+  "Host": {
+    "name": "",
+    "port": 80
+  },
   "GeoJson": {
     "defaultCrs": 4326,
     "defaultEPSG": "EPSG:4326",
@@ -26,7 +30,7 @@
   },
   "PostGis": {
     "host": "localhost",
-    "db": "thijs",
+    "db": "aerial_images_water_depth",
     "user": "thijs",
     "port": 5432,
     "driver_name": "postgresql+psycopg2"

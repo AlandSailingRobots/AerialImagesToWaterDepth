@@ -10,27 +10,12 @@ from map_based_resources import point
 server_settings = fileToObjects.open_json_file('backend/server_settings.json')["GeoJson"]
 
 
-def checkorCreateGeoDF(name, columns={'geometry': []}):
-    if fileToObjects.check_dir(name) is None:
-        return gpd.GeoDataFrame(columns)
-    else:
-        print('reading file', name)
-        return gpd.read_file(name)
-
-
 class GeoJsonHandler:
 
     def __init__(self) -> None:
         super().__init__()
         self.PostGisConnection = PostGisHandler()
-        self.return_df = checkorCreateGeoDF('temp_file')
-        self.poly_df = checkorCreateGeoDF('poly_file', {'zoom_level': [], 'geometry': []})
         self.jsonData = None
-
-    def save(self):
-        print('saving files')
-        self.return_df.to_file('temp_file')
-        self.poly_df.to_file('poly_file')
 
     def doAction(self, path, jsonData):
         self.jsonData = jsonData
@@ -140,16 +125,13 @@ class GeoJsonHandler:
                                                             bounds,
                                                             crs,
                                                             int(self.jsonData["zoom"]))
-        # print(len(geo_list), len(returning_points))
 
         return df_all_points.to_json()
 
     def check_points(self, df):
         bounds = self.create_points_dict()
-        points = []
         origin_point = bounds['nw'].reduceDecimals()
         distance_between_points_km = bounds['ne'].calculate_distance_to_point(origin_point) / 100
-        bbox = self
         # Distance between the points differs per level. this so that the amount of points is always the same and
         # reduces load.
         long_point = origin_point
@@ -189,7 +171,7 @@ class GeoJsonHandler:
         points_dict = self.create_points_dict()
         listed_points = []
         for key in points_dict.keys():
-            point = points_dict[key].convert_coordinate_systems(destination=server_settings["defaultEPSG"],
-                                                                return_point=True)
-            listed_points.append({"key": key, "point": point.__dict__})
+            point_ = points_dict[key].convert_coordinate_systems(destination=server_settings["defaultEPSG"],
+                                                                 return_point=True)
+            listed_points.append({"key": key, "point": point_.__dict__})
         return json.dumps(listed_points)

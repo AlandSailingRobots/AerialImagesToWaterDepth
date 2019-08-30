@@ -3,9 +3,12 @@ import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from backend.GeoJsonHandler import GeoJsonHandler
+from data_resources import fileToObjects
 
-hostName = ""
-hostPort = 80
+# Source: https://automating-gis-processes.github.io/CSC/notebooks/L2/data_io.html
+
+
+server_settings = fileToObjects.open_json_file('backend/server_settings.json')["Host"]
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -47,12 +50,8 @@ class MyServer(BaseHTTPRequestHandler):
         except Exception as e:
             self.send_error(501, repr(e))
 
-        self.saveFiles()
 
-    def saveFiles(self):
-        self.geoJsonHandler.save()
-
-
+hostName, hostPort = server_settings['name'], server_settings['port']
 myServer = HTTPServer((hostName, hostPort), MyServer)
 print(time.asctime(), "Server Starts - %s:%s" % (hostName, hostPort))
 
