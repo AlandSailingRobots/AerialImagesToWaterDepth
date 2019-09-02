@@ -10,3 +10,5 @@ geoalchemy2
 sqlalchemy
 owslib
 geopy
+matplotlib
+jupyter

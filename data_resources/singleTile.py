@@ -285,15 +285,26 @@ def get_image_and_information_for_single_point(point_, layer, wmts, lock=None):
 # In[12]:
 
 
-def get_image_and_plot(info_dict, config, show=True):
+def get_image_and_plot(info_dict, config, show=True, specific=None):
     global standardized_rendering_pixel_size
     standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
     measured_point = point.MeasurementPoint(info_dict)
+    items_run_off = []
     for web_map in config.web_maps:
         if not web_map.ignore:
             for layer in web_map.map_layers:
-                measured_point.add_image_point(
-                    get_image_and_information_for_single_point(info_dict, layer, web_map))
+                items_run_off.append({"layer": layer, "webmap": web_map})
+    if specific is not None:
+        layer = items_run_off[specific]["layer"]
+        web_map = items_run_off[specific]["webmap"]
+        measured_point.add_image_point(
+            get_image_and_information_for_single_point(info_dict, layer,
+                                                       web_map))
+    else:
+        for item in items_run_off:
+            measured_point.add_image_point(
+                get_image_and_information_for_single_point(info_dict, item["layer"], item["webmap"]))
+
     if show:
         for image_point in measured_point.image_points:
             image_point.show_image_with_point()
