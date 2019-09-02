@@ -10,8 +10,8 @@ from PIL import Image
 from map_based_resources import mapResources
 
 system_dict = {"Darwin": "/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/",
-               "Linux": "/home/thijs/images/",
-               "Other": "/home/pi/images/"}
+               "Linux": "/home/pi/images/",
+               "Other": "/home/thijs/images/"}
 backup_map = system_dict.get(platform.system(), system_dict["Other"])
 images_map = backup_map + 'AerialImages'
 data_map = backup_map + 'AerialImagesHeight/'
