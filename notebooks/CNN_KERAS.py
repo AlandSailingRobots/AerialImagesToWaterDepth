@@ -6,7 +6,7 @@ from data_resources import fileToObjects, transformObjects, singleTile
 from map_based_resources import point
 import numpy as np
 
-sources = fileToObjects.get_data(fileToObjects.DatasourceType.height_corrected)
+sources = fileToObjects.get_data(fileToObjects.DatasourceType.csv)
 source = sources[0]
 
 previous_mode = None
@@ -14,7 +14,7 @@ previous_mode = None
 
 def line_execute(line, configuration):
     global previous_mode
-    line_s = line.strip().split(' ')
+    line_s = line.strip().split(',')
     coordinate = point.DataPoint(float(line_s[1]),
                                  float(line_s[0]),
                                  source['coordinate_system'],
@@ -99,7 +99,8 @@ def build_model():
 
 model = build_model()
 model.summary()
+gen = file_execute([source], None)
 
-gen = file_execute(sources[0:50], None)
-history = model.fit_generator(gen, steps_per_epoch=1000, epochs=1000, max_queue_size=100)
+
+history = model.fit_generator(gen, steps_per_epoch=100, epochs=10, max_queue_size=100)
 model.save('image_5_size_5_steps_1000_epochs_100.h5')
