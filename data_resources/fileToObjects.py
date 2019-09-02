@@ -52,7 +52,7 @@ def check_path(filename):
 def open_json_file(filename, lock=None):
     path = check_path(filename)
     if path is None:
-        raise FileNotFoundError(filename)
+        raise FileNotFoundError(backup_map,filename)
     with open(path) as f:
         if lock is not None:
             lock.acquire()
