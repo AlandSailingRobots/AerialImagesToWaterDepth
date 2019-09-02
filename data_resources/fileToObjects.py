@@ -21,8 +21,8 @@ class DatasourceType(Enum):
     open_source = ['open_data/data_sources.json']
     private = ['data/data_sources.json']
     corrected = ['data/data_sources_corrected.json']
-    height_corrected = ['/height_corrected_data/data_sources.json']
-    csv = ['/csv_correct/data_sources_csv.json']
+    height_corrected = ['height_corrected_data/data_sources.json']
+    csv = ['csv_correct/data_sources_csv.json']
     combined = open_source + private
     combined_corrected = open_source + corrected
 
