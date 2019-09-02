@@ -15,8 +15,7 @@ def get_cropped_images_from_file(arr, cropped_size=1, lock=None):
                                      source['coordinate_system'],
                                      15)
         del line_s
-        singleTile.get_image_and_plot(
-            coordinate, config, show=False).get_cropped_images(cropped_size, lock)
+        singleTile.get_image_and_plot(coordinate, config, show=False, specific=3).get_cropped_image_single(2, 0,lock)
         index_ += 1
         del coordinate
         if (index_ % 1000) is 0:
@@ -29,7 +28,7 @@ def execution(file, source, config, cropped_size, lock=None):
 
 
 def create_process(source, cropped_size, lock):
-    file = open(fileToObjects.check_path(fileToObjects.data_map + source['path']))
+    file = open(fileToObjects.check_path(source['path']))
     configuration = fileToObjects.get_configuration()
     return Process(target=execution, args=(file, source, configuration, cropped_size, lock))
 
