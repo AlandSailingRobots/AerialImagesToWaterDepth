@@ -18,6 +18,8 @@ class ImageTile:
         tile_bytes = self.tile.read()
         image_stream = io.BytesIO(tile_bytes)
         self.image = Image.open(image_stream)
+        if self.image.mode == 'RGB':
+            self.image = self.image.convert('RGBA')
         fileToObjects.save_image(self.image, self.layer_name, self.level, self.row, self.column, lock)
         del image_stream
         del tile_bytes

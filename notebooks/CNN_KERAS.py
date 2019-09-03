@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-import tensorflow as tf
 import keras
 from keras import layers
 from data_resources import fileToObjects, singleTile
@@ -107,25 +106,25 @@ def build_model():
     model_ = keras.Sequential([
         #         layers.Reshape((size,size,row,),input_shape=(size,size,row)),
         layers.Conv2D(input_shape=[size, size, row], filters=32, kernel_size=[5, 5], padding="same",
-                      activation=tf.nn.relu),
+                      activation='relu'),
         layers.MaxPool2D(pool_size=[2, 2], strides=2),
         layers.Conv2D(input_shape=[size, size, row], filters=64, kernel_size=[5, 5], padding="same",
-                      activation=tf.nn.relu),
+                      activation='relu'),
         layers.MaxPool2D(pool_size=[2, 2], strides=2),
-        layers.Dense(64, activation=tf.nn.relu),
+        layers.Dense(64, activation='relu'),
         #         layers.Dropout(0.4),
         layers.Reshape((size * size * row,)),
         layers.Dense(size * size * 64),
-        layers.Dropout(0.99),
+        layers.Dropout(0.5),
         layers.Dense(size * 64),
-        layers.Dropout(0.99),
+        layers.Dropout(0.5),
         layers.Dense(64),
-        layers.Dropout(0.99),
+        layers.Dropout(0.5),
         layers.Dense(1)
     ])
     optimizer = keras.optimizers.Adamax()
 
-    model_.compile(loss=tf.losses.mean_squared_error,
+    model_.compile(loss=keras.losses.mean_squared_error,
                    optimizer=optimizer,
                    metrics=[keras.metrics.binary_accuracy, 'mean_absolute_error', 'mean_squared_error'])
     return model_
@@ -138,6 +137,9 @@ gen = file_execute([source], None)
 # gen = file_execute(sources[0:50], None)
 
 # gen = panda_execute(0.5)
+try:
+    history = model.fit_generator(gen, steps_per_epoch=100, epochs=100, max_queue_size=1000)
+except KeyboardInterrupt:
+    pass
 
-history = model.fit_generator(gen, steps_per_epoch=100, epochs=10, max_queue_size=100)
-model.save('image_5_size_5_steps_1000_epochs_100.h5')
+model.save('image_ava_infra_size_2_steps_10_epochs_10000.h5')
