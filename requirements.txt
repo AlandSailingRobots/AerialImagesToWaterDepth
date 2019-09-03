@@ -12,3 +12,5 @@ owslib
 geopy
 matplotlib
 jupyter
+psycopg2
+rtree

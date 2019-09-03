@@ -3,6 +3,7 @@ import json
 import urllib.parse
 from shapely.geometry import Polygon, Point
 
+from backend.ConvolutionalNeuralNetworkHandler import ConvolutionalHandler
 from backend.PostGisHandler import PostGisHandler
 from data_resources import fileToObjects
 from map_based_resources import point
@@ -15,6 +16,7 @@ class GeoJsonHandler:
     def __init__(self) -> None:
         super().__init__()
         self.PostGisConnection = PostGisHandler()
+        self.cnnHandler = ConvolutionalHandler()
         self.jsonData = None
 
     def doAction(self, path, jsonData):
@@ -109,12 +111,17 @@ class GeoJsonHandler:
         # Get all the areas in the bounding box which are not calculated yet.
 
         if df_envelope is not None and len(df_envelope) != 0:
-            print('overlay starting')
+            print('overlay starting', len(df_envelope), len(df))
             df = gpd.overlay(df_envelope, df, how='difference')
             print('overlay done', len(df))
         print('df', len(df))
+        geo_list = []
         if len(df) != 0:
-            geo_list, new_point = self.check_points(df)
+            geo_list = self.check_points(df)
+        if len(geo_list) != 0:
+            print('calculating points in CNN', len(geo_list))
+            depths = self.cnnHandler.predict_points(geo_list, df.crs)
+            print('calculated points', len(depths.flatten()))
             points_df = gpd.GeoDataFrame({'zoom_level': [self.jsonData["zoom"]] * len(geo_list), 'geometry': geo_list})
             points_df.crs = df.crs
             self.PostGisConnection.put_into_table(points_df, "Point", 'test_points', create_table=True)
@@ -154,7 +161,7 @@ class GeoJsonHandler:
         print(len(geo_list), number_of_points_checked)
         df_ = gpd.GeoDataFrame(geometry=geo_list)
         print('compare', len(df_[df_.intersects(df)]), len(geo_list))
-        return geo_list, new_point
+        return geo_list
 
     def getMinimalized(self, df_retrieved, box, crs=None, method_overlay='intersection'):
         return gpd.overlay(df_retrieved, self.getCurrentBoundingBox(box, crs), how=method_overlay)
