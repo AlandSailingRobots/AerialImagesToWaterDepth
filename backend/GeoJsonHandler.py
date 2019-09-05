@@ -100,7 +100,7 @@ class GeoJsonHandler:
 
     def getDepthPoints(self):
         bounds, crs, df = self.get_current_polygon_df()
-        df_all_points = self.PostGisConnection.get_envelope("test_points",
+        df_all_points = self.PostGisConnection.get_envelope(self.PostGisConnection.points_table,
                                                             df.bounds,
                                                             crs,
                                                             int(self.jsonData["zoom"]))
@@ -132,7 +132,7 @@ class GeoJsonHandler:
         crs = int(df.crs.split(':')[1])
         # Get all the polygons where the boundingbox overlaps with
         print('df', len(df))
-        df_envelope = self.PostGisConnection.get_envelope("test_polygon",
+        df_envelope = self.PostGisConnection.get_envelope(self.PostGisConnection.polygon_table,
                                                           df.bounds,
                                                           int(df.crs.split(':')[1]),
                                                           int(self.jsonData["zoom"]))

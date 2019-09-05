@@ -33,6 +33,9 @@
     "db": "aerial_images_water_depth",
     "user": "thijs",
     "port": 5432,
-    "driver_name": "postgresql+psycopg2"
+    "driver_name": "postgresql+psycopg2",
+    "schema" : "test",
+    "point" : "points",
+    "polygon": "polygons"
   }
 }
