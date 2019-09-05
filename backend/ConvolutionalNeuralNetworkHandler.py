@@ -8,7 +8,7 @@ import numpy as np
 
 class ConvolutionalHandler:
     def __init__(self):
-        self.model = load_model('image_ava_infra_size_2_steps_10_epochs_10000.h5')
+        self.model = load_model(fileToObjects.check_path('image_ava_infra_size_2_steps_10_epochs_10000.h5'))
         self.configuration = fileToObjects.get_configuration()
 
     def get_image(self, longitude, latitude, epsg):

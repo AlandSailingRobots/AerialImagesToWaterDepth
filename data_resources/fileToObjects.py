@@ -15,6 +15,7 @@ system_dict = {"Darwin": "/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesPr
 backup_map = system_dict.get(platform.system(), system_dict["Other"])
 images_map = backup_map + 'AerialImages'
 data_map = backup_map + 'AerialImagesHeight/'
+models_map = backup_map + 'AerialImagesModels/'
 
 
 class DatasourceType(Enum):
@@ -46,13 +47,15 @@ def check_path(filename):
         return data_map + filename
     if os.path.isfile(images_map + filename):
         return images_map + filename
+    if os.path.isfile(models_map + filename):
+        return models_map + filename
     return None
 
 
 def open_json_file(filename, lock=None):
     path = check_path(filename)
     if path is None:
-        raise FileNotFoundError(backup_map,filename)
+        raise FileNotFoundError(backup_map, filename)
     with open(path) as f:
         if lock is not None:
             lock.acquire()
