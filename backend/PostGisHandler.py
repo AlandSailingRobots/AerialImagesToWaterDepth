@@ -40,19 +40,21 @@ class PostGisHandler:
         self.polygon_table = server_settings['polygon']
         self.points_table = server_settings['point']
 
-    def select_all_from_table(self, table_name):
+    def select_from_table(self, table_name,where=None):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
         session = self.Session()
-        sql = "SELECT * FROM {0}.{1};".format(self.schema,table_name)
-
+        sql = "SELECT * FROM {0}.{1}".format(self.schema,table_name)
+        if where is not None:
+            sql += " WHERE " + where
+        sql += ";"
         # Pull the data
         data = gpd.read_postgis(sql=sql, con=self.engine)
         session.close()
         return data
 
     def get_envelope(self, table_name, bounds, crs, zoom_level, all_higher_levels=False,
-                     type_of_intersection="intersects"):
+                     type_of_intersection="intersects", has_depth=False):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
             return None
@@ -69,8 +71,11 @@ class PostGisHandler:
                                                                      bounds["maxx"][0],
                                                                      bounds["maxy"][0],
                                                                      crs)
-        session = self.Session()
         sql = select_from + where_zoom_level + and_geom + envelope
+        if has_depth:
+            sql += "AND depth is NOT NULL"
+        session = self.Session()
+
         print(sql)
         # Pull the data
         data = gpd.read_postgis(sql=sql, con=self.engine)

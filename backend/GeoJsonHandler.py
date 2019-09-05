@@ -100,10 +100,17 @@ class GeoJsonHandler:
 
     def getDepthPoints(self):
         bounds, crs, df = self.get_current_polygon_df()
+        passed_bounds = bounds
+        if df is not None and len(df) is not 0:
+            passed_bounds = df.bounds
+        has_depth = 'has_depth' in self.jsonData['extra']
+        all_higher_levels = 'higher_levels' in self.jsonData['extra']
         df_all_points = self.PostGisConnection.get_envelope(self.PostGisConnection.points_table,
-                                                            df.bounds,
+                                                            passed_bounds,
                                                             crs,
-                                                            int(self.jsonData["zoom"]))
+                                                            int(self.jsonData["zoom"]),
+                                                            has_depth=has_depth,
+                                                            all_higher_levels=all_higher_levels)
         return df_all_points.to_json()
 
     def calculateDepthPoints(self):
@@ -113,16 +120,9 @@ class GeoJsonHandler:
             geo_list = self.check_points(df)
         # If there are points not calculated.
         if len(geo_list) != 0:
-            if "calculate_single" not in self.jsonData["extra"]:
-                return self.calculate_geolist_update_database(df, geo_list)
-            else:
-                return self.calculate_in_thread(df, geo_list)
-        else:
-            return self.getDepthPoints()
-
-    def calculate_in_thread(self, df, geo_list):
-        self.calculate_per_single_point_update_database(df, geo_list)
-        return json.dumps({"calculating": len(geo_list)})
+            calculate = "calculate" in self.jsonData["extra"]
+            self.calculate_geolist_update_database(df, geo_list, calculate=calculate)
+        return self.getDepthPoints()
 
     def get_current_polygon_df(self):
         # First check if the current area is already calculated:
@@ -143,28 +143,25 @@ class GeoJsonHandler:
             print('overlay done', len(df))
         return bounds, crs, df
 
-    def calculate_per_single_point_update_database(self, df, geo_list):
-        for geo_ in geo_list:
-            depths = self.cnnHandler.predict_point(geo_, df.crs)
-            print('calculated points', len(depths.flatten()))
-            self.post_points(depths, df, [geo_])
-        self.PostGisConnection.put_into_table(df, "Polygon", 'test_polygon', create_table=True,
-                                              if_exists_action='replace')
-        self.count=0
+    def post_points(self, crs, geo_, depths=None):
+        geo_dict = {'zoom_level': [self.jsonData["zoom"]] * len(geo_),
+                    'geometry': geo_}
+        if depths is not None:
+            geo_dict['depth'] = depths.flatten()
+            print('depths.flatten')
+        points_df = gpd.GeoDataFrame(geo_dict)
+        points_df.crs = crs
+        self.PostGisConnection.put_into_table(points_df, "Point", self.PostGisConnection.points_table,
+                                              create_table=True, if_exists_action='append')
 
-    def post_points(self, depths, df, geo_):
-        points_df = gpd.GeoDataFrame(
-            {'zoom_level': [self.jsonData["zoom"]] * len(geo_), 'depth': depths.flatten(),
-             'geometry': geo_})
-        points_df.crs = df.crs
-        self.PostGisConnection.put_into_table(points_df, "Point", 'test_points', create_table=True,if_exists_action='append')
-
-    def calculate_geolist_update_database(self, df, geo_list):
-        print('calculating points in CNN', len(geo_list))
-        depths = self.cnnHandler.predict_points(geo_list, df.crs)
-        self.post_points(depths, df, geo_list)
-        self.PostGisConnection.put_into_table(df, "Polygon", 'test_polygon', create_table=True,
-                                              if_exists_action='replace')
+    def calculate_geolist_update_database(self, df, geo_list, calculate=False):
+        depths = None
+        if calculate:
+            print('calculating points in CNN', len(geo_list))
+            depths = self.cnnHandler.predict_points(geo_list, df.crs)
+        self.post_points(df.crs, geo_list, depths)
+        self.PostGisConnection.put_into_table(df, "Polygon", self.PostGisConnection.polygon_table, create_table=True,
+                                              if_exists_action='append')
 
     def check_points(self, df):
         bounds = self.create_points_dict()
