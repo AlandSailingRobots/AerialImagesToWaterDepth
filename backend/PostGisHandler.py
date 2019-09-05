@@ -1,6 +1,7 @@
 from sqlalchemy.engine.url import URL
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
+from sqlalchemy.sql import text
 
 from sqlalchemy.orm import sessionmaker
 from geoalchemy2 import WKTElement, Geometry
@@ -40,11 +41,11 @@ class PostGisHandler:
         self.polygon_table = server_settings['polygon']
         self.points_table = server_settings['point']
 
-    def select_from_table(self, table_name,where=None):
+    def select_from_table(self, table_name, where=None):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
         session = self.Session()
-        sql = "SELECT * FROM {0}.{1}".format(self.schema,table_name)
+        sql = "SELECT * FROM {0}.{1}".format(self.schema, table_name)
         if where is not None:
             sql += " WHERE " + where
         sql += ";"
@@ -63,7 +64,7 @@ class PostGisHandler:
             comp_operator = '>='
         else:
             comp_operator = '='
-        select_from = "SELECT * FROM {0}.{1} ".format(self.schema,table_name)
+        select_from = "SELECT * FROM {0}.{1} ".format(self.schema, table_name)
         where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator, zoom_level)
         and_geom = "AND geom {0} ".format(type_of_intersect[type_of_intersection])
         envelope = "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][0],
@@ -83,6 +84,19 @@ class PostGisHandler:
         print('session close')
         return data
 
+    def update_point_height(self, table_name, point, crs, depth):
+        if table_name not in self.engine.table_names(schema=self.schema):
+            print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
+            return None
+        wkt_point = WKTElement(point.wkt, srid=crs)
+        update = f"UPDATE {self.schema}.{table_name} " \
+                 f"SET depth = {depth} " \
+                 f"WHERE geom = 'SRID={crs};{wkt_point}'::geometry;"
+        print(update)
+        session = self.Session()
+        session.execute(text(update))
+        session.close()
+
     def put_into_table(self, data, geometry_type, table_name, crs=None, create_table=False, if_exists_action='replace'):
         if table_name not in self.engine.table_names(schema=self.schema) and create_table is not False:
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
@@ -100,7 +114,7 @@ class PostGisHandler:
         # Write to PostGIS (overwrite if table exists, be careful with this! )
         # Possible behavior: 'replace', 'append', 'fail'
         session = self.Session()
-        data.to_sql(table_name, self.engine,schema=self.schema, if_exists=if_exists_action, index=False,
+        data.to_sql(table_name, self.engine, schema=self.schema, if_exists=if_exists_action, index=False,
                     dtype={'geom': Geometry(geometry_type=geometry_type, srid=crs)})
         session.close()
         print('Session Closed')
