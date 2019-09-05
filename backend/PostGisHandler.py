@@ -95,6 +95,7 @@ class PostGisHandler:
         print(update)
         session = self.Session()
         session.execute(text(update))
+        session.commit()
         session.close()
 
     def put_into_table(self, data, geometry_type, table_name, crs=None, create_table=False, if_exists_action='replace'):
