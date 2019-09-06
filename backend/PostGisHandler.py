@@ -67,12 +67,15 @@ class PostGisHandler:
         select_from = "SELECT * FROM {0}.{1} ".format(self.schema, table_name)
         where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator, zoom_level)
         and_geom = "AND geom {0} ".format(type_of_intersect[type_of_intersection])
+        bounds.reset_index(inplace=True)
+        # TODO Check if multiple what to do
         envelope = "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][0],
                                                                      bounds["miny"][0],
                                                                      bounds["maxx"][0],
                                                                      bounds["maxy"][0],
                                                                      crs)
         sql = select_from + where_zoom_level + and_geom + envelope
+        print('get_envelope')
         if has_depth:
             sql += "AND depth is NOT NULL"
         session = self.Session()
@@ -107,10 +110,16 @@ class PostGisHandler:
             else:
                 crs = int(data.crs.split(':')[1])
             # Convert Shapely geometries to WKTElements into column 'geom' (default in PostGIS)
-        data['geom'] = data['geometry'].apply(lambda row: WKTElement(row.wkt, srid=crs))
+        print(data.columns)
+        checking_name = 'geometry'
+        applied_name = 'geom'
+        if checking_name not in list(data.columns):
+            checking_name = list(data.columns)[-1]
+        data[applied_name] = data[checking_name].apply(lambda row: WKTElement(row.wkt, srid=crs))
 
-        # Drop Shapely geometries
-        data = data.drop('geometry', axis=1)
+        if checking_name != applied_name:
+            # Drop Shapely geometries
+            data = data.drop(checking_name, axis=1)
 
         # Write to PostGIS (overwrite if table exists, be careful with this! )
         # Possible behavior: 'replace', 'append', 'fail'

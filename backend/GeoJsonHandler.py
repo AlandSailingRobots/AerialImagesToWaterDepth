@@ -26,9 +26,10 @@ class GeoJsonHandler:
         calls = {
             "getGeoJson": self.readGeoJson,
             "getLocalGeoJson": self.readLocalGeoJson,
-            "getWaterDepthAreas": self.getWaterDepth,
+            "getWaterDepthLocal": self.getWaterDepth,
             "calculateWaterDepthPoints": self.calculateDepthPoints,
-            "getWaterDepthPoints": self.getDepthPoints
+            "getWaterDepthPoints": self.getDepthPoints,
+            "getWaterDepthArea": self.getDepthArea
         }
         action = calls.get(path[1], self.getPoints)
         return action()
@@ -59,6 +60,7 @@ class GeoJsonHandler:
 
     def readGeoPanda(self, url, box, minimalize=False):
         df_retrieved = gpd.read_file(url)
+        print(url, df_retrieved.crs)
         if minimalize:
             df_retrieved = self.getMinimalized(df_retrieved, box, df_retrieved.crs)
         return df_retrieved
@@ -95,25 +97,64 @@ class GeoJsonHandler:
         df = gpd.GeoDataFrame({'zoom_level': [self.jsonData["zoom"]], 'geometry': [Polygon(polygonBox)]})
         if crs is None:
             crs = server_settings["boundingBoxCrs"]
+        elif 'init' not in crs:
+            crs = {'init': crs}
         df.crs = crs
         return df
 
-    def getDepthPoints(self):
-        bounds, crs, df = self.get_current_polygon_df()
+    def getDepthArea(self):
+        data = self.getDepthPoints(to_json=False)
+        limit, buffer = 2, 0.00001
+        if "boatDepth" in self.jsonData["extra"]:
+            limit = self.jsonData["extra"]["boatDepth"]
+        if "buffer" in self.jsonData["extra"]:
+            buffer = self.jsonData["extra"]["buffer"]
+        print(data.crs)
+        lower = data[data.depth <= -limit]
+        higher = data[data.depth >= -limit]
+        print('higher', len(higher), 'lower', len(lower))
+        low_poly = lower.buffer(buffer)
+        high_poly = higher.buffer(buffer)
+        if len(higher) is not 0:
+            overlay = gpd.overlay(gpd.GeoDataFrame(geometry=low_poly), gpd.GeoDataFrame(geometry=high_poly),
+                                  how='difference')
+        else:
+            overlay = gpd.GeoDataFrame(geometry=low_poly)
+        properties_dict = {
+            "stroke": "#555555",
+            "stroke-width": 2,
+            "stroke-opacity": 1,
+            "fill": "#7987ff",
+            "fill-opacity": 0.5}
+
+        for key in properties_dict:
+            overlay[key] = [properties_dict[key]] * len(overlay)
+        print(overlay.crs)
+        return overlay.to_json()
+
+    def getDepthPoints(self, to_json=True):
+        print('getting depth points')
+        items = self.get_current_polygon_df()
+        print('items', len(items))
+        bounds, crs, df = items
         passed_bounds = bounds
         if df is not None and len(df) is not 0:
             passed_bounds = df.bounds
-        has_depth = 'has_depth' in self.jsonData['extra']
-        all_higher_levels = 'higher_levels' in self.jsonData['extra']
+        print('has extra', "extra" in self.jsonData, self.jsonData["extra"])
+        has_depth = 'has_depth' in self.jsonData["extra"]
+        all_higher_levels = 'higher_levels' in self.jsonData["extra"]
+        print('has depth, higher_levels', has_depth, all_higher_levels)
         df_all_points = self.PostGisConnection.get_envelope(self.PostGisConnection.points_table,
                                                             passed_bounds,
                                                             crs,
                                                             int(self.jsonData["zoom"]),
                                                             has_depth=has_depth,
                                                             all_higher_levels=all_higher_levels)
+        if not to_json:
+            return df_all_points
         return df_all_points.to_json()
 
-    def calculateDepthPoints(self):
+    def calculateDepthPoints(self, to_json=True):
         bounds, crs, df = self.get_current_polygon_df()
         geo_list = []
         if len(df) != 0:
@@ -122,25 +163,38 @@ class GeoJsonHandler:
         if len(geo_list) != 0:
             calculate = "calculate" in self.jsonData["extra"]
             self.calculate_geolist_update_database(df, geo_list, calculate=calculate)
-        return self.getDepthPoints()
+        return self.getDepthPoints(to_json)
 
-    def get_current_polygon_df(self):
+    def get_current_polygon_df(self, only_water=True):
         # First check if the current area is already calculated:
         # Create Polygon from current bounding box
         df = self.getCurrentBoundingBox(self.jsonData, self.jsonData["crs"], swap_coordinates=False)
+        print('only_water', only_water)
+        if only_water:
+            water_df = self.getWaterDepth(retrieve_json=False)
+            print(df.crs, water_df.crs)
+            print('df', len(df), 'water_df', len(water_df))
+            df = gpd.overlay(water_df, df, how='intersection')
+            df['zoom_level'] = [self.jsonData['zoom']] * len(df)
+            print('zoomed', df.columns, len(df))
+
+            df.drop(['zoom_level_1', 'id', 'HISOID', 'HGHTLAKE', 'MAXDEPTH', 'MINDEPTH',
+                     'TYPEDEPR', 'CDATE', 'NTMENTRY', 'YEARSWEEP', 'IRROTUS_PVM',
+                     'zoom_level_2'], inplace=True, axis=1)
+            print('crimped')
         bounds = df.bounds
-        crs = int(df.crs.split(':')[1])
+        crs = int(df.crs['init'].split(':')[1])
         # Get all the polygons where the boundingbox overlaps with
         print('df', len(df))
         df_envelope = self.PostGisConnection.get_envelope(self.PostGisConnection.polygon_table,
                                                           df.bounds,
-                                                          int(df.crs.split(':')[1]),
+                                                          crs,
                                                           int(self.jsonData["zoom"]))
         # Get all the areas in the bounding box which are not calculated yet.
         if df_envelope is not None and len(df_envelope) != 0:
             print('overlay starting', len(df_envelope), len(df))
             df = gpd.overlay(df_envelope, df, how='difference')
-            print('overlay done', len(df))
+            print('overlay done', len(df), df.columns)
         return bounds, crs, df
 
     def post_points(self, crs, geo_, depths=None):
@@ -153,6 +207,7 @@ class GeoJsonHandler:
         points_df.crs = crs
         self.PostGisConnection.put_into_table(points_df, "Point", self.PostGisConnection.points_table,
                                               create_table=True, if_exists_action='append')
+        return points_df.bounds
 
     def calculate_geolist_update_database(self, df, geo_list, calculate=False):
         depths = None
