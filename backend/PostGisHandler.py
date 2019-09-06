@@ -67,8 +67,8 @@ class PostGisHandler:
         select_from = "SELECT * FROM {0}.{1} ".format(self.schema, table_name)
         where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator, zoom_level)
         and_geom = "AND geom {0} ".format(type_of_intersect[type_of_intersection])
-        bounds.reset_index(inplace=True)
         # TODO Check if multiple what to do
+        bounds.reset_index(inplace=True)
         envelope = "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][0],
                                                                      bounds["miny"][0],
                                                                      bounds["maxx"][0],
