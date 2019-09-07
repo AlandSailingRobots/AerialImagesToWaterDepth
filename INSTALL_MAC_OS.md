@@ -107,12 +107,12 @@ The python backend server can be run in different ways.
     * in venv: `python backend/server.py`
 * Completely manual:
     * `pg_ctl -D /usr/local/var/postgres start`
-    * in venv: `python backend/server.py`
+    * in the virtual environment: `python backend/server.py`
     * `pg_ctl -D /usr/local/var/postgres stop`
 
 ## References
 
-[Python virtual Environment setup](https://docs.python.org/3/library/venv.html)
-[Pip install packages](https://packaging.python.org/tutorials/installing-packages/)
-[PostgreSQL Database creation](https://www.tutorialspoint.com/postgresql/postgresql_create_database.htm)
-[PostGis Installation](https://postgis.net/install/)
+* [Python virtual Environment setup](https://docs.python.org/3/library/venv.html)
+* [Pip install packages](https://packaging.python.org/tutorials/installing-packages/)
+* [PostgreSQL Database creation](https://www.tutorialspoint.com/postgresql/postgresql_create_database.htm)
+* [PostGis Installation](https://postgis.net/install/)
