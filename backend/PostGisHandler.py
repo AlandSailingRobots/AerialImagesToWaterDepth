@@ -54,6 +54,13 @@ class PostGisHandler:
         session.close()
         return data
 
+    def st_MakeEnvelope(self, bounds, crs, index):
+        return "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][index],
+                                                                 bounds["miny"][index],
+                                                                 bounds["maxx"][index],
+                                                                 bounds["maxy"][index],
+                                                                 crs)
+
     def get_envelope(self, table_name, bounds, crs, zoom_level, all_higher_levels=False,
                      type_of_intersection="intersects", has_depth=False):
         if table_name not in self.engine.table_names(schema=self.schema):
@@ -66,15 +73,24 @@ class PostGisHandler:
             comp_operator = '='
         select_from = "SELECT * FROM {0}.{1} ".format(self.schema, table_name)
         where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator, zoom_level)
-        and_geom = "AND geom {0} ".format(type_of_intersect[type_of_intersection])
-        # TODO Check if multiple what to do
         bounds.reset_index(inplace=True)
-        envelope = "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][0],
-                                                                     bounds["miny"][0],
-                                                                     bounds["maxx"][0],
-                                                                     bounds["maxy"][0],
-                                                                     crs)
-        sql = select_from + where_zoom_level + and_geom + envelope
+        bounds_query = ""
+        if len(bounds) is 0:
+            print('Something wrong')
+        else:
+            bounds_query = "AND ("
+
+        bounds_list_query = []
+        for index in range(len(bounds)):
+            geom = "geom {0} ".format(type_of_intersect[type_of_intersection])
+            envelope = self.st_MakeEnvelope(bounds, crs, index)
+            bounds_list_query.append(geom + envelope)
+        if len(bounds_list_query) > 1:
+            temp_string = " OR ".join(bounds_list_query)
+            bounds_query += (temp_string + ")")
+        else:
+            bounds_query += bounds_list_query[0] + ")"
+        sql = select_from + where_zoom_level + bounds_query
         print('get_envelope')
         if has_depth:
             sql += "AND depth is NOT NULL"
