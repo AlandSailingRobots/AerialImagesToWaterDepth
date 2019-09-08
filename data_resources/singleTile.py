@@ -289,21 +289,26 @@ def get_image_and_plot(info_dict, config, show=True, specific=None):
     global standardized_rendering_pixel_size
     standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
     measured_point = point.MeasurementPoint(info_dict)
-    items_run_off = []
+    items_run_off = {}
     for web_map in config.web_maps:
         if not web_map.ignore:
+            if web_map.name not in items_run_off:
+                items_run_off[web_map.name] = {"webmap": web_map}
             for layer in web_map.map_layers:
-                items_run_off.append({"layer": layer, "webmap": web_map})
+                items_run_off[web_map.name][layer.name] = layer
     if specific is not None:
-        layer = items_run_off[specific]["layer"]
-        web_map = items_run_off[specific]["webmap"]
+        web_map = items_run_off[specific["webmap_name"]]["webmap"]
+        layer = items_run_off[specific["webmap_name"]][specific["layer_name"]]
+
         measured_point.add_image_point(
             get_image_and_information_for_single_point(info_dict, layer,
                                                        web_map))
     else:
-        for item in items_run_off:
-            measured_point.add_image_point(
-                get_image_and_information_for_single_point(info_dict, item["layer"], item["webmap"]))
+        for web_map_name in items_run_off:
+            for layer_name in items_run_off[web_map_name]:
+                measured_point.add_image_point(
+                    get_image_and_information_for_single_point(info_dict, items_run_off[web_map_name][layer_name],
+                                                               items_run_off[web_map_name]["webmap"]))
 
     if show:
         for image_point in measured_point.image_points:

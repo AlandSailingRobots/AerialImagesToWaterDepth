@@ -3,7 +3,7 @@ from time import sleep
 from backend.ConvolutionalNeuralNetworkHandler import ConvolutionalHandler
 from backend.PostGisHandler import PostGisHandler
 
-cnn = ConvolutionalHandler()
+cnn = ConvolutionalHandler(0)
 postGis = PostGisHandler()
 
 

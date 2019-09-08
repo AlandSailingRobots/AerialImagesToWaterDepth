@@ -163,7 +163,7 @@ class GeoJsonHandler:
         if len(geo_list) != 0:
             calculate = "calculate" in self.jsonData["extra"]
             self.calculate_geolist_update_database(df, geo_list, calculate=calculate)
-        return self.getDepthPoints(to_json)
+        return self.getDepthArea()
 
     def get_current_polygon_df(self, only_water=True):
         # First check if the current area is already calculated:

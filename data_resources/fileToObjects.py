@@ -145,3 +145,7 @@ def save_image(image: Image, layer_name, level, row, column, lock=None):
     image.save(path, format='PNG')
     if lock is not None:
         lock.release()
+
+
+def get_available_cnn_models():
+    return open_json_file('backend/cnn_models.json')

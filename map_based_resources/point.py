@@ -133,7 +133,7 @@ class ImagePoint:
         return image.crop(self.get_box_around(size, data_point=data_point_image))
 
     def make_image_bigger(self, data_point_image, new_image_size, floor_square_size, lock=None):
-        new_im = Image.new('RGB', new_image_size)
+        new_im = Image.new('RGBA', new_image_size)
         column = self.image_tile.column
         row = self.image_tile.row
         column_offset = 0

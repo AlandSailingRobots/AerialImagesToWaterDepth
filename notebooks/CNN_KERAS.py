@@ -9,7 +9,15 @@ import pandas as pd
 sources = fileToObjects.get_data(fileToObjects.DatasourceType.csv)
 source = sources[0]
 
-previous_mode = None
+previous_mode = "RGBA"
+
+config = {"webmap_name": "maasto",
+          "layer_name": "infrared"}
+size_in_meters = 2
+level = 15
+steps_per_epoch = 1000
+epochs = 100
+max_queue_size = 1000
 
 
 def line_execute(line, configuration, panda=False):
@@ -21,9 +29,9 @@ def line_execute(line, configuration, panda=False):
     coordinate = point.DataPoint(float(line_s[1]),
                                  float(line_s[0]),
                                  source['coordinate_system'],
-                                 15)
-    coordinate_tile = singleTile.get_image_and_plot(coordinate, configuration, show=False, specific=3)
-    image = coordinate_tile.get_cropped_image_single(2, 0)
+                                 level)
+    coordinate_tile = singleTile.get_image_and_plot(coordinate, configuration, show=False, specific=config)
+    image = coordinate_tile.get_cropped_image_single(size_in_meters, 0)
     if previous_mode is None:
         previous_mode = image.mode
     if image.mode != previous_mode:
@@ -137,9 +145,19 @@ gen = file_execute([source], None)
 # gen = file_execute(sources[0:50], None)
 
 # gen = panda_execute(0.5)
+
+
 try:
-    history = model.fit_generator(gen, steps_per_epoch=100, epochs=100, max_queue_size=1000)
+    history = model.fit_generator(gen, steps_per_epoch=steps_per_epoch, epochs=epochs, max_queue_size=max_queue_size)
 except KeyboardInterrupt:
     pass
 
-model.save('image_ava_infra_size_2_steps_10_epochs_10000.h5')
+save_string = f'webmap-{config["webmap_name"]}' \
+              f'-layer-{config["layer_name"]}' \
+              f'-size-{size_in_meters}' \
+              f'-level-{level}-' \
+              f'steps-{steps_per_epoch}-' \
+              f'epochs-{epochs}-' \
+              f'queue_size-{max_queue_size}' \
+              f'.h5'
+model.save(save_string)
