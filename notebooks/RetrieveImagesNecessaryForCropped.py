@@ -1,11 +1,11 @@
-from data_resources import fileToObjects, transformObjects, singleTile
+from data_resources import fileToObjects, singleTile
 from multiprocessing import Process, Lock
 import random
 
 from map_based_resources import point
 
 
-def get_cropped_images_from_file(arr, cropped_size=1, lock=None):
+def get_cropped_images_from_file(arr, cropped_size=2, lock=None):
     file, source, config = arr
     index_ = 0
     for line in file:
@@ -15,7 +15,8 @@ def get_cropped_images_from_file(arr, cropped_size=1, lock=None):
                                      source['coordinate_system'],
                                      15)
         del line_s
-        singleTile.get_image_and_plot(coordinate, config, show=False, specific=3).get_cropped_image_single(2, 0,lock)
+        singleTile.get_image_and_plot(coordinate, config, show=False, specific=3).get_cropped_image_single(cropped_size,
+                                                                                                           0, lock)
         index_ += 1
         del coordinate
         if (index_ % 1000) is 0:

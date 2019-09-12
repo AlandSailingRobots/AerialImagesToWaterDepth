@@ -11,8 +11,8 @@ source = sources[0]
 
 previous_mode = "RGBA"
 
-config = {"webmap_name": "maasto",
-          "layer_name": "infrared"}
+config = {"webmap_name": "ava",
+          "layer_name": "ava_infrared"}
 size_in_meters = 2
 level = 15
 steps_per_epoch = 1000
@@ -41,7 +41,7 @@ def line_execute(line, configuration, panda=False):
 
     image.close()
     height = float(line_s[-1])
-    return (image_arr, round(height, 1))
+    return image_arr, round(height, 1)
 
 
 def file_execute(files, amount, yielded=True):

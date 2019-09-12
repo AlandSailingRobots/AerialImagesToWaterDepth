@@ -9,6 +9,7 @@ function stop_everything() {
 }
 pause() {
   sleep 1
+  # shellcheck disable=SC2162
   read -n 1 -p "Press any key to continue..."
 }
 
@@ -19,7 +20,7 @@ if [ "$1" == "" ]; then
 else
   echo 'argument ' "$1"
   source venv/bin/activate
-  python $1
+  python "$1"
 fi
   pause
   stop_everything

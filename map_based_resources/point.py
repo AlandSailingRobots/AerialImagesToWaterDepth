@@ -172,8 +172,8 @@ class MeasurementPoint:
     def get_cropped_images(self, size, lock=None):
         return list(point.get_cropped_image(size, lock=lock) for point in self.image_points)
 
-    def get_cropped_image_single(self, size, position,lock=None):
-        return self.image_points[position].get_cropped_image(size,lock=lock)
+    def get_cropped_image_single(self, size, position, lock=None):
+        return self.image_points[position].get_cropped_image(size, lock=lock)
 
     def retrieve_all_images(self):
         for point in self.image_points:

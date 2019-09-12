@@ -1,7 +1,7 @@
 import geopandas as gpd
 import json
 import urllib.parse
-from shapely.geometry import Polygon, Point, CAP_STYLE
+from shapely.geometry import Polygon, Point
 
 from backend.ConvolutionalNeuralNetworkHandler import ConvolutionalHandler
 from backend.PostGisHandler import PostGisHandler
@@ -16,7 +16,7 @@ class GeoJsonHandler:
     def __init__(self) -> None:
         super().__init__()
         self.PostGisConnection = PostGisHandler()
-        self.cnnHandler = ConvolutionalHandler()
+        self.cnnHandler = ConvolutionalHandler(2)
         self.jsonData = None
         self.calculate_process = None
         self.count = 0
@@ -164,7 +164,7 @@ class GeoJsonHandler:
                                                             as_buffer=as_buffer)
         return df_all_points
 
-    def calculateDepthPoints(self, to_json=True):
+    def calculateDepthPoints(self):
         bounds, crs, df = self.get_current_polygon_df()
         geo_list = []
         if len(df) != 0:
