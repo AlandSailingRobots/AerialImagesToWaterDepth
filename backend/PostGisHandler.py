@@ -1,3 +1,6 @@
+import json
+
+import pandas as pd
 from sqlalchemy.engine.url import URL
 from sqlalchemy import create_engine
 from sqlalchemy import MetaData
@@ -40,8 +43,9 @@ class PostGisHandler:
         self.schema = server_settings['schema']
         self.polygon_table = server_settings['polygon']
         self.points_table = server_settings['point']
+        self.calculation_table = server_settings['calculation']
 
-    def select_from_table(self, table_name, where=None):
+    def select_from_table(self, table_name, where=None, panda=False):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
         session = self.Session()
@@ -50,9 +54,21 @@ class PostGisHandler:
             sql += " WHERE " + where
         sql += ";"
         # Pull the data
-        data = gpd.read_postgis(sql=sql, con=self.engine)
+        if not panda:
+            data = gpd.read_postgis(sql=sql, con=self.engine)
+        else:
+            data = pd.read_sql_query(sql=sql, con=self.engine)
         session.close()
         return data
+
+    def put_into_calculation(self, jsonData):
+        insert = """INSERT INTO {0}.{1} (payload) VALUES ('{2}')""".format(self.schema, self.calculation_table,
+                                                                           json.dumps(jsonData))
+        print(insert)
+        session = self.Session()
+        session.execute(text(insert))
+        session.commit()
+        session.close()
 
     def st_MakeEnvelope(self, bounds, crs, index):
         return "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][index],
@@ -98,6 +114,7 @@ class PostGisHandler:
             sql += "AND depth is NOT NULL "
         if extra is not None:
             sql += extra
+        sql += "AND ST_IsValid(geom) "
         sql += bounds_query
         session = self.Session()
 
@@ -108,14 +125,23 @@ class PostGisHandler:
         print('session close')
         return data
 
-    def update_point_height(self, table_name, point, crs, depth):
+    def update_calculation(self, index):
+        update = f"UPDATE {self.schema}.{self.calculation_table} " \
+                 f"SET calculated = TRUE " \
+                 f"WHERE index_key = {index}"
+        session = self.Session()
+        session.execute(text(update))
+        session.commit()
+        session.close()
+
+    def update_point_height(self, table_name, point, crs, depth, level):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
             return None
         wkt_point = WKTElement(point.wkt, srid=crs)
         update = f"UPDATE {self.schema}.{table_name} " \
                  f"SET depth = {depth} " \
-                 f"WHERE geom = 'SRID={crs};{wkt_point}'::geometry;"
+                 f"WHERE geom = 'SRID={crs};{wkt_point}'::geometry and zoom_level = {level};"
         print(update)
         session = self.Session()
         session.execute(text(update))

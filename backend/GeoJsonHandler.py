@@ -2,8 +2,6 @@ import geopandas as gpd
 import json
 import urllib.parse
 from shapely.geometry import Polygon, Point
-
-from backend.ConvolutionalNeuralNetworkHandler import ConvolutionalHandler
 from backend.PostGisHandler import PostGisHandler
 from data_resources import fileToObjects
 from map_based_resources import point
@@ -16,18 +14,15 @@ class GeoJsonHandler:
     def __init__(self) -> None:
         super().__init__()
         self.PostGisConnection = PostGisHandler()
-        self.cnnHandler = ConvolutionalHandler(2)
         self.jsonData = None
-        self.calculate_process = None
-        self.count = 0
 
     def doAction(self, path, jsonData):
         self.jsonData = jsonData
         calls = {
             "getGeoJson": self.readGeoJson,
-            "getLocalGeoJson": self.readLocalGeoJson,
             "getWaterDepthLocal": self.getWaterDepth,
             "calculateWaterDepthPoints": self.calculateDepthPoints,
+            "calculateProcess": self.addCalculateDepthPointsProces,
             "getWaterDepthPoints": self.getDepthPoints,
             "getWaterDepthArea": self.getDepthArea,
             "getCurrentPolygon": self.get_current_polygon_df
@@ -50,19 +45,15 @@ class GeoJsonHandler:
         params['bbox'] = bbox
         return params.pop('url') + urllib.parse.urlencode(params)
 
-    def readGeoJson(self, minimalize=False):
+    def readGeoJson(self):
         box = self.jsonData
         query = self.create_query_url(server_settings["osm_finland"], box)
         print(query)
-        return self.readGeoPanda(query, box, minimalize).to_json()
+        return self.readGeoPanda(query, box, "minimalised" in box["extra"]).to_json()
 
-    def readLocalGeoJson(self):
-        return self.readGeoJson(True)
-
-    def readGeoPanda(self, url, box, minimalize=False):
+    def readGeoPanda(self, url, box, minimalised=False):
         df_retrieved = gpd.read_file(url)
-        print(url, df_retrieved.crs)
-        if minimalize:
+        if minimalised:
             df_retrieved = self.getMinimalized(df_retrieved, box, df_retrieved.crs)
         return df_retrieved
 
@@ -164,8 +155,16 @@ class GeoJsonHandler:
                                                             as_buffer=as_buffer)
         return df_all_points
 
-    def calculateDepthPoints(self):
-        bounds, crs, df = self.get_current_polygon_df()
+    def calculateDepthPointsProces(self, jsonData):
+        self.jsonData = jsonData
+        self.calculateDepthPoints(return_=False)
+
+    def addCalculateDepthPointsProces(self):
+        self.PostGisConnection.put_into_calculation(self.jsonData)
+        return json.dumps({'succes': True})
+
+    def calculateDepthPoints(self, return_=True):
+        bounds, crs, df = self.get_current_polygon_df(only_missing=True, just_box=True)
         geo_list = []
         if len(df) != 0:
             geo_list = self.check_points(df)
@@ -173,9 +172,10 @@ class GeoJsonHandler:
         if len(geo_list) != 0:
             calculate = "calculate" in self.jsonData["extra"]
             self.calculate_geolist_update_database(df, geo_list, calculate=calculate)
-        return self.getDepthArea()
+        if return_:
+            return self.getDepthArea()
 
-    def get_current_polygon_df(self, only_water=True, just_box=False):
+    def get_current_polygon_df(self, only_water=True, just_box=False, only_missing=False):
         # First check if the current area is already calculated:
         # Create Polygon from current bounding box
         df = self.getCurrentBoundingBox(self.jsonData, self.jsonData["crs"], swap_coordinates=False)
@@ -202,6 +202,8 @@ class GeoJsonHandler:
                                                           int(self.jsonData["zoom"]))
         # Get all the areas in the bounding box which are not calculated yet.
         missing = "missing" in self.jsonData['extra']
+        if only_missing:
+            missing = only_missing
         if df_envelope is not None and len(df_envelope) != 0 and not just_box:
             print('overlay starting', len(df_envelope), len(df))
             how = "difference" if missing else "intersection"
@@ -226,10 +228,10 @@ class GeoJsonHandler:
 
     def calculate_geolist_update_database(self, df, geo_list, calculate=False):
         depths = None
-        if calculate:
-            print('calculating points in CNN', len(geo_list))
-            depths = self.cnnHandler.predict_points(geo_list, df.crs)
         self.post_points(df.crs, geo_list, depths)
+        # df["zoom_level"] = df["zoom_level_1"]
+        # df.drop(['zoom_level_1', 'zoom_level_2'], axis=1, inplace=True)
+        # df.reset_index(drop=True, inplace=True)
         self.PostGisConnection.put_into_table(df, "Polygon", self.PostGisConnection.polygon_table, create_table=True,
                                               if_exists_action='append')
 

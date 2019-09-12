@@ -36,6 +36,7 @@
     "driver_name": "postgresql+psycopg2",
     "schema" : "test",
     "point" : "points",
-    "polygon": "polygons"
+    "polygon": "polygons",
+    "calculation": "calculation"
   }
 }
