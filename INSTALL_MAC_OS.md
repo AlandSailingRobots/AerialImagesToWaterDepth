@@ -91,6 +91,7 @@ To be able to use the postgis library in PostgreSQL, this extension needs to be 
 ```postgresql
 CREATE EXTENSION postgis;
 ```
+When connected to the database run the [Create Table script](SQL/create_table.sql) where the schema name should match the one in the [server settings](backend/server_settings.json)
 
 
 ## Starting Services
