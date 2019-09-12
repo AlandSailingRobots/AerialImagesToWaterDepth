@@ -62,7 +62,7 @@ class PostGisHandler:
                                                                  crs)
 
     def get_envelope(self, table_name, bounds, crs, zoom_level, all_higher_levels=False,
-                     type_of_intersection="intersects", has_depth=False):
+                     type_of_intersection="intersects", has_depth=False, as_buffer=None, extra=None):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
             return None
@@ -71,7 +71,9 @@ class PostGisHandler:
             comp_operator = '>='
         else:
             comp_operator = '='
-        select_from = "SELECT * FROM {0}.{1} ".format(self.schema, table_name)
+
+        operator = "*" if as_buffer is None else as_buffer
+        select_from = f"SELECT {operator} FROM {self.schema}.{table_name} "
         where_zoom_level = "WHERE zoom_level {0} {1} ".format(comp_operator, zoom_level)
         bounds.reset_index(inplace=True)
         bounds_query = ""
@@ -90,10 +92,13 @@ class PostGisHandler:
             bounds_query += (temp_string + ")")
         else:
             bounds_query += bounds_list_query[0] + ")"
-        sql = select_from + where_zoom_level + bounds_query
+        sql = select_from + where_zoom_level
         print('get_envelope')
         if has_depth:
-            sql += "AND depth is NOT NULL"
+            sql += "AND depth is NOT NULL "
+        if extra is not None:
+            sql += extra
+        sql += bounds_query
         session = self.Session()
 
         print(sql)

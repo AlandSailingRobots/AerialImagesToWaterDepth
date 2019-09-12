@@ -29,7 +29,8 @@ class GeoJsonHandler:
             "getWaterDepthLocal": self.getWaterDepth,
             "calculateWaterDepthPoints": self.calculateDepthPoints,
             "getWaterDepthPoints": self.getDepthPoints,
-            "getWaterDepthArea": self.getDepthArea
+            "getWaterDepthArea": self.getDepthArea,
+            "getCurrentPolygon": self.get_current_polygon_df
         }
         action = calls.get(path[1], self.getPoints)
         return action()
@@ -103,23 +104,26 @@ class GeoJsonHandler:
         return df
 
     def getDepthArea(self):
-        data = self.getDepthPoints(to_json=False)
-        limit, buffer = 2, 0.00001
+        items = self.get_current_polygon_df(just_box=True)
+        print('items', len(items))
+        bounds, crs, df = items
+        passed_bounds = bounds
+        if df is not None and len(df) is not 0:
+            passed_bounds = df.bounds
+        limit, buffer = 2, 0.001 / 2
+        print(buffer)
         if "boatDepth" in self.jsonData["extra"]:
             limit = self.jsonData["extra"]["boatDepth"]
         if "buffer" in self.jsonData["extra"]:
             buffer = self.jsonData["extra"]["buffer"]
-        print(data.crs)
-        lower = data[data.depth <= -limit]
-        higher = data[data.depth >= -limit]
-        print('higher', len(higher), 'lower', len(lower))
-        low_poly = lower.buffer(buffer, cap_style=CAP_STYLE.square)
-        high_poly = higher.buffer(buffer, cap_style=CAP_STYLE.square)
-        if len(higher) is not 0:
-            overlay = gpd.overlay(gpd.GeoDataFrame(geometry=low_poly), gpd.GeoDataFrame(geometry=high_poly),
-                                  how='difference')
-        else:
-            overlay = gpd.GeoDataFrame(geometry=low_poly)
+        as_buffer = "zoom_level,depth,ST_Buffer(geom, {0}, 'endcap=square') as geom".format(buffer)
+        operator = ">=" if "deeper" not in self.jsonData["extra"] else "<="
+        polygon_points = self.getDepthPointsFromTable(crs,
+                                                      passed_bounds,
+                                                      as_buffer=as_buffer,
+                                                      extra="AND depth {0} -{1} ".format(operator, limit))
+
+        overlay = polygon_points.dissolve(by='zoom_level')
         properties_dict = {
             "stroke": "#555555",
             "stroke-width": 2,
@@ -140,6 +144,12 @@ class GeoJsonHandler:
         passed_bounds = bounds
         if df is not None and len(df) is not 0:
             passed_bounds = df.bounds
+        df_all_points = self.getDepthPointsFromTable(crs, passed_bounds)
+        if not to_json:
+            return df_all_points
+        return df_all_points.to_json()
+
+    def getDepthPointsFromTable(self, crs, passed_bounds, extra=None, as_buffer=None):
         print('has extra', "extra" in self.jsonData, self.jsonData["extra"])
         has_depth = 'has_depth' in self.jsonData["extra"]
         all_higher_levels = 'higher_levels' in self.jsonData["extra"]
@@ -149,10 +159,10 @@ class GeoJsonHandler:
                                                             crs,
                                                             int(self.jsonData["zoom"]),
                                                             has_depth=has_depth,
-                                                            all_higher_levels=all_higher_levels)
-        if not to_json:
-            return df_all_points
-        return df_all_points.to_json()
+                                                            all_higher_levels=all_higher_levels,
+                                                            extra=extra,
+                                                            as_buffer=as_buffer)
+        return df_all_points
 
     def calculateDepthPoints(self, to_json=True):
         bounds, crs, df = self.get_current_polygon_df()
@@ -165,7 +175,7 @@ class GeoJsonHandler:
             self.calculate_geolist_update_database(df, geo_list, calculate=calculate)
         return self.getDepthArea()
 
-    def get_current_polygon_df(self, only_water=True):
+    def get_current_polygon_df(self, only_water=True, just_box=False):
         # First check if the current area is already calculated:
         # Create Polygon from current bounding box
         df = self.getCurrentBoundingBox(self.jsonData, self.jsonData["crs"], swap_coordinates=False)
@@ -191,10 +201,15 @@ class GeoJsonHandler:
                                                           crs,
                                                           int(self.jsonData["zoom"]))
         # Get all the areas in the bounding box which are not calculated yet.
-        if df_envelope is not None and len(df_envelope) != 0:
+        missing = "missing" in self.jsonData['extra']
+        if df_envelope is not None and len(df_envelope) != 0 and not just_box:
             print('overlay starting', len(df_envelope), len(df))
-            df = gpd.overlay(df_envelope, df, how='difference')
+            how = "difference" if missing else "intersection"
+            print('how', how)
+            df = gpd.overlay(df_envelope, df, how=how)
             print('overlay done', len(df), df.columns)
+        if "polybox" in self.jsonData['extra']:
+            return df.to_json()
         return bounds, crs, df
 
     def post_points(self, crs, geo_, depths=None):
@@ -218,10 +233,15 @@ class GeoJsonHandler:
         self.PostGisConnection.put_into_table(df, "Polygon", self.PostGisConnection.polygon_table, create_table=True,
                                               if_exists_action='append')
 
+    def get_distance_between_points(self, bounds):
+        return bounds['ne']. \
+                   reduceDecimals(). \
+                   calculate_distance_to_point(bounds['nw'].reduceDecimals()) / 50
+
     def check_points(self, df):
         bounds = self.create_points_dict()
         origin_point = bounds['nw'].reduceDecimals()
-        distance_between_points_km = bounds['ne'].calculate_distance_to_point(origin_point) / 50
+        distance_between_points_km = self.get_distance_between_points(bounds)
         # Distance between the points differs per level. this so that the amount of points is always the same and
         # reduces load.
         long_point = origin_point
