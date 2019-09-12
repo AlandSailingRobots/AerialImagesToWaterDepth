@@ -1,7 +1,7 @@
 import geopandas as gpd
 import json
 import urllib.parse
-from shapely.geometry import Polygon, Point
+from shapely.geometry import Polygon, Point, CAP_STYLE
 
 from backend.ConvolutionalNeuralNetworkHandler import ConvolutionalHandler
 from backend.PostGisHandler import PostGisHandler
@@ -113,8 +113,8 @@ class GeoJsonHandler:
         lower = data[data.depth <= -limit]
         higher = data[data.depth >= -limit]
         print('higher', len(higher), 'lower', len(lower))
-        low_poly = lower.buffer(buffer)
-        high_poly = higher.buffer(buffer)
+        low_poly = lower.buffer(buffer, cap_style=CAP_STYLE.square)
+        high_poly = higher.buffer(buffer, cap_style=CAP_STYLE.square)
         if len(higher) is not 0:
             overlay = gpd.overlay(gpd.GeoDataFrame(geometry=low_poly), gpd.GeoDataFrame(geometry=high_poly),
                                   how='difference')
