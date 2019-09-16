@@ -65,10 +65,7 @@ class PostGisHandler:
         insert = """INSERT INTO {0}.{1} (payload) VALUES ('{2}')""".format(self.schema, self.calculation_table,
                                                                            json.dumps(jsonData))
         print(insert)
-        session = self.Session()
-        session.execute(text(insert))
-        session.commit()
-        session.close()
+        self.send_to_db(insert)
 
     def st_MakeEnvelope(self, bounds, crs, index):
         return "ST_MakeEnvelope ({0}, {1},{2}, {3}, {4})".format(bounds["minx"][index],
@@ -116,9 +113,9 @@ class PostGisHandler:
             sql += extra
         sql += "AND ST_IsValid(geom) "
         sql += bounds_query
+        print(sql)
         session = self.Session()
 
-        print(sql)
         # Pull the data
         data = gpd.read_postgis(sql=sql, con=self.engine)
         session.close()
@@ -129,12 +126,9 @@ class PostGisHandler:
         update = f"UPDATE {self.schema}.{self.calculation_table} " \
                  f"SET calculated = TRUE " \
                  f"WHERE index_key = {index}"
-        session = self.Session()
-        session.execute(text(update))
-        session.commit()
-        session.close()
+        self.send_to_db(update)
 
-    def update_point_height(self, table_name, point, crs, depth, level):
+    def update_point_height(self, table_name, point, crs, depth, level, return_query=False):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
             return None
@@ -143,6 +137,11 @@ class PostGisHandler:
                  f"SET depth = {depth} " \
                  f"WHERE geom = 'SRID={crs};{wkt_point}'::geometry and zoom_level = {level};"
         print(update)
+        if return_query:
+            return update
+        self.send_to_db(update)
+
+    def send_to_db(self, update):
         session = self.Session()
         session.execute(text(update))
         session.commit()
