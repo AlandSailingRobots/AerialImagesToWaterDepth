@@ -72,7 +72,7 @@ def panda_execute(amount):
     configuration.clear_images()
 
 
-size = train_model_config["size_in_meters"] * 8
+size = train_model_config["size_in_meters"] * train_model_config["pixels_per_meter"]
 row = 4
 
 

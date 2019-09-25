@@ -21,7 +21,7 @@ def line_execute(line, lock):
 
 
 def source_execute(source_, lock):
-    file = open(fileToObjects.check_path(fileToObjects.data_map + source_['path']))
+    file = open(fileToObjects.check_path(source_['path']))
     for line in file:
         line_execute(line, lock)
     file.close()
