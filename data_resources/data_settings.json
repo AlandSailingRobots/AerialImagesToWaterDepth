@@ -1,0 +1,23 @@
+{
+  "backup_map": "/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/",
+  "images_map": "AerialImages",
+  "data_map": "AerialImagesHeight/",
+  "models_map": "AerialImagesModels/",
+  "datasource_types": {
+    "open_source": [
+      "open_data_sources.json"
+    ],
+    "private": [
+      "data/data_sources.json"
+    ],
+    "corrected": [
+      "data/data_sources_corrected.json"
+    ],
+    "height_corrected": [
+      "height_corrected_data_sources.json"
+    ],
+    "csv": [
+      "csv_corrected_data_sources.json"
+    ]
+  }
+}

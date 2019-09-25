@@ -3,27 +3,24 @@ from enum import Enum
 
 import pandas as pd
 import os
-import platform
 import urllib.request as req
 from PIL import Image
 
-system_dict = {"Darwin": "/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/",
-               "Linux": "/home/pi/images/",
-               "Other": "/home/thijs/images/"}
-backup_map = system_dict.get(platform.system(), system_dict["Other"])
-images_map = backup_map + 'AerialImages'
-data_map = backup_map + 'AerialImagesHeight/'
-models_map = backup_map + 'AerialImagesModels/'
-resources_map = '../resources/'
-available_paths = ['../', data_map, images_map, models_map, resources_map]
+data_settings = json.load(open("data_settings.json"))
+backup_map = data_settings["backup_map"]
+images_map = backup_map + data_settings["images_map"]
+data_map = backup_map + data_settings["data_map"]
+models_map = backup_map + data_settings["models_map"]
+available_paths = ['../', data_map, images_map, models_map, '../resources/']
 
 
 class DatasourceType(Enum):
-    open_source = ['open_data_sources.json']
-    private = ['data/data_sources.json']
-    corrected = ['data/data_sources_corrected.json']
-    height_corrected = ['height_corrected_data_sources.json']
-    csv = ['csv_corrected_data_sources.json']
+    source_types = data_settings["datasource_types"]
+    open_source = source_types["open_source"]
+    private = source_types["datasource_types"]["private"]
+    corrected = source_types["datasource_types"]["corrected"]
+    height_corrected = source_types["datasource_types"]["height_corrected"]
+    csv = source_types["datasource_types"]["csv"]
     combined = open_source + private
     combined_corrected = open_source + corrected
 
