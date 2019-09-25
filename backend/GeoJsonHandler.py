@@ -238,7 +238,7 @@ class GeoJsonHandler:
     def get_distance_between_points(self, bounds):
         return bounds['ne']. \
                    reduceDecimals(). \
-                   calculate_distance_to_point(bounds['nw'].reduceDecimals()) / 50
+                   calculate_distance_to_point(bounds['nw'].reduceDecimals()) / server_settings["division_amount"]
 
     def check_points(self, df):
         bounds = self.create_points_dict()

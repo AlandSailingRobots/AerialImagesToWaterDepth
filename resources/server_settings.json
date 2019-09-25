@@ -26,7 +26,8 @@
       "srsName": "EPSG:4326",
       "bbox": null,
       "outputFormat": "application/json"
-    }
+    },
+    "division_amount": 100
   },
   "PostGis": {
     "host": "localhost",
@@ -34,8 +35,8 @@
     "user": "thijs",
     "port": 5432,
     "driver_name": "postgresql+psycopg2",
-    "schema" : "test",
-    "point" : "points",
+    "schema": "test",
+    "point": "points",
     "polygon": "polygons",
     "calculation": "calculation"
   }
