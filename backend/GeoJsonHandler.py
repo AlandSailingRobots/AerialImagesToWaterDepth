@@ -226,7 +226,7 @@ class GeoJsonHandler:
                                               create_table=True, if_exists_action='append')
         return points_df.bounds
 
-    def calculate_geolist_update_database(self, df, geo_list, calculate=False):
+    def calculate_geolist_update_database(self, df, geo_list):
         depths = None
         self.post_points(df.crs, geo_list, depths)
         # df["zoom_level"] = df["zoom_level_1"]

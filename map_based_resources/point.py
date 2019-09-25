@@ -12,7 +12,7 @@ class DataPoint(Point):
     MeasurableSystem = 'epsg:4326'
     decimals_in_point = 5
 
-    def __init__(self, latitude, longitude, coordinate_type, level, *args):
+    def __init__(self, latitude, longitude, coordinate_type, level):
         super().__init__(longitude, latitude)
         self.coordinate_type = coordinate_type
         self.level = level

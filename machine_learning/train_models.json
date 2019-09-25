@@ -1,0 +1,20 @@
+[
+  {
+    "webmap_name": "ava",
+    "layer_name": "ava_norm",
+    "size_in_meters": 4,
+    "level": 14,
+    "steps_per_epoch": 10000,
+    "epochs": 1000,
+    "max_queue_size": 10
+  },
+  {
+    "webmap_name": "ava",
+    "layer_name": "ava_infrared",
+    "size_in_meters": 2,
+    "level": 15,
+    "steps_per_epoch": 1000,
+    "epochs": 100,
+    "max_queue_size": 1000
+  }
+]

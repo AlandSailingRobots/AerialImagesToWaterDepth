@@ -38,10 +38,7 @@ def line_execute(line, configuration, panda=False):
     return image_arr, round(height, 1)
 
 
-def file_execute(files, amount, yielded=True):
-    images = []
-    labels = []
-    print(len(files))
+def file_execute(files):
     counter_file = 0
     configuration = mapResources.MapResources()
     for file in files:
@@ -51,52 +48,27 @@ def file_execute(files, amount, yielded=True):
         index = 0
         for line in file:
             image, depth = line_execute(line, configuration)
-            images.append(image)
-            labels.append(depth)
             index += 1
+            yield (np.array([image]), np.array([depth]))
             if index % 10 == 0:
-                if yielded:
-                    #                     print(images[0].shape)
-                    yield (np.array(images), np.array(labels))
-                    images.clear()
-                    labels.clear()
                 configuration.clear_images()
         file.close()
-        print(counter_file, index)
-        print(len(images), len(labels))
-        yield (np.array(images), np.array(labels))
-        images.clear()
-        labels.clear()
         configuration.clear_images()
 
 
-def panda_execute(amount, yielded=True):
-    images = []
-    labels = []
-    counter_file = 0
+def panda_execute(amount):
     configuration = mapResources.MapResources()
     index = 0
     print('opening file')
     big = pd.read_csv(fileToObjects.check_path(source['path']), names=['x', 'y', 'height'])
     print(len(big))
     print('read in file')
-    for row in big.sample(frac=amount).iterrows():
-        image, depth = line_execute(row[1], configuration, panda=True)
-        images.append(image)
-        labels.append(depth)
+    for df_row in big.sample(frac=amount).iterrows():
+        image, depth = line_execute(df_row[1], configuration, panda=True)
+        yield np.array([image]), np.array([depth])
         index += 1
         if index % 10 == 0:
-            if yielded:
-                #                     print(images[0].shape)
-                yield (np.array(images), np.array(labels))
-                images.clear()
-                labels.clear()
             configuration.clear_images()
-    print(counter_file, index)
-    print(len(images), len(labels))
-    yield (np.array(images), np.array(labels))
-    images.clear()
-    labels.clear()
     configuration.clear_images()
 
 
@@ -134,7 +106,7 @@ def build_model():
 
 model = build_model()
 model.summary()
-gen = file_execute([source], None)
+gen = file_execute(sources[0:5])
 
 # gen = file_execute(sources[0:50], None)
 

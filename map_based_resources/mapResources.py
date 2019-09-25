@@ -99,7 +99,7 @@ class MapService:
 
 class MapResources:
     def __init__(self):
-        config = fileToObjects.get_config_from_json()
+        config = fileToObjects.get_wmts_config_from_json()
         self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]
         self.web_maps = list(MapService(wmts) for wmts in config["wmts"])
 

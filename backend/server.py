@@ -22,12 +22,12 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = (self.rfile.read(content_length)).decode('utf8')  # <--- Gets the data itself
         return json.loads(post_data)
 
-    def sendSuccesfullJson(self, json):
+    def sendSuccesfullJson(self, json_):
         self.send_response(200, "ok")
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        self.wfile.write(json.encode())
+        self.wfile.write(json_.encode())
 
     def do_GET(self):
         if self.dissect_path()[1] == "MapSettings":

@@ -55,7 +55,7 @@ To install the Sailing Robots website use the following guide: [Click here.](htt
 
 ### Setup
 #### Python
-It is best practice to run all the Python files in a virtual enviroment.
+It is best practice to run all the Python files in a virtual environment.
 Therefore we first need to create it. In the correct AerialImagesToWaterDepth map run the following command
 ```shell script
 python3 -m venv ENV

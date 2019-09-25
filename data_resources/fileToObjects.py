@@ -61,7 +61,7 @@ def open_json_file(filename, lock=None):
     return data
 
 
-def get_config_from_json(lock=None):
+def get_wmts_config_from_json(lock=None):
     return open_json_file('wmts_config.json', lock)
 
 
