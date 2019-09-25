@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-from data_resources import singleTile, fileToObjects
+from data_resources import fileToObjects
 from multiprocessing import Process, Lock
 
-from map_based_resources import point
+from map_based_resources import point, singleTile, mapResources
 
 sources = fileToObjects.get_data(fileToObjects.DatasourceType.height_corrected)
-configuration = fileToObjects.get_configuration()
+configuration = mapResources.MapResources()
 
 
 def line_execute(line, lock):
