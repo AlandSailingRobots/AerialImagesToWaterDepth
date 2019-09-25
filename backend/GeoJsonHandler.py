@@ -6,7 +6,7 @@ from backend.PostGisHandler import PostGisHandler
 from data_resources import fileToObjects
 from map_based_resources import point
 
-server_settings = fileToObjects.open_json_file('backend/server_settings.json')["GeoJson"]
+server_settings = fileToObjects.open_json_file('server_settings.json')["GeoJson"]
 
 
 class GeoJsonHandler:

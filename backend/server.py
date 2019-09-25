@@ -8,7 +8,7 @@ from data_resources import fileToObjects
 # Source: https://automating-gis-processes.github.io/CSC/notebooks/L2/data_io.html
 
 
-server_settings = fileToObjects.open_json_file('backend/server_settings.json')["Host"]
+server_settings = fileToObjects.open_json_file('server_settings.json')["Host"]
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -31,7 +31,7 @@ class MyServer(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.dissect_path()[1] == "MapSettings":
-            map_settings = json.dumps(json.loads(open("map_settings.json").read()))
+            map_settings = json.dumps(json.loads(open(fileToObjects.check_path("map_settings.json")).read()))
             self.sendSuccesfullJson(map_settings)
 
     def do_OPTIONS(self):

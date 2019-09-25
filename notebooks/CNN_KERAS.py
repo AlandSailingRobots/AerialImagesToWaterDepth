@@ -7,17 +7,10 @@ import numpy as np
 import pandas as pd
 
 sources = fileToObjects.get_data(fileToObjects.DatasourceType.csv)
+train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[1]
 source = sources[0]
 
 previous_mode = "RGBA"
-
-config = {"webmap_name": "ava",
-          "layer_name": "ava_infrared"}
-size_in_meters = 2
-level = 15
-steps_per_epoch = 1000
-epochs = 100
-max_queue_size = 1000
 
 
 def line_execute(line, configuration, panda=False):
@@ -29,9 +22,10 @@ def line_execute(line, configuration, panda=False):
     coordinate = point.DataPoint(float(line_s[1]),
                                  float(line_s[0]),
                                  source['coordinate_system'],
-                                 level)
-    coordinate_tile = singleTile.get_image_and_plot(coordinate, configuration, show=False, specific=config)
-    image = coordinate_tile.get_cropped_image_single(size_in_meters, 0)
+                                 train_model_config["level"])
+    coordinate_tile = singleTile.get_image_and_plot(coordinate, configuration, show=False,
+                                                    specific=train_model_config)
+    image = coordinate_tile.get_cropped_image_single(train_model_config["size_in_meters"], 0)
     if previous_mode is None:
         previous_mode = image.mode
     if image.mode != previous_mode:
@@ -106,7 +100,7 @@ def panda_execute(amount, yielded=True):
     configuration.clear_images()
 
 
-size = 16
+size = train_model_config["size_in_meters"] * 8
 row = 4
 
 
@@ -148,16 +142,12 @@ gen = file_execute([source], None)
 
 
 try:
-    history = model.fit_generator(gen, steps_per_epoch=steps_per_epoch, epochs=epochs, max_queue_size=max_queue_size)
+    history = model.fit_generator(gen,
+                                  steps_per_epoch=train_model_config["steps_per_epoch"],
+                                  epochs=train_model_config["epochs"],
+                                  max_queue_size=train_model_config["max_queue_size"])
 except KeyboardInterrupt:
     pass
 
-save_string = f'webmap-{config["webmap_name"]}' \
-              f'-layer-{config["layer_name"]}' \
-              f'-size-{size_in_meters}' \
-              f'-level-{level}-' \
-              f'steps-{steps_per_epoch}-' \
-              f'epochs-{epochs}-' \
-              f'queue_size-{max_queue_size}' \
-              f'.h5'
-model.save(save_string)
+save_string = '-'.join([f'{key}-{value}' for key, value in train_model_config.items()])
+model.save(save_string + '.h5')

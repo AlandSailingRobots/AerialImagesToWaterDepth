@@ -17,7 +17,7 @@ To result in this a few steps first need to be done.
 Progress:
 - [ ] Get the images.
     - [X] [Write a notebook which can get an image for a random point](notebooks/WMTS_Single_Tile_Based.ipynb).
-    - [X] [Configuration file which gives possible WMTS Urls and their layers](resources/config.json)
+    - [X] [Configuration file which gives possible WMTS Urls and their layers](resources/wmts_config.json)
     - [X] Have a background image to check if the current coordinate is land or sea.
     - [X] Have selected location in image
         - [x] in code.

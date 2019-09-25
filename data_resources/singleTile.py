@@ -101,7 +101,7 @@ def get_matrix_at_level(wmts, level):
 # Sometimes the level has a special name and is not in this specific level. So then we change the name to the correct
 # setting and perhaps go up a few level's. This makes sure that we get an image which contains the correct point.
 # This data is also returned in the end so that levels that are not similar can be filtered out as well. this
-# `special_level` option can be set in the `config.json` because this is a layer properties.
+# `special_level` option can be set in the `wmts_config.json` because this is a layer properties.
 
 # In[6]:
 
@@ -125,7 +125,7 @@ def get_tile_level(wmts, layer):
 
 # ## Dealing with split up layers
 # Sometimes to have a better resolution of the images, the map is split up in the different tile matrix widths. This
-# then has an extension of 0 to 9. To execute this function `split` has to be in the `config.json` file for this
+# then has an extension of 0 to 9. To execute this function `split` has to be in the `wmts_config.json` file for this
 # specific layer. the generator function first looks for layers that are similar to the base layer but not the
 # original layer.
 

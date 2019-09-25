@@ -16,14 +16,16 @@ backup_map = system_dict.get(platform.system(), system_dict["Other"])
 images_map = backup_map + 'AerialImages'
 data_map = backup_map + 'AerialImagesHeight/'
 models_map = backup_map + 'AerialImagesModels/'
+resources_map = '../resources/'
+available_paths = ['../', data_map, images_map, models_map, resources_map]
 
 
 class DatasourceType(Enum):
-    open_source = ['open_data/data_sources.json']
+    open_source = ['open_data_sources.json']
     private = ['data/data_sources.json']
     corrected = ['data/data_sources_corrected.json']
-    height_corrected = ['height_corrected_data/data_sources.json']
-    csv = ['csv_correct/data_sources_csv.json']
+    height_corrected = ['height_corrected_data_sources.json']
+    csv = ['csv_corrected_data_sources.json']
     combined = open_source + private
     combined_corrected = open_source + corrected
 
@@ -41,14 +43,9 @@ def check_path(filename):
         return filename
     if filename[0] == '/' and os.path.isfile('..' + filename):
         return '..' + filename
-    if os.path.isfile('../' + filename):
-        return '../' + filename
-    if os.path.isfile(data_map + filename):
-        return data_map + filename
-    if os.path.isfile(images_map + filename):
-        return images_map + filename
-    if os.path.isfile(models_map + filename):
-        return models_map + filename
+    for path in available_paths:
+        if os.path.isfile(path + filename):
+            return path + filename
     return None
 
 
@@ -67,11 +64,11 @@ def open_json_file(filename, lock=None):
 
 
 def get_coordinates_from_file():
-    return transformObjects.get_datapoints_from_json(open_json_file('resources/coordinates.json'))
+    return transformObjects.get_datapoints_from_json(open_json_file('coordinates.json'))
 
 
 def get_config_from_json(lock=None):
-    return open_json_file('resources/config.json', lock)
+    return open_json_file('wmts_config.json', lock)
 
 
 def get_data(data_type=DatasourceType.open_source):
@@ -94,7 +91,7 @@ def get_configuration(lock=None):
 
 
 def open_xyz_file_as_panda(file):
-    path = check_path(data_map + file['path'])
+    path = check_path(file['path'])
     if path is None and 'url' not in file:
         raise FileNotFoundError(file['name'])
     if path is None and 'url' in file:

@@ -1,0 +1,56 @@
+[
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-0.csv",
+    "path": "csv_correct/-0.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-19858884.csv",
+    "path": "csv_correct/-19858884.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-29788326.csv",
+    "path": "csv_correct/-29788326.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-39717768.csv",
+    "path": "csv_correct/-39717768.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-49647210.csv",
+    "path": "csv_correct/-49647210.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-59576652.csv",
+    "path": "csv_correct/-59576652.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-69506094.csv",
+    "path": "csv_correct/-69506094.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-79435536.csv",
+    "path": "csv_correct/-79435536.csv"
+  },
+  {
+    "color": "midnightblue",
+    "coordinate_system": "epsg:3067",
+    "name": "csv_correct/-9929442.csv",
+    "path": "csv_correct/-9929442.csv"
+  }
+]

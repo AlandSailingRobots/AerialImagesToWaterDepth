@@ -15,7 +15,7 @@ from data_resources import fileToObjects
 # Referenced from: https://automating-gis-processes.github.io/CSC/notebooks/L2/data_io.html
 
 
-server_settings = fileToObjects.open_json_file('backend/server_settings.json')["PostGis"]
+server_settings = fileToObjects.open_json_file('server_settings.json')["PostGis"]
 db_url = URL(drivername=server_settings["driver_name"],
              host=server_settings["host"],
              database=server_settings["db"],
