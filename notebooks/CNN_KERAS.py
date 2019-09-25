@@ -25,7 +25,7 @@ def line_execute(line, configuration, panda=False):
                                  train_model_config["level"])
     coordinate_tile = singleTile.get_image_and_plot(coordinate, configuration, show=False,
                                                     specific=train_model_config)
-    image = coordinate_tile.get_cropped_image_single(train_model_config["size_in_meters"], 0)
+    image = coordinate_tile.get_cropped_image_single(train_model_config["size_in_meters"])
     if previous_mode is None:
         previous_mode = image.mode
     if image.mode != previous_mode:

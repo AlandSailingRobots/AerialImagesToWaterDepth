@@ -18,7 +18,7 @@ class ConvolutionalHandler:
                                      self.model_config["level"])
         coordinate_tile = singleTile.get_image_and_plot(coordinate, self.configuration, show=False,
                                                         specific=self.model_config)
-        image = coordinate_tile.get_cropped_image_single(self.model_config["size_in_meters"], 0)
+        image = coordinate_tile.get_cropped_image_single(self.model_config["size_in_meters"])
         if image.mode != 'RGBA':
             image = image.convert('RGBA')
         return np.array([np.array(image)])
