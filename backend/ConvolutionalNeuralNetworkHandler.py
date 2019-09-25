@@ -1,7 +1,7 @@
 from keras.models import load_model
 
-from data_resources import fileToObjects, singleTile
-from map_based_resources import point
+from data_resources import fileToObjects
+from map_based_resources import point, singleTile, mapResources
 import numpy as np
 
 
@@ -10,7 +10,7 @@ class ConvolutionalHandler:
         self.models = fileToObjects.get_available_cnn_models()
         self.model_config = self.models[model_config_index]
         self.model = load_model(fileToObjects.check_path(self.model_config["model_path"]))
-        self.configuration = fileToObjects.get_configuration()
+        self.configuration = mapResources.MapResources()
 
     def get_image(self, longitude, latitude, epsg):
         coordinate = point.DataPoint(latitude, longitude,

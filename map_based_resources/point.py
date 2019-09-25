@@ -3,8 +3,7 @@ import pyproj
 from PIL import Image
 from geopy.distance import great_circle
 from geopy import Point as GeoPoint, distance as geo_distance
-from map_based_resources import mapResources
-from data_resources import singleTile
+from map_based_resources import mapResources, singleTile
 from shapely.geometry import Point
 
 

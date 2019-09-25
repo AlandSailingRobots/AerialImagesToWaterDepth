@@ -1,8 +1,8 @@
-from data_resources import fileToObjects, singleTile
+from data_resources import fileToObjects
 from multiprocessing import Process, Lock
 import random
 
-from map_based_resources import point
+from map_based_resources import point, singleTile, mapResources
 
 
 def get_cropped_images_from_file(arr, cropped_size=2, lock=None):
@@ -30,7 +30,7 @@ def execution(file, source, config, cropped_size, lock=None):
 
 def create_process(source, cropped_size, lock):
     file = open(fileToObjects.check_path(source['path']))
-    configuration = fileToObjects.get_configuration()
+    configuration = mapResources.MapResources()
     return Process(target=execution, args=(file, source, configuration, cropped_size, lock))
 
 

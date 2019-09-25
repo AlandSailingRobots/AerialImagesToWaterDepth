@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 import keras
 from keras import layers
-from data_resources import fileToObjects, singleTile
-from map_based_resources import point
+from data_resources import fileToObjects
+from map_based_resources import point, singleTile, mapResources
 import numpy as np
 import pandas as pd
 
@@ -43,12 +43,12 @@ def file_execute(files, amount, yielded=True):
     labels = []
     print(len(files))
     counter_file = 0
+    configuration = mapResources.MapResources()
     for file in files:
         counter_file += 1
         print(counter_file, file['path'])
         file = open(fileToObjects.check_path(file['path']))
         index = 0
-        configuration = fileToObjects.get_configuration()
         for line in file:
             image, depth = line_execute(line, configuration)
             images.append(image)
@@ -74,7 +74,7 @@ def panda_execute(amount, yielded=True):
     images = []
     labels = []
     counter_file = 0
-    configuration = fileToObjects.get_configuration()
+    configuration = mapResources.MapResources()
     index = 0
     print('opening file')
     big = pd.read_csv(fileToObjects.check_path(source['path']), names=['x', 'y', 'height'])

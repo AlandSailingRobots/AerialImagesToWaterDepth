@@ -1,4 +1,5 @@
-from data_resources import fileToObjects, transformObjects, singleTile
+from data_resources import fileToObjects
+from map_based_resources import singleTile, transformObjects, mapResources
 from PIL import Image
 from bokeh.plotting import figure, show, output_file
 import time
@@ -9,7 +10,7 @@ widgets = [
     progressbar.Bar(),
     ' (', progressbar.AdaptiveETA(), ') ',
 ]
-configuration = fileToObjects.get_configuration()
+configuration = mapResources.MapResources()
 
 
 def get_datapoints(sample, data_source, level, name_set):

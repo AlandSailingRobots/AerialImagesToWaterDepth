@@ -4,10 +4,8 @@ from enum import Enum
 import pandas as pd
 import os
 import platform
-from data_resources import transformObjects
 import urllib.request as req
 from PIL import Image
-from map_based_resources import mapResources
 
 system_dict = {"Darwin": "/Volumes/GoogleDrive/My Drive/BackupDataAerialImagesProject/",
                "Linux": "/home/pi/images/",
@@ -63,10 +61,6 @@ def open_json_file(filename, lock=None):
     return data
 
 
-def get_coordinates_from_file():
-    return transformObjects.get_datapoints_from_json(open_json_file('coordinates.json'))
-
-
 def get_config_from_json(lock=None):
     return open_json_file('wmts_config.json', lock)
 
@@ -83,11 +77,6 @@ def get_data(data_type=DatasourceType.open_source):
     for source in data_type.value:
         json_list += open_json_file(source)
     return json_list
-
-
-def get_configuration(lock=None):
-    conf = mapResources.MapResources(get_config_from_json(lock))
-    return conf
 
 
 def open_xyz_file_as_panda(file):
