@@ -14,23 +14,17 @@ models_map = backup_map + data_settings["models_map"]
 available_paths = ['../', data_map, images_map, models_map, '../resources/']
 
 
-class DatasourceType(Enum):
-    source_types = data_settings["datasource_types"]
-    open_source = source_types["open_source"]
-    private = source_types["private"]
-    corrected = source_types["corrected"]
-    height_corrected = source_types["height_corrected"]
-    csv = source_types["csv"]
-    combined = open_source + private
-    combined_corrected = open_source + corrected
-
-
 def check_dir(dir_name):
     if os.path.isdir(dir_name):
         return dir_name
     if os.path.isdir('../' + dir_name):
         return '../' + dir_name
     return None
+
+
+for path in [backup_map] + available_paths:
+    if check_dir(path) is None:
+        os.mkdir(path)
 
 
 def check_path(filename):
@@ -42,6 +36,17 @@ def check_path(filename):
         if os.path.isfile(path + filename):
             return path + filename
     return None
+
+
+class DatasourceType(Enum):
+    source_types = data_settings["datasource_types"]
+    open_source = source_types["open_source"]
+    private = source_types["private"]
+    corrected = source_types["corrected"]
+    height_corrected = source_types["height_corrected"]
+    csv = source_types["csv"]
+    combined = open_source + private
+    combined_corrected = open_source + corrected
 
 
 def open_json_file(filename, lock=None):
