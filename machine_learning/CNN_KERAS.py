@@ -7,8 +7,8 @@ from map_based_resources import point, singleTile, mapResources
 import numpy as np
 import pandas as pd
 
-train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[1]
 sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.csv)
+train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[0]
 source = sources[0]
 
 previous_mode = "RGBA"

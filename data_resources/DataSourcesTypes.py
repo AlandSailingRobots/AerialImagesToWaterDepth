@@ -1,7 +1,9 @@
 import json
 from enum import Enum
 
-data_settings = json.load(open("../data_resources/data_settings.json"))
+from data_resources import fileToObjects
+
+data_settings = fileToObjects.open_json_file("../data_resources/data_settings.json")
 
 
 class DataSourceEnum(Enum):

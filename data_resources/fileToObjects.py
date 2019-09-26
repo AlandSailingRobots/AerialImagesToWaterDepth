@@ -5,14 +5,12 @@ import os
 import urllib.request as req
 from PIL import Image
 
-from data_resources.DataSourcesTypes import DataSourceEnum
-
 data_settings = json.load(open("../data_resources/data_settings.json"))
 backup_map = data_settings["backup_map"]
 images_map = backup_map + data_settings["images_map"]
 data_map = backup_map + data_settings["data_map"]
 models_map = backup_map + data_settings["models_map"]
-available_paths = ['../', data_map, images_map, models_map, '../resources/']
+available_paths = ['./', '../', data_map, images_map, models_map, './resources/', '../resources/']
 
 
 def check_dir(dir_name):
@@ -53,11 +51,7 @@ def open_json_file(filename, lock=None):
     return data
 
 
-def get_wmts_config_from_json(lock=None):
-    return open_json_file('wmts_config.json', lock)
-
-
-def get_data(data_type=DataSourceEnum.open_source):
+def get_data(data_type):
     """
     Method to get the existing data.
     :type data_type: DataSourceEnum
@@ -127,3 +121,7 @@ def save_image(image: Image, layer_name, level, row, column, lock=None):
 
 def get_available_cnn_models():
     return open_json_file('backend/cnn_models.json')
+
+
+def get_wmts_config_from_json(lock=None):
+    return open_json_file('resources/wmts_config.json', lock)
