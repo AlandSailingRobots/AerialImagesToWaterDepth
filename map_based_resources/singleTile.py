@@ -293,22 +293,24 @@ def get_image_and_plot(info_dict, config, show=True, specific=None):
     for web_map in config.web_maps:
         if not web_map.ignore:
             if web_map.name not in items_run_off:
-                items_run_off[web_map.name] = {"webmap": web_map}
+                items_run_off[web_map.name] = {"webmap": web_map, "items": {}}
             for layer in web_map.map_layers:
-                items_run_off[web_map.name][layer.name] = layer
+                items_run_off[web_map.name]["items"][layer.name] = layer
     if specific is not None:
         web_map = items_run_off[specific["webmap_name"]]["webmap"]
-        layer = items_run_off[specific["webmap_name"]][specific["layer_name"]]
+        layer = items_run_off[specific["webmap_name"]]["items"][specific["layer_name"]]
 
         measured_point.add_image_point(
             get_image_and_information_for_single_point(info_dict, layer,
                                                        web_map))
     else:
-        for web_map_name in items_run_off:
-            for layer_name in items_run_off[web_map_name]:
+        for web_map_name in items_run_off.keys():
+            web_map_ = items_run_off[web_map_name]["webmap"]
+            for layer_name in items_run_off[web_map_name]["items"]:
+                layer = items_run_off[web_map_name]["items"][layer_name]
                 measured_point.add_image_point(
-                    get_image_and_information_for_single_point(info_dict, items_run_off[web_map_name][layer_name],
-                                                               items_run_off[web_map_name]["webmap"]))
+                    get_image_and_information_for_single_point(info_dict, layer,
+                                                               web_map_))
 
     if show:
         for image_point in measured_point.image_points:
