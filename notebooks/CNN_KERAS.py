@@ -122,4 +122,6 @@ except KeyboardInterrupt:
     pass
 
 save_string = '-'.join([f'{key}-{value}' for key, value in train_model_config.items()])
+if "save_to_backup" in train_model_config and train_model_config["save_to_backup"]:
+    save_string = fileToObjects.models_map + save_string
 model.save(save_string + '.h5')
