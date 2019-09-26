@@ -6,9 +6,9 @@ _Tested using 10.14.6 with HomeBrew, Python 3.7.4, pip 19.1.1, Gdal 2.4.2, Spati
 * [Setup](INSTALL_MAC_OS.md#Setup)
     * [Python](INSTALL_MAC_OS.md#Python)
     * [PostgreSQL](INSTALL_MAC_OS.md#PostgreSQL)
+    * [Files Configuration](INSTALL_MAC_OS.md#Files-configuration)
 * [Starting Services](INSTALL_MAC_OS.md#Starting-services)
 * [References](INSTALL_MAC_OS.md#References)
-
 
 ## Clone repo
 Clone the repository in a directory of choice:
@@ -51,7 +51,7 @@ brew install postgis
 brew install proj
 ```
 To install the Sailing Robots website use the following guide: [Click here.](https://github.com/AlandSailingRobots/SailingRobotsWebsite/blob/feature/AerialImagesToWaterDepth/INSTALL_MAC_OS.md) 
-:warning::exclamation: This guide assumes that you already have this installed.
+:warning::exclamation: This guide assumes that you already have this installed but is only needed if you want to run the website yourself.
 
 ### Setup
 #### Python
@@ -93,6 +93,10 @@ CREATE EXTENSION postgis;
 ```
 When connected to the database run the [Create Table script](SQL/create_table.sql) where the schema name should match the one in the [server settings](resources/server_settings.json)
 
+### Files configuration
+
+When running the server and the machine learning model image files, data files and machine learning models are used.
+All these files are saved locally. The directory where all these are saved is set in the [data_resources](data_resources/data_settings.json) with the backup_map key. This can be  any directory.
 
 ## Starting Services
 
