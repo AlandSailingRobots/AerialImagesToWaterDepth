@@ -5,9 +5,8 @@ from keras import layers
 from data_resources import fileToObjects, DataSourcesTypes
 from map_based_resources import point, singleTile, mapResources
 import numpy as np
-import pandas as pd
 
-sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.csv)
+sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.open_source)
 train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[0]
 source = sources[0]
 
@@ -57,20 +56,20 @@ def file_execute(files):
         configuration.clear_images()
 
 
-def panda_execute(amount):
+def panda_execute(files, limit_depth=None):
     configuration = mapResources.MapResources()
     index = 0
-    print('opening file')
-    big = pd.read_csv(fileToObjects.check_path(source['path']), names=['x', 'y', 'height'])
-    print(len(big))
-    print('read in file')
-    for df_row in big.sample(frac=amount).iterrows():
-        image, depth = line_execute(df_row[1], configuration, panda=True)
-        yield np.array([image]), np.array([depth])
-        index += 1
-        if index % 10 == 0:
-            configuration.clear_images()
-    configuration.clear_images()
+    for file in files:
+        big = fileToObjects.open_xyz_file_as_panda(file)
+        if limit_depth is not None:
+            big = big[big['depth'] >= limit_depth]
+        for df_row in big.itertuples(index=False, name=None):
+            image, depth = line_execute(df_row, configuration, panda=True)
+            yield np.array([image]), np.array([depth])
+            index += 1
+            if index % 10 == 0:
+                configuration.clear_images()
+        configuration.clear_images()
 
 
 size = train_model_config["size_in_meters"] * train_model_config["pixels_per_meter"]
@@ -107,12 +106,9 @@ def build_model():
 
 model = build_model()
 model.summary()
-gen = file_execute(sources[0:5])
+gen = panda_execute(sources[0:5],limit_depth=train_model_config['limit_depth'])
 
 # gen = file_execute(sources[0:50], None)
-
-# gen = panda_execute(0.5)
-
 
 try:
     history = model.fit_generator(gen,

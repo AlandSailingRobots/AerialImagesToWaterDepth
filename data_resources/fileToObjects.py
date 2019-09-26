@@ -71,11 +71,18 @@ def open_xyz_file_as_panda(file):
         raise FileNotFoundError(file['name'])
     if path is None and 'url' in file:
         print('Missing {0}, retrieving from url {1}'.format(file['name'], file['url']))
-        directory = check_dir(file['path'].split('/')[0])
-        req.urlretrieve(file['url'], '{0}/{1}.xyz'.format(directory, file['name']))
-        path = file['url']
-    return pd.read_csv(path, delim_whitespace=True,
-                       names=['longitude', 'latitude', 'height'])
+        local_dir = file['path'].split('/')[0]
+        directory = check_dir(data_map + local_dir)
+        if directory is None:
+            os.mkdir(data_map + local_dir)
+            directory = data_map + local_dir
+        df = pd.read_csv(file['url'], delim_whitespace=True,
+                         names=['longitude', 'latitude', 'height'])
+        df.to_csv(data_map + file['path'], header=False, index=False, sep=",")
+        return df
+    else:
+        return pd.read_csv(path,
+                           names=['longitude', 'latitude', 'height'])
 
 
 def save_panda_as_file(df: pd.DataFrame, name, dir_name='corrected_data'):
