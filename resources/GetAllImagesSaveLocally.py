@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
-from data_resources import fileToObjects
+from data_resources import fileToObjects, DataSourcesTypes
 from multiprocessing import Process, Lock
 
 from map_based_resources import point, singleTile, mapResources
 
-sources = fileToObjects.get_data(fileToObjects.DatasourceType.height_corrected)
+sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.height_corrected)
 configuration = mapResources.MapResources()
 
 

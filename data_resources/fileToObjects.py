@@ -1,10 +1,11 @@
 import json
-from enum import Enum
 
 import pandas as pd
 import os
 import urllib.request as req
 from PIL import Image
+
+from data_resources.DataSourcesTypes import DataSourceEnum
 
 data_settings = json.load(open("../data_resources/data_settings.json"))
 backup_map = data_settings["backup_map"]
@@ -38,17 +39,6 @@ def check_path(filename):
     return None
 
 
-class DatasourceType(Enum):
-    source_types = data_settings["datasource_types"]
-    open_source = source_types["open_source"]
-    private = source_types["private"]
-    corrected = source_types["corrected"]
-    height_corrected = source_types["height_corrected"]
-    csv = source_types["csv"]
-    combined = open_source + private
-    combined_corrected = open_source + corrected
-
-
 def open_json_file(filename, lock=None):
     path = check_path(filename)
     if path is None:
@@ -67,10 +57,10 @@ def get_wmts_config_from_json(lock=None):
     return open_json_file('wmts_config.json', lock)
 
 
-def get_data(data_type=DatasourceType.open_source):
+def get_data(data_type=DataSourceEnum.open_source):
     """
     Method to get the existing data.
-    :type data_type: DatasourceType
+    :type data_type: DataSourceEnum
     :param data_type: Name of what kind of data options: open_source, combined, private, corrected and combined
     corrected. default open_source
     :return: json list with source files en their values.

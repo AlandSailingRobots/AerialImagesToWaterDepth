@@ -1,4 +1,4 @@
-from data_resources import fileToObjects
+from data_resources import fileToObjects, DataSourcesTypes
 import pandas as pd
 from pyproj import Proj, Transformer
 
@@ -46,7 +46,7 @@ def change_height_and_save(df_, name, difference):
     fileToObjects.save_panda_as_file(df_.drop('name', axis=1), name)
 
 
-sources = fileToObjects.get_data(fileToObjects.DatasourceType.private)
+sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.private)
 df = get_single_df_from_sources(sources, correct_df=True, save=True)
 dif = get_height_difference_in_location_points(df.copy(), 'LIDAR_WMA_malli_2m')
 change_height_and_save(df, 'LIDAR_WMA_malli_2m', dif)

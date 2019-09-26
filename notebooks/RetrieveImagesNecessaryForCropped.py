@@ -1,4 +1,4 @@
-from data_resources import fileToObjects
+from data_resources import fileToObjects, DataSourcesTypes
 from multiprocessing import Process, Lock
 import random
 
@@ -35,7 +35,7 @@ def create_process(source, model_config, lock):
     return Process(target=execution, args=(file, source, configuration, model_config, lock))
 
 
-sources = fileToObjects.get_data(fileToObjects.DatasourceType.height_corrected)
+sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.height_corrected)
 lock_ = Lock()
 list_of_processes = []
 train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[0]

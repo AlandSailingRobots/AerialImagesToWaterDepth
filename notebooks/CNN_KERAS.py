@@ -1,13 +1,14 @@
 #! /usr/bin/env python
 import keras
 from keras import layers
-from data_resources import fileToObjects
+
+from data_resources import fileToObjects, DataSourcesTypes
 from map_based_resources import point, singleTile, mapResources
 import numpy as np
 import pandas as pd
 
-sources = fileToObjects.get_data(fileToObjects.DatasourceType.csv)
 train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[1]
+sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.csv)
 source = sources[0]
 
 previous_mode = "RGBA"

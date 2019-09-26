@@ -1,4 +1,4 @@
-from data_resources import fileToObjects
+from data_resources import fileToObjects, DataSourcesTypes
 from map_based_resources import singleTile, transformObjects, mapResources
 from PIL import Image
 from bokeh.plotting import figure, show, output_file
@@ -153,7 +153,7 @@ def plot_from_dict(data_dict, image):
 def create_visualization():
     level = 10
     name_set = ['ava_norm_split', 'ava_norm', 'ava_infrared', 'background_map'][-1]
-    sources = fileToObjects.get_data(fileToObjects.DatasourceType.combined_corrected)
+    sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.combined_corrected)
     datasets = get_dataset_from_sources(sources, 100, level, name_set, max_depth=-2, no_sample=False)
     web_map, layer = singleTile.get_specific_layer(configuration, name_set)
     get_missing_tiles(layer.image_tiles, web_map, layer)
