@@ -23,9 +23,9 @@ def check_dir(dir_name):
     return None
 
 
-for path in [backup_map] + available_paths:
-    if check_dir(path) is None:
-        os.mkdir(path)
+for path_ in [backup_map] + available_paths:
+    if check_dir(path_) is None:
+        os.mkdir(path_)
 
 
 def check_path(filename):
