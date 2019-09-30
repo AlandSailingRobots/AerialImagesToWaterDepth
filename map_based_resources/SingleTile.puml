@@ -1,0 +1,20 @@
+@startuml
+'!includesub MapResources.puml!ImageTile
+
+start
+while(for WebMap in WebMaps)
+      while(Layers) is (has next layer) 
+      :add Layer to iterator list;
+      endwhile (no next Layer)
+    endwhile (no next WebMap)
+->no;
+while(Layer iterator list) is (not empty)
+    while (Layer has current zoom level?) is (no)
+        : change zoom level;
+    endwhile(yes)
+
+
+endwhile(empty)
+stop
+
+@enduml

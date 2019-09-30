@@ -23,7 +23,7 @@ class LocationInImage {
     __init__(self, width, height)
 }
 class ImagePoint{
-    + cropped_images: Dict[Any, Any]
+    + cropped_images: Dict[Any, Image]
     + data_point_in_image: LocationInImage
     + image_tile : ImageTile
     + layer: MapLayer
@@ -48,7 +48,11 @@ class MeasurementPoint {
     - retrieve_all_images(self)
 }
 
+!includesub MapResources.puml!ImageTile
+
 MeasurementPoint "1" *-- "*" ImagePoint
 MeasurementPoint "1" *-- "1" DataPoint
 ImagePoint "1" *-- "1" LocationInImage
+ImagePoint "1" *-- "1" ImageTile
+
 @enduml

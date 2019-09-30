@@ -1,5 +1,6 @@
 @startuml
 title MapResources
+!startsub ImageTile
 class ImageTile {
    +column: int
    +image: Any
@@ -13,7 +14,10 @@ class ImageTile {
     - save_image(self, lock)
     - get_image_from_tile(self, lock=None)
 }
-class MapLayer {
+!endsub
+
+
+class MapLayer{
     + already_splitted: bool
     + image_tiles: Set[ImageTile]
     + images_gotten: Set[tuple]
