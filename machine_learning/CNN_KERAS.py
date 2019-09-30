@@ -7,7 +7,7 @@ from map_based_resources import point, singleTile, mapResources
 import numpy as np
 
 sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum.open_source)
-train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[0]
+train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[1]
 source = sources[0]
 
 previous_mode = "RGBA"
@@ -62,7 +62,7 @@ def panda_execute(files, limit_depth=None):
     for file in files:
         big = fileToObjects.open_xyz_file_as_panda(file)
         if limit_depth is not None:
-            big = big[big['depth'] >= limit_depth]
+            big = big[big['height'] >= limit_depth]
         for df_row in big.itertuples(index=False, name=None):
             image, depth = line_execute(df_row, configuration, panda=True)
             yield np.array([image]), np.array([depth])
@@ -104,9 +104,11 @@ def build_model():
     return model_
 
 
+for source in sources:
+    fileToObjects.check_xyz_file(source)
 model = build_model()
 model.summary()
-gen = panda_execute(sources[0:5],limit_depth=train_model_config['limit_depth'])
+gen = panda_execute(sources[0:5], limit_depth=train_model_config['limit_depth'])
 
 # gen = file_execute(sources[0:50], None)
 

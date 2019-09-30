@@ -65,7 +65,7 @@ def get_data(data_type):
     return json_list
 
 
-def open_xyz_file_as_panda(file):
+def check_xyz_file(file):
     path = check_path(file['path'])
     if path is None and 'url' not in file:
         raise FileNotFoundError(file['name'])
@@ -76,13 +76,13 @@ def open_xyz_file_as_panda(file):
         if directory is None:
             os.mkdir(data_map + local_dir)
             directory = data_map + local_dir
-        df = pd.read_csv(file['url'], delim_whitespace=True,
-                         names=['longitude', 'latitude', 'height'])
-        df.to_csv(data_map + file['path'], header=False, index=False, sep=",")
-        return df
-    else:
-        return pd.read_csv(path,
-                           names=['longitude', 'latitude', 'height'])
+        req.urlretrieve(file['url'], '{0}/{1}.xyz'.format(directory, file['name']))
+
+
+def open_xyz_file_as_panda(file):
+    path = check_path(file['path'])
+    check_xyz_file(file)
+    return pd.read_csv(path, names=['longitude', 'latitude', 'height'])
 
 
 def save_panda_as_file(df: pd.DataFrame, name, dir_name='corrected_data'):
