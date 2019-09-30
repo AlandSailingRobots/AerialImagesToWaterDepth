@@ -1,10 +1,18 @@
 import io
+from typing import List, Set, Any
+
 from data_resources import fileToObjects
 from PIL import Image
 from owslib.wmts import WebMapTileService
 
 
 class ImageTile:
+    column: int
+    image: Image
+    layer_name: str
+    level: int
+    row: int
+    tile: Any
 
     def __init__(self, tile, layer_name, level, row, column, image=None):
         self.tile = tile
@@ -33,6 +41,16 @@ class ImageTile:
 
 
 class MapLayer:
+    already_splitted: bool
+    image_tiles: Set[ImageTile]
+    images_gotten: Set[tuple]
+    layer: str
+    level: int
+    name: str
+    original_layer: str
+    pixel_size: float
+    split: bool
+
     def __init__(self, name, layer, split):
         self.name = name
         self.layer = layer
@@ -70,17 +88,23 @@ class MapLayer:
 
 
 class MapService:
+    ignore: bool
+    map_layers: List[MapLayer]
+    name: str
+    set_name: str
+    special_level: bool
+    tile_service: WebMapTileService
+    special_level: bool
 
     def __init__(self, json_object):
         self.name = json_object["name"]
         self.ignore = "ignore" in json_object
-        self.url = json_object["url"]
         self.set_name = json_object["set_name"]
         self.map_layers = list(
             MapLayer(layer["name"], layer["layer"], "split" in layer) for layer in json_object["map_layers"])
         self.special_level = "special_level" in json_object
         if not self.ignore:
-            self.tile_service = WebMapTileService(self.url)
+            self.tile_service = WebMapTileService(json_object["url"])
 
     def get_info(self, map_layer):
         wmts = self.tile_service
@@ -96,6 +120,9 @@ class MapService:
 
 
 class MapResources:
+    standardized_rendering_pixel_size: float
+    web_maps: List[MapService]
+
     def __init__(self):
         config = fileToObjects.get_wmts_config_from_json()
         self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]

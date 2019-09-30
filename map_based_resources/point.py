@@ -1,3 +1,5 @@
+from typing import List, Dict, Any
+
 import matplotlib.pyplot as plt
 import pyproj
 from PIL import Image
@@ -6,11 +8,15 @@ from geopy import Point as GeoPoint, distance as geo_distance
 from map_based_resources import mapResources, singleTile
 from shapely.geometry import Point
 
+from map_based_resources.mapResources import ImageTile, MapService, MapLayer
+
 
 class DataPoint(Point):
-    FinnishSystem = 'epsg:3067'
-    MeasurableSystem = 'epsg:4326'
-    decimals_in_point = 5
+    FinnishSystem: str = 'epsg:3067'
+    MeasurableSystem: str = 'epsg:4326'
+    coordinate_type: str
+    decimals_in_point: int = 5
+    level: int
 
     def __init__(self, latitude, longitude, coordinate_type, level):
         super().__init__(longitude, latitude)
@@ -64,27 +70,25 @@ class DataPoint(Point):
                          self.MeasurableSystem, self.level)
         return data
 
-    def __str__(self):
-        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.y,
-                                                                                       self.x,
-                                                                                       self.level,
-                                                                                       self.coordinate_type)
-
-    def __repr__(self) -> str:
-        return "latitude: {0}, longitude :{1}, level: {2}, coordinate type {3}".format(self.y,
-                                                                                       self.x,
-                                                                                       self.level,
-                                                                                       self.coordinate_type)
-
 
 class LocationInImage:
 
+    height: float
+    width: float
+
     def __init__(self, width, height):
-        self.width = width
+        self.width = width;
         self.height = height
 
 
 class ImagePoint:
+
+    cropped_images: Dict[Any, Any]
+    data_point_in_image: LocationInImage
+    image_tile : ImageTile
+    layer: MapLayer
+    name: str
+    web_map : MapService
 
     def __init__(self, data_point_in_image: LocationInImage, image_tile: mapResources.ImageTile,
                  web_map: mapResources.MapService, layer: mapResources.MapLayer):
@@ -161,6 +165,10 @@ class ImagePoint:
 
 
 class MeasurementPoint:
+    data_point: DataPoint
+    image_points: List[ImagePoint]
+
+
     def __init__(self, data_point: DataPoint):
         self.data_point = data_point
         self.image_points = list()

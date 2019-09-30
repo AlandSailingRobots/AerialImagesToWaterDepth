@@ -1,0 +1,57 @@
+@startuml
+title MapResources
+class ImageTile {
+   +column: int
+   +image: Any
+   +row: int
+   +level: int
+   +layer_name: str
+   +tile: Any
+
+    - __init__(self, tile, layer_name, level, row, column, image=None)
+    - read_and_save(self, lock=None)
+    - save_image(self, lock)
+    - get_image_from_tile(self, lock=None)
+}
+class MapLayer {
+    + already_splitted: bool
+    + image_tiles: Set[ImageTile]
+    + images_gotten: Set[tuple]
+    + layer: str
+    + level: int
+    + name: str
+    + original_layer: str
+    + pixel_size: float
+    + split: bool
+
+    - __init__(self, name, layer, split)
+    - add_image_gotten(self, image_tile)
+    - add_image_tile(self, image_tile)
+    - image_tile_in_layer(self, level, row, column)
+    - get_image_tile(self, level, row, column)
+    - clear_images(self)
+}
+class MapService {
+    +ignore: bool
+    +map_layers: List[MapLayer]
+    +name: str
+    +set_name: str
+    +special_level: bool
+    +tile_service: WebMapTileService
+    +special_level: bool
+    - __init__(self, json_object)
+    - get_info(self, map_layer)
+    - clear_images(self)
+}
+
+class MapResources {
+    +standardized_rendering_pixel_size: float
+    +web_maps: List[MapService]
+    - __init__(self)
+    - clear_images(self)
+}
+MapResources "1" *-- "*" MapService
+MapService "1" *-- "*" MapLayer
+MapLayer "1" *-- "*" ImageTile
+
+@enduml
