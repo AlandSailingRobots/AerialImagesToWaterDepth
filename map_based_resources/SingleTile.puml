@@ -3,7 +3,7 @@
 
 start
 while(for WebMap in WebMaps)
-      while(Layers) is (has next layer) 
+      while(Layers) is (has next layer)
       :add Layer to iterator list;
       endwhile (no next Layer)
     endwhile (no next WebMap)

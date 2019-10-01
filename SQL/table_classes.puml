@@ -1,26 +1,12 @@
 @startuml
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+ object Points {
+    zoom_level: int
+    depth: double
+    geom: geometry
 }
-
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+object Polygons {
+    zoom_level: int
+    geom: geometry
 }
-
 @enduml

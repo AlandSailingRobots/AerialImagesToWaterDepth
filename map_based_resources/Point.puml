@@ -7,20 +7,20 @@ class DataPoint {
     + decimals_in_point : int
     + level : int
 
-    - __init__(self, latitude, longitude, coordinate_type, level)
-    - reduceDecimals(self, decimal=decimals_in_point)
-    - convert_coordinate_systems(self, inverse=False, destination=FinnishSystem, save_in_point=False, return_point=False)
-    - convert_to_correct_coordinate_system(self, initial_point, correct_coordinate_system=MeasurableSystem)
-    - calculate_distance_to_point(self, other_point)
-    - circle_distance(self, distance)
-    - create_neighbouring_point(self, distance, heading, rounding=decimals_in_point)
+    - __init__(latitude, longitude, coordinate_type, level)
+    - reduceDecimals(decimal=decimals_in_point)
+    - convert_coordinate_systems(inverse=False, destination=FinnishSystem, save_in_point=False, return_point=False)
+    - convert_to_correct_coordinate_system(initial_point, correct_coordinate_system=MeasurableSystem)
+    - calculate_distance_to_point(other_point)
+    - circle_distance(distance)
+    - create_neighbouring_point(distance, heading, rounding=decimals_in_point)
 }
 
 class LocationInImage {
     + height: float
     + width: float
 
-    __init__(self, width, height)
+    __init__(width, height)
 }
 class ImagePoint{
     + cropped_images: Dict[Any, Image]
@@ -29,30 +29,29 @@ class ImagePoint{
     + layer: MapLayer
     + name: str
     + web_map : MapService
-    _ __init__(self, data_point_in_image, image_tile, web_map, layer)
-    _ get_box_around(self, size, data_point=None)
-    _ get_cropped_image(self, size, square_size=3, lock=None)
-    _ get_image_bounding_box(self, size, square_size, lock=None)
-    _ make_image_bigger(self, data_point_image, new_image_size, floor_square_size, lock=None)
-    _ show_image_with_point(self)
+    _ __init__(data_point_in_image, image_tile, web_map, layer)
+    _ get_box_around(size, data_point=None)
+    _ get_cropped_image(size, square_size=3, lock=None)
+    _ get_image_bounding_box(size, square_size, lock=None)
+    _ make_image_bigger(data_point_image, new_image_size, floor_square_size, lock=None)
+    _ show_image_with_point()
 
 }
 class MeasurementPoint {
     + data_point: DataPoint
     + image_points: List[ImagePoint]
 
-    - __init__(self, data_point)
-    - add_image_point(self, image_point)
-    - get_cropped_images(self, size, lock=None)
-    - get_cropped_image_single(self, size, position=0, lock=None)
-    - retrieve_all_images(self)
+    - __init__(data_point)
+    - add_image_point(image_point)
+    - get_cropped_images(size, lock=None)
+    - get_cropped_image_single(size, position=0, lock=None)
+    - retrieve_all_images()
 }
 
 !includesub MapResources.puml!ImageTile
 
 MeasurementPoint "1" *-- "*" ImagePoint
 MeasurementPoint "1" *-- "1" DataPoint
-ImagePoint "1" *-- "1" LocationInImage
-ImagePoint "1" *-- "1" ImageTile
-
+ImageTile "1" --*"1" ImagePoint
+LocationInImage "1" *-- "1" ImagePoint
 @enduml
