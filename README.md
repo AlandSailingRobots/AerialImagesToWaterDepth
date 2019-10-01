@@ -36,6 +36,7 @@ To result this a few steps first need to be done.
     - [X] Call to get areas with a depth lower then specified.
  
  ## Train a Model
+ The description of how to train the model can be found at the [train model](machine_learning/train.md) description.
  
  ## Run the server
  The description of how to run the server with the corresponding machine learning model can be found at the [Install](INSTALL_MAC_OS.md#Starting-services)

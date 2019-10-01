@@ -2,7 +2,8 @@ import json
 
 import pandas as pd
 import os
-import urllib.request as req
+
+import wget
 from PIL import Image
 
 data_settings = json.load(open("../data_resources/data_settings.json"))
@@ -76,13 +77,15 @@ def check_xyz_file(file):
         if directory is None:
             os.mkdir(data_map + local_dir)
             directory = data_map + local_dir
-        req.urlretrieve(file['url'], '{0}/{1}.xyz'.format(directory, file['name']))
+        wget.download(file['url'], '{0}/{1}.xyz'.format(directory, file['name']))
 
 
-def open_xyz_file_as_panda(file):
+def open_xyz_file_as_panda(file, delimiter=','):
     path = check_path(file['path'])
     check_xyz_file(file)
-    return pd.read_csv(path, names=['longitude', 'latitude', 'height'])
+    if path.split('.')[-1] == 'xyz':
+        delimiter = ' '
+    return pd.read_csv(path, names=['longitude', 'latitude', 'height'], delimiter=delimiter)
 
 
 def save_panda_as_file(df: pd.DataFrame, name, dir_name='corrected_data'):
