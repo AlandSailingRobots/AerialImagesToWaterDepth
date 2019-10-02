@@ -20,7 +20,7 @@ class LocationInImage {
     + height: float
     + width: float
 
-    __init__(width, height)
+    - __init__(width, height)
 }
 class ImagePoint{
     + cropped_images: Dict[Any, Image]
@@ -48,7 +48,7 @@ class MeasurementPoint {
     - retrieve_all_images()
 }
 
-!includesub MapResources.puml!ImageTile
+'!includesub MapResources.puml!ImageTile
 
 MeasurementPoint "1" *-- "*" ImagePoint
 MeasurementPoint "1" *-- "1" DataPoint
