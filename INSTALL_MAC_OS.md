@@ -96,7 +96,7 @@ When connected to the database run the [Create Table script](SQL/create_table.sq
 ### Files configuration
 
 When running the server and the machine learning model image files, data files and machine learning models are used.
-All these files are saved locally. The directory where all these are saved is set in the [data_resources](data_resources/data_settings.json) with the backup_map key. This can be  any directory.
+All these files are saved locally. The directory where all these are saved is set in the [data_resources](data_resources/data_settings.json) with the backup_map key. This can be  any directory but needs to exist.
 
 ## Starting Services
 
