@@ -56,7 +56,7 @@ def get_file_iterator(file, model_config, panda):
         big = fileToObjects.open_xyz_file_as_panda(file)
         if 'limit_depth' in model_config:
             big = big[big['height'] >= model_config['limit_depth']]
-        return big.itertuples(index=False, name=None)
+        return big.sample(frac=1).itertuples(index=False, name=None)
     else:
         return open(fileToObjects.check_path(file['path']))
 
@@ -98,13 +98,16 @@ if df_is_panda:
         fileToObjects.check_xyz_file(source)
 model = build_model()
 model.summary()
-gen = file_execute(sources, train_model_config, panda=df_is_panda)
+gen = file_execute(sources[0:-2], train_model_config, panda=df_is_panda)
+gen_validator = file_execute(sources[-2:], train_model_config, panda=df_is_panda)
 
 try:
     history = model.fit_generator(gen,
                                   steps_per_epoch=train_model_config["steps_per_epoch"],
                                   epochs=train_model_config["epochs"],
-                                  max_queue_size=train_model_config["max_queue_size"])
+                                  max_queue_size=train_model_config["max_queue_size"],
+                                  validation_data=gen_validator,
+                                  validation_steps=train_model_config["steps_per_epoch"] / 10)
 except KeyboardInterrupt:
     pass
 
