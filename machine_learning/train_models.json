@@ -8,8 +8,8 @@
     "steps_per_epoch": 10000,
     "epochs": 1000,
     "max_queue_size": 10,
-    "limit_depth" : -10,
-    "save_to_backup" : false
+    "limit_depth": -10,
+    "save_to_backup": false
   },
   {
     "webmap_name": "ava",
@@ -17,12 +17,15 @@
     "size_in_meters": 2,
     "level": 15,
     "pixels_per_meter": 8,
-    "steps_per_epoch": 10000,
-    "epochs": 100,
+    "steps_per_epoch": 100,
+    "epochs": 10000,
     "max_queue_size": 100,
-    "limit_depth" : -10,
-    "limit_dataset": [0,5],
-    "save_to_backup" : false
+    "limit_depth": -10,
+    "limit_dataset": [
+      0,
+      5
+    ],
+    "save_to_backup": false
   },
   {
     "webmap_name": "ava",
@@ -33,7 +36,19 @@
     "steps_per_epoch": 10000,
     "epochs": 1000,
     "max_queue_size": 10000,
-    "limit_depth" : -10,
-    "save_to_backup" : false
+    "limit_depth": -10,
+    "save_to_backup": false
+  },
+  {
+    "webmap_name": "ava",
+    "layer_name": "ava_infrared",
+    "size_in_meters": 4,
+    "level": 15,
+    "pixels_per_meter": 8,
+    "steps_per_epoch": 10,
+    "epochs": 10000,
+    "max_queue_size": 1,
+    "limit_depth": -10,
+    "save_to_backup": false
   }
 ]
