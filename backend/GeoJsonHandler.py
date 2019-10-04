@@ -101,8 +101,7 @@ class GeoJsonHandler:
         passed_bounds = bounds
         if df is not None and len(df) is not 0:
             passed_bounds = df.bounds
-        limit, buffer = 2, 0.001 / 2
-        print(buffer)
+        limit, buffer = server_settings['depth_limit'], server_settings['coordinate_buffer'] / 2
         if "boatDepth" in self.jsonData["extra"]:
             limit = self.jsonData["extra"]["boatDepth"]
         if "buffer" in self.jsonData["extra"]:
@@ -113,17 +112,7 @@ class GeoJsonHandler:
                                                       passed_bounds,
                                                       as_buffer=as_buffer,
                                                       extra="AND depth {0} -{1} ".format(operator, limit))
-
         overlay = polygon_points.dissolve(by='zoom_level')
-        properties_dict = {
-            "stroke": "#555555",
-            "stroke-width": 2,
-            "stroke-opacity": 1,
-            "fill": "#7987ff",
-            "fill-opacity": 0.5}
-
-        for key in properties_dict:
-            overlay[key] = [properties_dict[key]] * len(overlay)
         print(overlay.crs)
         return overlay.to_json()
 
@@ -170,8 +159,7 @@ class GeoJsonHandler:
             geo_list = self.check_points(df)
         # If there are points not calculated.
         if len(geo_list) != 0:
-            calculate = "calculate" in self.jsonData["extra"]
-            self.calculate_geolist_update_database(df, geo_list, calculate=calculate)
+            self.calculate_geolist_update_database(df, geo_list)
         if return_:
             return self.getDepthArea()
 
