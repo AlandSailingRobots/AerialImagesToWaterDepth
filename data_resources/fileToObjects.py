@@ -103,7 +103,14 @@ def save_panda_as_file(df: pd.DataFrame, name, dir_name='corrected_data'):
 def check_image(layer_name, level, row, column):
     path = images_map
     path += '/{0}/{1}/{2}/{3}.png'.format(layer_name, level, row, column)
-    return os.path.exists(path)
+    if not os.path.exists(path):
+        return False
+    try:
+        Image.open(path)
+    except IOError:
+        os.remove(path)
+        return False
+    return True
 
 
 def get_image(layer_name, level, row, column):
