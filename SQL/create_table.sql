@@ -3,8 +3,12 @@ create table test.points
 (
     zoom_level integer,
     depth      double precision,
-    geom       geometry
+    geom       geometry,
+    identifier serial not null
 );
+
+create unique index points_identifier_uindex
+    on test.points (identifier);
 
 create table test.polygons
 (

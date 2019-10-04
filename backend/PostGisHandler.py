@@ -128,14 +128,13 @@ class PostGisHandler:
                  f"WHERE index_key = {index}"
         self.send_to_db(update)
 
-    def update_point_height(self, table_name, point, crs, depth, level, return_query=False):
+    def update_point_height(self, table_name, id, depth, return_query=False):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
             return None
-        wkt_point = WKTElement(point.wkt, srid=crs)
         update = f"UPDATE {self.schema}.{table_name} " \
                  f"SET depth = {depth} " \
-                 f"WHERE geom = 'SRID={crs};{wkt_point}'::geometry and zoom_level = {level};"
+                 f"WHERE identifier = {id}"
         print(update)
         if return_query:
             return update
