@@ -1,5 +1,5 @@
 {
-  "model": 1,
+  "model": 4,
   "data" : {
     "type": "csv",
     "is_panda": true
