@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 import keras
-from keras import layers
 
+from keras import layers, backend as K
 from data_resources import fileToObjects, DataSourcesTypes
 from map_based_resources import point, singleTile, mapResources
 import numpy as np
@@ -65,31 +65,35 @@ size = train_model_config["size_in_meters"] * train_model_config["pixels_per_met
 row = 4
 
 
+def equal_pred(y_true, y_pred):
+    return K.equal(K.round(y_pred), K.round(y_true))
+
+
 def build_model():
     model_ = keras.Sequential([
         #         layers.Reshape((size,size,row,),input_shape=(size,size,row)),
         layers.Conv2D(input_shape=[size, size, row], filters=32, kernel_size=[5, 5], padding="same",
                       activation='relu'),
+        layers.Conv2D(filters=32, kernel_size=[5, 5]),
+        layers.Dropout(0.5),
         layers.MaxPool2D(pool_size=[2, 2], strides=2),
         layers.Conv2D(input_shape=[size, size, row], filters=64, kernel_size=[5, 5], padding="same",
                       activation='relu'),
+        layers.Conv2D(filters=64, kernel_size=[5, 5]),
+        layers.Dropout(0.5),
         layers.MaxPool2D(pool_size=[2, 2], strides=2),
-        layers.Dense(64, activation='relu'),
-        #         layers.Dropout(0.4),
-        layers.Reshape((size * size * row,)),
-        layers.Dense(size * size * 64),
         layers.Dropout(0.5),
-        layers.Dense(size * 64),
+        layers.Flatten(),
+        layers.Dense(512),
         layers.Dropout(0.5),
-        layers.Dense(64),
-        layers.Dropout(0.5),
-        layers.Dense(1)
+        layers.Dense(1),
     ])
     optimizer = keras.optimizers.Adamax()
 
     model_.compile(loss=keras.losses.mean_squared_error,
                    optimizer=optimizer,
-                   metrics=[keras.metrics.binary_accuracy, 'mean_absolute_error', 'mean_squared_error'])
+                   metrics=[keras.metrics.binary_accuracy, 'mean_absolute_error', 'mean_squared_error',
+                            equal_pred])
     return model_
 
 
@@ -98,8 +102,8 @@ if df_is_panda:
         fileToObjects.check_xyz_file(source)
 model = build_model()
 model.summary()
-gen = file_execute(sources[0:-2], train_model_config, panda=df_is_panda)
-gen_validator = file_execute(sources[-2:], train_model_config, panda=df_is_panda)
+gen = file_execute(sources[0:-3], train_model_config, panda=df_is_panda)
+gen_validator = file_execute(sources[-3:], train_model_config, panda=df_is_panda)
 
 try:
     history = model.fit_generator(gen,
