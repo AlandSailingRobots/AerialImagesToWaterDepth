@@ -1,5 +1,5 @@
 @startuml
-
+title Background Processes
 object DepthCalculationProcess{
     + cnn ConvolutionalHandler
     + postGis PostGisHandler
@@ -13,13 +13,13 @@ object PointCalculationProcess{
    + geojson GeoJsonHandler
    calculatePoints()
 }
-!include ../Handlers/Handlers.puml
 DepthCalculationProcess "1" *--"1" PostGisHandler
-PointCalculationProcess "1" *--"1" PostGisHandler
 DepthCalculationProcess "1" *--"1" GeoJsonHandler
+DepthCalculationProcess "1" *--"1" ConvolutionalHandler
+PointCalculationProcess "1" *--"1" PostGisHandler
 PointCalculationProcess "1" *--"1" GeoJsonHandler
 
 hide GeoJsonHandler members
 hide PostGisHandler members
-hide ConvolutionalHandler
+hide ConvolutionalHandler members
 @enduml
