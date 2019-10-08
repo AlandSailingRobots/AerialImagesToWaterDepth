@@ -4,7 +4,8 @@ from keras.models import load_model
 from keras.utils import plot_model
 
 from data_resources import fileToObjects
-from map_based_resources import DataPoint, singleTile, MapResources
+from map_based_resources.point import DataPoint
+from map_based_resources.mapResources import MapResources
 import numpy as np
 
 
@@ -24,9 +25,10 @@ class ConvolutionalHandler:
         coordinate = DataPoint(latitude, longitude,
                                epsg,
                                self.model_config["level"])
-        coordinate_tile = singleTile.get_image_and_plot(coordinate, self.mapResource, show=False,
-                                                        specific=self.model_config)
-        image = coordinate_tile.get_cropped_image_single(self.model_config["size_in_meters"])
+        image = self.map_resource.get_image(coordinate, specific=self.model_config)
+        # coordinate_tile = singleTile.get_image_and_plot(coordinate, self.map_resource, show=False,
+        #                                                 specific=self.model_config)
+        # image = coordinate_tile.get_cropped_image_single(self.model_config["size_in_meters"])
         if image.mode != 'RGBA':
             image = image.convert('RGBA')
         return np.array([np.array(image)])

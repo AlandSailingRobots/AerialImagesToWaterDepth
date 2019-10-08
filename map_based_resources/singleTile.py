@@ -5,7 +5,7 @@
 
 
 from data_resources import fileToObjects
-from map_based_resources import point, mapResources, transformObjects, MeasurementPoint
+from map_based_resources import transformObjects, point, mapResources
 import time
 
 # ## Experimental Testing for getting photo's out of multiple WMTS servers.
@@ -285,10 +285,10 @@ def get_image_and_information_for_single_point(point_, layer, wmts, lock=None):
 # In[12]:
 
 
-def get_image_and_plot(info_dict, config, show=True, specific=None):
+def get_image_and_plot(coordinate, config, show=True, specific=None):
     global standardized_rendering_pixel_size
     standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
-    measured_point = MeasurementPoint(info_dict)
+    measured_point = point.MeasurementPoint(coordinate)
     items_run_off = {}
     for web_map in config.web_maps:
         if not web_map.ignore:
@@ -301,7 +301,7 @@ def get_image_and_plot(info_dict, config, show=True, specific=None):
         layer = items_run_off[specific["webmap_name"]]["items"][specific["layer_name"]]
 
         measured_point.add_image_point(
-            get_image_and_information_for_single_point(info_dict, layer,
+            get_image_and_information_for_single_point(coordinate, layer,
                                                        web_map))
     else:
         for web_map_name in items_run_off.keys():
@@ -309,7 +309,7 @@ def get_image_and_plot(info_dict, config, show=True, specific=None):
             for layer_name in items_run_off[web_map_name]["items"]:
                 layer = items_run_off[web_map_name]["items"][layer_name]
                 measured_point.add_image_point(
-                    get_image_and_information_for_single_point(info_dict, layer,
+                    get_image_and_information_for_single_point(coordinate, layer,
                                                                web_map_))
 
     if show:
@@ -332,7 +332,7 @@ def get_image_and_save(info_dict, config, lock):
 def get_information_for_tile(info_dict, config, name_layer=None):
     global standardized_rendering_pixel_size
     standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
-    measured_point = MeasurementPoint(info_dict)
+    measured_point = point.MeasurementPoint(info_dict)
     web_map, layer = get_specific_layer(config, name_layer)
     measured_point.add_image_point(get_image_and_information_for_single_point(info_dict, layer, web_map))
     return measured_point

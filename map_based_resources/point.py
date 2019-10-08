@@ -5,7 +5,8 @@ import pyproj
 from PIL import Image
 from geopy.distance import great_circle
 from geopy import Point as GeoPoint, distance as geo_distance
-from map_based_resources import singleTile, ImageTile, MapService, MapLayer
+from map_based_resources.mapResources import ImageTile, MapService, MapLayer
+from map_based_resources import singleTile
 from shapely.geometry import Point
 
 
@@ -74,7 +75,7 @@ class LocationInImage:
     width: float
 
     def __init__(self, width, height):
-        self.width = width;
+        self.width = width
         self.height = height
 
 
@@ -143,7 +144,7 @@ class ImagePoint:
             row_offset = 0
             for row_item in range(row + begin, row + end):
                 image_ = singleTile.get_pillow_image_from_tile(self.web_map, self.layer, row_item, column_item,
-                                                               lock)
+                                                    lock)
                 new_im.paste(image_, (column_offset, row_offset))
                 row_offset += image_.width
             column_offset += image_.height

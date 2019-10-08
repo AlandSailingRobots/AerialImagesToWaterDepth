@@ -1,9 +1,9 @@
 from time import sleep
 
-from backend.Handlers import ConvolutionalHandler, PostGisHandler
+from backend.Handlers import ConvolutionalNeuralNetworkHandler, PostGisHandler
 
-cnn = ConvolutionalHandler(3)
-postGis = PostGisHandler()
+cnn = ConvolutionalNeuralNetworkHandler.ConvolutionalHandler(3)
+postGis = PostGisHandler.PostGisHandler()
 
 
 def calculate_per_frame(crs, data):

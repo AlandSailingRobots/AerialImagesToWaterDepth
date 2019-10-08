@@ -1,10 +1,9 @@
 #! /usr/bin/env python
 import keras
-
 from keras import layers, backend as K
+import numpy as np
 from data_resources import fileToObjects, DataSourcesTypes
 from map_based_resources import point, singleTile, mapResources
-import numpy as np
 
 keras_config = fileToObjects.open_json_file("machine_learning/keras_setup.json")
 sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum[keras_config["data"]["type"]])
@@ -23,9 +22,10 @@ def line_execute(line, configuration, model_config, coordinate_system, panda=Fal
                                  float(line_s[0]),
                                  coordinate_system,
                                  model_config["level"])
-    coordinate_tile = singleTile.get_image_and_plot(coordinate, configuration, show=False,
-                                                    specific=model_config)
-    image = coordinate_tile.get_cropped_image_single(model_config["size_in_meters"])
+    image = configuration.get_image(coordinate, specific=model_config)
+    # coordinate_tile = singleTile.get_image_and_plot(coordinate, configuration, show=False,
+    #                                                 specific=model_config)
+    # image = coordinate_tile.get_cropped_image_single(model_config["size_in_meters"])
     if image.mode != "RGBA":
         image = image.convert("RGBA")
 

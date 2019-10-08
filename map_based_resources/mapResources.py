@@ -5,6 +5,8 @@ from data_resources import fileToObjects
 from PIL import Image
 from owslib.wmts import WebMapTileService
 
+from map_based_resources import singleTile
+
 
 class ImageTile:
     column: int
@@ -131,3 +133,7 @@ class MapResources:
     def clear_images(self):
         for i in range(len(self.web_maps)):
             self.web_maps[i].clear_images()
+
+    def get_image(self, coordinate, show=False, specific=None):
+        return singleTile.get_image_and_plot(coordinate, self, show=show, specific=specific).get_cropped_image_single(
+            specific["size_in_meters"])
