@@ -10,6 +10,8 @@ server_settings = fileToObjects.open_json_file('server_settings.json')["GeoJson"
 
 
 class GeoJsonHandler:
+    jsonData: dict
+    PostGisConnection: PostGisHandler
 
     def __init__(self) -> None:
         super().__init__()

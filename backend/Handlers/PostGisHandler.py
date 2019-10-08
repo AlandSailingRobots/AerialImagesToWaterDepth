@@ -23,7 +23,13 @@ db_url = URL(drivername=server_settings["driver_name"],
              port=server_settings["port"])
 
 
-class PostGisHandler:
+class PostGisHandler(object):
+
+    calculation_table: str
+    points_table: str
+    polygon_table: str
+    schema: str
+    Session: sessionmaker
 
     def __init__(self) -> None:
         super().__init__()

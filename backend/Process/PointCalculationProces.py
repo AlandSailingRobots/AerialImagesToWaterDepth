@@ -15,6 +15,6 @@ def calculatePoints():
         geojson.calculateDepthPointsProces(item.payload)
         postgis.update_calculation(int(item.index_key))
 
-
-while True:
-    calculatePoints()
+if __name__ == '__main__':
+    while True:
+        calculatePoints()

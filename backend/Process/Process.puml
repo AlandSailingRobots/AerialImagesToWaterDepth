@@ -1,0 +1,25 @@
+@startuml
+
+object DepthCalculationProcess{
+    + cnn ConvolutionalHandler
+    + postGis PostGisHandler
+    - calculate_per_frame(crs, data)
+    - calculate_per_single_point_update_database(crs, data)
+    - run_process()
+
+}
+object PointCalculationProcess{
+   + postgis PostGisHandler
+   + geojson GeoJsonHandler
+   calculatePoints()
+}
+!include ../Handlers/Handlers.puml
+DepthCalculationProcess "1" *--"1" PostGisHandler
+PointCalculationProcess "1" *--"1" PostGisHandler
+DepthCalculationProcess "1" *--"1" GeoJsonHandler
+PointCalculationProcess "1" *--"1" GeoJsonHandler
+
+hide GeoJsonHandler members
+hide PostGisHandler members
+hide ConvolutionalHandler
+@enduml

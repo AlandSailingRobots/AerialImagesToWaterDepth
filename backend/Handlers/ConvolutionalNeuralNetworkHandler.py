@@ -1,3 +1,5 @@
+from typing import Any
+
 from keras.models import load_model
 from keras.utils import plot_model
 
@@ -7,10 +9,13 @@ import numpy as np
 
 
 class ConvolutionalHandler:
+    map_resource: MapResources
+    model: Any
+    model_config: dict
+
     def __init__(self, model_config_index):
         super().__init__()
-        self.models = fileToObjects.get_available_cnn_models()
-        self.model_config = self.models[model_config_index]
+        self.model_config = fileToObjects.get_available_cnn_models()[model_config_index]
         self.model = load_model(fileToObjects.check_path(self.model_config["model_path"]))
         plot_model(self.model, to_file='model.png')
         self.map_resource = MapResources()

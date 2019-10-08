@@ -1,26 +1,68 @@
 @startuml
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+title Handlers
+!startsub ConvolutionalHandler
+class ConvolutionalHandler {
+    + map_resource: MapResources
+    + model: Keras Model
+    + model_config: dict
+    - __init__(model_config_index)
+    - get_image(longitude, latitude, epsg)
+    - predict_points(points, crs)
+    - predict_point(point_, crs)
 }
+!endsub
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+!startsub GeoJsonHandler
+class GeoJsonHandler{
+
+    + jsonData: dict
+    + PostGisConnection : PostGisHandler
+    - __init__()
+    - addCalculateDepthPointsProces()
+    - calculate_geolist_update_database(df, geo_list)
+    - calculateDepthPoints(return_=True)
+    - calculateDepthPointsProces(jsonData)
+    - check_points(df)
+    - create_points_dict()
+    - create_query_url(properties, box)
+    - createPoint(item, swap=False)
+    - doAction(path, jsonData)
+    - get_current_polygon_df(only_water=True, just_box=False, only_missing=False)
+    - get_distance_between_points(bounds)
+    - getCurrentBoundingBox(box, crs=None, swap_coordinates=False, get_poly=False)
+    - getDepthArea()
+    - getDepthPoints(to_json=True)
+    - getDepthPointsFromTable(crs, passed_bounds, extra=None, as_buffer=None)
+    - getMinimalized(df_retrieved, box, crs=None, method_overlay='intersection')
+    - getPoints()
+    - getWaterDepth(retrieve_json=True)
+    - make_point_from_json(data, item)
+    - post_points(crs, geo_, depths=None)
+    - readGeoJson()
+    - readGeoPanda(url, box, minimalised=False)
 }
+!endsub
+
+!startsub PostGisHandler
+class PostGisHandler {
+    + calculation_table: str
+    + points_table: str
+    + polygon_table: str
+    + schema: str
+    + Session: sessionmaker
+    - __init__()
+    - get_envelope(table_name, bounds, crs, zoom_level, all_higher_levels=False, type_of_intersection="intersects", has_depth=False, as_buffer=None, extra=None)
+    - put_into_calculation(jsonData)
+    - put_into_table(data, geometry_type, table_name, crs=None, create_table=False, if_exists_action='replace')
+    - select_from_table(table_name, where=None, panda=False)
+    - send_to_db(update)
+    - st_MakeEnvelope(bounds, crs, index)
+    - update_calculation(index)
+    - update_point_height(table_name, id, depth, return_query=False)
+}
+!endsub
+
+GeoJsonHandler "1" *-down-"1" PostGisHandler
 
 @enduml
