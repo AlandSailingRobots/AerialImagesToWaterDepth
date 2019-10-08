@@ -1,9 +1,9 @@
 from time import sleep
 
-from backend import PostGisHandler, GeoJsonHandler
+from backend.Handlers import GeoJsonHandler, PostGisHandler
 
-postgis = PostGisHandler.PostGisHandler()
-geojson = GeoJsonHandler.GeoJsonHandler()
+postgis = PostGisHandler()
+geojson = GeoJsonHandler()
 
 
 def calculatePoints():

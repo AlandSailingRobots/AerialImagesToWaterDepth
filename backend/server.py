@@ -2,7 +2,7 @@ import json
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from backend.GeoJsonHandler import GeoJsonHandler
+from backend.Handlers import GeoJsonHandler
 from data_resources import fileToObjects
 
 # Source: https://automating-gis-processes.github.io/CSC/notebooks/L2/data_io.html

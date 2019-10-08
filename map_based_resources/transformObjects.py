@@ -1,11 +1,11 @@
 import math
 
-from map_based_resources import point
+from map_based_resources import LocationInImage, ImagePoint, DataPoint
 
 
 def get_image_point(image_tile, point_width, point_height, web_map, layer):
-    data_point_in_image = point.LocationInImage(point_width, point_height)
-    image_point = point.ImagePoint(data_point_in_image, image_tile, web_map, layer)
+    data_point_in_image = LocationInImage(point_width, point_height)
+    image_point = ImagePoint(data_point_in_image, image_tile, web_map, layer)
     return image_point
 
 
@@ -13,18 +13,18 @@ def get_datapoints_from_json(json_file):
     coordinates = list()
     for coordinate in json_file:
         coordinates.append(
-            point.DataPoint(coordinate["latitude"],
-                            coordinate["longitude"],
-                            coordinate["type"],
-                            coordinate["level"]))
+            DataPoint(coordinate["latitude"],
+                      coordinate["longitude"],
+                      coordinate["type"],
+                      coordinate["level"]))
     return coordinates
 
 
 def get_data_point_from_row(row, coordinate_systems, level):
-    info_point = point.DataPoint(row["latitude"],
-                                 row["longitude"],
-                                 coordinate_systems,
-                                 level)
+    info_point = DataPoint(row["latitude"],
+                           row["longitude"],
+                           coordinate_systems,
+                           level)
     info_point.height = row["height"]
     return info_point
 

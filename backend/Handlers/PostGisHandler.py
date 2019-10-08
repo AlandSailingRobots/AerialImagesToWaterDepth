@@ -26,6 +26,7 @@ db_url = URL(drivername=server_settings["driver_name"],
 class PostGisHandler:
 
     def __init__(self) -> None:
+        super().__init__()
         self.engine = create_engine(db_url)
         try:
             self.engine.connect()

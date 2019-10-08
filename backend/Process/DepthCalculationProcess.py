@@ -1,9 +1,8 @@
 from time import sleep
 
-from backend.ConvolutionalNeuralNetworkHandler import ConvolutionalHandler
-from backend.PostGisHandler import PostGisHandler
+from backend.Handlers import ConvolutionalHandler, PostGisHandler
 
-cnn = ConvolutionalHandler(2)
+cnn = ConvolutionalHandler(3)
 postGis = PostGisHandler()
 
 
@@ -29,6 +28,8 @@ while True:
     df = postGis.select_from_table(postGis.points_table, where="depth is NULL")
     if len(df) > 0:
         calculate_per_single_point_update_database(df.crs['init'], df)
+    # elif len(df) > 50:
+    #     calculate_per_frame(df.crs['init'], df)
     else:
         print('No empty points')
         sleep(30)

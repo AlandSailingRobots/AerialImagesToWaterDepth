@@ -1,22 +1,25 @@
 from keras.models import load_model
+from keras.utils import plot_model
 
 from data_resources import fileToObjects
-from map_based_resources import point, singleTile, mapResources
+from map_based_resources import DataPoint, singleTile, MapResources
 import numpy as np
 
 
 class ConvolutionalHandler:
     def __init__(self, model_config_index):
+        super().__init__()
         self.models = fileToObjects.get_available_cnn_models()
         self.model_config = self.models[model_config_index]
         self.model = load_model(fileToObjects.check_path(self.model_config["model_path"]))
-        self.configuration = mapResources.MapResources()
+        plot_model(self.model, to_file='model.png')
+        self.map_resource = MapResources()
 
     def get_image(self, longitude, latitude, epsg):
-        coordinate = point.DataPoint(latitude, longitude,
-                                     epsg,
-                                     self.model_config["level"])
-        coordinate_tile = singleTile.get_image_and_plot(coordinate, self.configuration, show=False,
+        coordinate = DataPoint(latitude, longitude,
+                               epsg,
+                               self.model_config["level"])
+        coordinate_tile = singleTile.get_image_and_plot(coordinate, self.mapResource, show=False,
                                                         specific=self.model_config)
         image = coordinate_tile.get_cropped_image_single(self.model_config["size_in_meters"])
         if image.mode != 'RGBA':

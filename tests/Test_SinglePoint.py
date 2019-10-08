@@ -1,13 +1,13 @@
 import unittest
 
-from map_based_resources import mapResources, singleTile, point
+from map_based_resources import MapResources, singleTile, DataPoint
 
 
 class MyTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.configuration = mapResources.MapResources()
-        self.coordinate = point.DataPoint(latitude=60.062936,
+        self.configuration = MapResources()
+        self.coordinate = DataPoint(latitude=60.062936,
                                           longitude=19.968358,
                                           level=15,
                                           coordinate_type="epsg:4326")

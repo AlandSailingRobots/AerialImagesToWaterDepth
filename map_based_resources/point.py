@@ -5,10 +5,8 @@ import pyproj
 from PIL import Image
 from geopy.distance import great_circle
 from geopy import Point as GeoPoint, distance as geo_distance
-from map_based_resources import mapResources, singleTile
+from map_based_resources import singleTile, ImageTile, MapService, MapLayer
 from shapely.geometry import Point
-
-from map_based_resources.mapResources import ImageTile, MapService, MapLayer
 
 
 class DataPoint(Point):
@@ -72,7 +70,6 @@ class DataPoint(Point):
 
 
 class LocationInImage:
-
     height: float
     width: float
 
@@ -82,16 +79,15 @@ class LocationInImage:
 
 
 class ImagePoint:
-
     cropped_images: Dict[Any, Any]
     data_point_in_image: LocationInImage
-    image_tile : ImageTile
+    image_tile: ImageTile
     layer: MapLayer
     name: str
-    web_map : MapService
+    web_map: MapService
 
-    def __init__(self, data_point_in_image: LocationInImage, image_tile: mapResources.ImageTile,
-                 web_map: mapResources.MapService, layer: mapResources.MapLayer):
+    def __init__(self, data_point_in_image: LocationInImage, image_tile: ImageTile,
+                 web_map: MapService, layer: MapLayer):
         self.image_tile = image_tile
         self.web_map = web_map
         self.layer = layer
@@ -167,7 +163,6 @@ class ImagePoint:
 class MeasurementPoint:
     data_point: DataPoint
     image_points: List[ImagePoint]
-
 
     def __init__(self, data_point: DataPoint):
         self.data_point = data_point

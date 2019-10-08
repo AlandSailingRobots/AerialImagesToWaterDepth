@@ -5,7 +5,7 @@
 
 
 from data_resources import fileToObjects
-from map_based_resources import point, mapResources, transformObjects
+from map_based_resources import point, mapResources, transformObjects, MeasurementPoint
 import time
 
 # ## Experimental Testing for getting photo's out of multiple WMTS servers.
@@ -288,7 +288,7 @@ def get_image_and_information_for_single_point(point_, layer, wmts, lock=None):
 def get_image_and_plot(info_dict, config, show=True, specific=None):
     global standardized_rendering_pixel_size
     standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
-    measured_point = point.MeasurementPoint(info_dict)
+    measured_point = MeasurementPoint(info_dict)
     items_run_off = {}
     for web_map in config.web_maps:
         if not web_map.ignore:
@@ -332,7 +332,7 @@ def get_image_and_save(info_dict, config, lock):
 def get_information_for_tile(info_dict, config, name_layer=None):
     global standardized_rendering_pixel_size
     standardized_rendering_pixel_size = config.standardized_rendering_pixel_size
-    measured_point = point.MeasurementPoint(info_dict)
+    measured_point = MeasurementPoint(info_dict)
     web_map, layer = get_specific_layer(config, name_layer)
     measured_point.add_image_point(get_image_and_information_for_single_point(info_dict, layer, web_map))
     return measured_point
