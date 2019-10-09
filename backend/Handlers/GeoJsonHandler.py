@@ -4,7 +4,7 @@ import urllib.parse
 from shapely.geometry import Polygon, Point
 from backend.Handlers import PostGisHandler
 from data_resources import fileToObjects
-from map_based_resources import DataPoint
+from map_based_resources import point
 
 server_settings = fileToObjects.open_json_file('server_settings.json')["GeoJson"]
 
@@ -33,8 +33,10 @@ class GeoJsonHandler:
         return action()
 
     def make_point_from_json(self, data, item):
-        point_ = DataPoint(latitude=data['box'][item]['lat'], longitude=data['box'][item]['lng'],
-                           coordinate_type=data['crs'].lower(), level=data['zoom'])
+        point_ = point.DataPoint(latitude=data['box'][item]['lat'],
+                                 longitude=data['box'][item]['lng'],
+                                 coordinate_type=data['crs'].lower(),
+                                 level=data['zoom'])
         point_.convert_coordinate_systems(save_in_point=True)
         return point_
 

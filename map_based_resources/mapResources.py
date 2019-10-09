@@ -52,13 +52,18 @@ class MapLayer:
     original_layer: str
     pixel_size: float
     split: bool
+    coordinate_system: str
 
-    def __init__(self, name, layer, split):
-        self.name = name
-        self.layer = layer
-        self.split = split
+    def __init__(self, dict_item):
+        self.name = dict_item['name']
+        self.layer = dict_item['layer']
+        self.split = 'split' in dict_item
+        if 'coordinate_system' in dict_item:
+            self.coordinate_system = dict_item['coordinate_system']
+        else:
+            self.coordinate_system = None
         self.already_splitted = False
-        self.original_layer = layer
+        self.original_layer = dict_item['layer']
         self.pixel_size = None
         self.image_tiles = set()
         self.images_gotten = set()
@@ -103,7 +108,7 @@ class MapService:
         self.ignore = "ignore" in json_object
         self.set_name = json_object["set_name"]
         self.map_layers = list(
-            MapLayer(layer["name"], layer["layer"], "split" in layer) for layer in json_object["map_layers"])
+            MapLayer(layer) for layer in json_object["map_layers"])
         self.special_level = "special_level" in json_object
         if not self.ignore:
             self.tile_service = WebMapTileService(json_object["url"])

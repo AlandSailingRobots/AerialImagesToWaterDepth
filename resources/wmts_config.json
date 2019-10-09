@@ -60,6 +60,18 @@
           "layer": "paituli:normal_color_3067"
         }
       ]
+    },
+    {
+      "name" : "esri",
+      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/WMTS/",
+      "set_name": "default028mm",
+      "map_layers": [
+        {
+          "name": "World_Imagery",
+          "layer": "World_Imagery",
+          "coordinate_system": "EPSG:3857"
+        }
+      ]
     }
   ]
 }
