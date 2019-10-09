@@ -1,0 +1,39 @@
+@startuml
+
+
+actor User
+participant "Frontend" as A
+participant "Backend" as B
+box "Point Calculation Process" #LightBlue
+database "Split Queue" as C
+participant "Split Map" as D
+end box
+box "Depth Calculation Process" #LightBlue
+database "Points" as E
+participant "Calculate" as F
+end box
+
+User -> A: Move Map
+activate A
+A -> B: Calculate area
+activate B
+B -> C: Add to Queue
+A -> B: Retrieve depth in area
+B -> E: Request Points in depth
+E --> B: Points in Area
+C <-> D: Request not calculated
+activate D
+E <-> F : Get undefined points
+activate F
+F -> F: Calculate points
+return Update Points
+deactivate F
+D -> E: Insert with undefined depth
+deactivate D
+
+B --> A: Create overlay with current points
+deactivate B
+A --> User: Show overlay
+
+deactivate A
+@enduml
