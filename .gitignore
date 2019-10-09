@@ -10,3 +10,4 @@ __pycache__/
 *.jpg
 *.csv
 .vscode
+machine_learning/logs

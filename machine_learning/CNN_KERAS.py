@@ -28,7 +28,6 @@ def line_execute(line, configuration, model_config, coordinate_system, panda=Fal
     # image = coordinate_tile.get_cropped_image_single(model_config["size_in_meters"])
     if image.mode != "RGBA":
         image = image.convert("RGBA")
-
     image_arr = np.array(image)
     image.close()
     height = float(line_s[-1])
@@ -104,14 +103,15 @@ model = build_model()
 model.summary()
 gen = file_execute(sources[0:-3], train_model_config, panda=df_is_panda)
 gen_validator = file_execute(sources[-3:], train_model_config, panda=df_is_panda)
-
+tb = keras.callbacks.tensorboard_v1.TensorBoard()
 try:
-    history = model.fit_generator(gen,
-                                  steps_per_epoch=train_model_config["steps_per_epoch"],
-                                  epochs=train_model_config["epochs"],
-                                  max_queue_size=train_model_config["max_queue_size"],
-                                  validation_data=gen_validator,
-                                  validation_steps=train_model_config["steps_per_epoch"] / 10)
+    model.fit_generator(gen,
+                        steps_per_epoch=train_model_config["steps_per_epoch"],
+                        epochs=train_model_config["epochs"],
+                        max_queue_size=train_model_config["max_queue_size"],
+                        validation_data=gen_validator,
+                        validation_steps=train_model_config["steps_per_epoch"] / 10,
+                        callbacks=[tb])
 except KeyboardInterrupt:
     pass
 
