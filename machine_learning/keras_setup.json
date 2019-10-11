@@ -1,7 +1,7 @@
 {
-  "model": 4,
+  "model": -1,
   "data" : {
-    "type": "csv",
+    "type": "open_source",
     "is_panda": true
   }
 }

@@ -3,7 +3,8 @@ import keras
 from keras import layers, backend as K
 import numpy as np
 from data_resources import fileToObjects, DataSourcesTypes
-from map_based_resources import point, singleTile, mapResources
+from keras.models import load_model
+from map_based_resources import point, mapResources
 
 keras_config = fileToObjects.open_json_file("machine_learning/keras_setup.json")
 sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum[keras_config["data"]["type"]])
@@ -34,7 +35,7 @@ def line_execute(line, configuration, model_config, coordinate_system, panda=Fal
     return image_arr, round(height, 1)
 
 
-def file_execute(files, model_config, panda=False):
+def file_execute(files, model_config, panda=False, limit=None):
     configuration = mapResources.MapResources()
     for file in files:
         iterator = get_file_iterator(file, model_config, panda)
@@ -45,6 +46,10 @@ def file_execute(files, model_config, panda=False):
             yield (np.array([image]), np.array([depth]))
             if index % 10 == 0:
                 configuration.clear_images()
+            if limit is not None and index == limit:
+                break
+        if limit is not None and index == limit:
+            break
         if not panda:
             iterator.close()
         configuration.clear_images()
@@ -54,7 +59,8 @@ def get_file_iterator(file, model_config, panda):
     if panda:
         big = fileToObjects.open_xyz_file_as_panda(file)
         if 'limit_depth' in model_config:
-            big = big[big['height'] >= model_config['limit_depth']]
+            big = big[(big['height'] >= model_config['limit_depth'][0]) & (
+                    big['height'] <= model_config['limit_depth'][1])]
         return big.sample(frac=1).itertuples(index=False, name=None)
     else:
         return open(fileToObjects.check_path(file['path']))
@@ -66,6 +72,10 @@ row = 4
 
 def equal_pred(y_true, y_pred):
     return K.equal(K.round(y_pred), K.round(y_true))
+
+
+def root_mean_squared_error(y_true, y_pred):
+    return K.sqrt(K.mean(K.square(y_pred - y_true)))
 
 
 def build_model():
@@ -89,9 +99,10 @@ def build_model():
     ])
     optimizer = keras.optimizers.Adamax()
 
-    model_.compile(loss=keras.losses.mean_squared_error,
+    model_.compile(loss=keras.losses.mean_absolute_percentage_error,
                    optimizer=optimizer,
-                   metrics=[keras.metrics.binary_accuracy, 'mean_absolute_error', 'mean_squared_error',
+                   metrics=[keras.metrics.binary_accuracy,
+                            'mean_absolute_error', 'mean_squared_error', root_mean_squared_error,
                             equal_pred])
     return model_
 
@@ -102,20 +113,44 @@ if df_is_panda:
 model = build_model()
 model.summary()
 gen = file_execute(sources[0:-3], train_model_config, panda=df_is_panda)
-gen_validator = file_execute(sources[-3:], train_model_config, panda=df_is_panda)
+gen_validator = file_execute(sources[-3:], train_model_config, panda=df_is_panda,
+                             limit=train_model_config["steps_per_epoch"] * train_model_config["epochs"] * 0.25)
 tb = keras.callbacks.tensorboard_v1.TensorBoard()
-try:
-    model.fit_generator(gen,
-                        steps_per_epoch=train_model_config["steps_per_epoch"],
-                        epochs=train_model_config["epochs"],
-                        max_queue_size=train_model_config["max_queue_size"],
-                        validation_data=gen_validator,
-                        validation_steps=train_model_config["steps_per_epoch"] / 10,
-                        callbacks=[tb])
-except KeyboardInterrupt:
-    pass
 
 save_string = '-'.join([f'{key}-{value}' for key, value in train_model_config.items()])
 if "save_to_backup" in train_model_config and train_model_config["save_to_backup"]:
     save_string = fileToObjects.models_map + save_string
-model.save(save_string + '.h5')
+
+try:
+    check_path = fileToObjects.check_path(save_string + '.h5')
+    print('cp', check_path)
+    if check_path is None:
+        history = model.fit_generator(gen,
+                                      steps_per_epoch=train_model_config["steps_per_epoch"],
+                                      epochs=train_model_config["epochs"],
+                                      max_queue_size=train_model_config["max_queue_size"],
+                                      #                               # validation_data=gen_validator,
+                                      #                               # validation_steps=train_model_config["steps_per_epoch"] / 4,
+                                      callbacks=[tb])
+        model.save(save_string + '.h5')
+    else:
+        model = load_model(save_string + '.h5', custom_objects={"root_mean_squared_error": root_mean_squared_error,
+                                                                "equal_pred": equal_pred})
+    score = model.evaluate_generator(generator=gen_validator,
+                                     steps=train_model_config["steps_per_epoch"] * train_model_config[
+                                         "steps_per_epoch"] / 4, verbose=1)
+
+    print(save_string)
+    import pandas as pd
+
+    data_ = list(score)
+    data_.insert(0, train_model_config["webmap_name"])
+    data_.insert(1, train_model_config["layer_name"])
+    data_.insert(2, train_model_config['limit_depth'])
+
+    results = pd.DataFrame(data=[data_],
+                           columns=['webmap', 'layer', 'range'] + model.metrics_names)
+    results.to_csv('results.csv', mode='a', header=False, index=False)
+    print(score)
+except KeyboardInterrupt:
+    pass
