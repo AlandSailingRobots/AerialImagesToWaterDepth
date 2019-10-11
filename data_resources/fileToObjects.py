@@ -77,7 +77,7 @@ def check_xyz_file(file):
         if directory is None:
             os.mkdir(data_map + local_dir)
             directory = data_map + local_dir
-        wget.download(file['url'], '{0}/{1}.xyz'.format(directory, file['name']), verify=False)
+        wget.download(file['url'], '{0}/{1}.xyz'.format(directory, file['name']))
 
 
 def open_xyz_file_as_panda(file, delimiter=','):
