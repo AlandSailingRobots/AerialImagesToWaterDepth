@@ -15,7 +15,7 @@ class GeoJsonHandler:
 
     def __init__(self) -> None:
         super().__init__()
-        self.PostGisConnection = PostGisHandler()
+        self.PostGisConnection = PostGisHandler.PostGisHandler()
         self.jsonData = None
 
     def doAction(self, path, jsonData):
@@ -117,7 +117,12 @@ class GeoJsonHandler:
                                                       as_buffer=as_buffer,
                                                       extra="AND depth {0} -{1} ".format(operator, limit))
         overlay = polygon_points.dissolve(by='zoom_level')
-        print(overlay.crs)
+        if len(overlay.geometry) > 0:
+            overlay['area_size'] = overlay.geometry.area
+            overlay['area_size'] = overlay['area_size'] * 10 ** 6
+            area = self.getCurrentBoundingBox(self.jsonData, self.jsonData["crs"], swap_coordinates=False).geometry.area
+            overlay['total_area'] = list(area * 10 ** 6)
+        print(overlay.crs, )
         return overlay.to_json()
 
     def getDepthPoints(self, to_json=True):

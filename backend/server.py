@@ -12,7 +12,7 @@ server_settings = fileToObjects.open_json_file('server_settings.json')["Host"]
 
 
 class MyServer(BaseHTTPRequestHandler):
-    geoJsonHandler = GeoJsonHandler()
+    geoJsonHandler = GeoJsonHandler.GeoJsonHandler()
 
     def dissect_path(self):
         return self.path.strip().split('/')
