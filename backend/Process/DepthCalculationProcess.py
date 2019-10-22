@@ -1,8 +1,11 @@
 from time import sleep
 
 from backend.Handlers import ConvolutionalNeuralNetworkHandler, PostGisHandler
+from data_resources import fileToObjects
 
-cnn = ConvolutionalNeuralNetworkHandler.ConvolutionalHandler(3)
+handler_settings = fileToObjects.open_json_file('server_settings.json')["ProcessHandler"]
+
+cnn = ConvolutionalNeuralNetworkHandler.ConvolutionalHandler(handler_settings["cnn_model_index"])
 postGis = PostGisHandler.PostGisHandler()
 
 
