@@ -1,17 +1,11 @@
 #! /usr/bin/env python
 import keras
-from keras import layers, backend as K
+from keras import layers
 import numpy as np
+import pandas as pd
 from data_resources import fileToObjects, DataSourcesTypes
 from keras.models import load_model
 from map_based_resources import point, mapResources
-
-keras_config = fileToObjects.open_json_file("machine_learning/keras_setup.json")
-sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum[keras_config["data"]["type"]])
-df_is_panda = keras_config["data"]["is_panda"]
-train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[keras_config["model"]]
-if "limit_dataset" in train_model_config:
-    sources = sources[train_model_config["limit_dataset"][0]:train_model_config["limit_dataset"][1]]
 
 
 def line_execute(line, configuration, model_config, coordinate_system, panda=False):
@@ -66,91 +60,89 @@ def get_file_iterator(file, model_config, panda):
         return open(fileToObjects.check_path(file['path']))
 
 
-size = train_model_config["size_in_meters"] * train_model_config["pixels_per_meter"]
-row = 4
+def build_model(path, size_, row_=4):
+    if fileToObjects.check_path(path) is None:
+        model_ = keras.Sequential([
+            #         layers.Reshape((size,size,row,),input_shape=(size,size,row)),
+            layers.Conv2D(input_shape=[size_, size_, row_], filters=32, kernel_size=[5, 5], padding="same",
+                          activation='relu'),
+            layers.Conv2D(filters=32, kernel_size=[5, 5]),
+            layers.Dropout(0.5),
+            layers.MaxPool2D(pool_size=[2, 2], strides=2),
+            layers.Conv2D(input_shape=[size_, size_, row_], filters=64, kernel_size=[5, 5], padding="same",
+                          activation='relu'),
+            layers.Conv2D(filters=64, kernel_size=[5, 5]),
+            layers.Dropout(0.5),
+            layers.MaxPool2D(pool_size=[2, 2], strides=2),
+            layers.Dropout(0.5),
+            layers.Flatten(),
+            layers.Dense(512),
+            layers.Dropout(0.5),
+            layers.Dense(1),
+        ])
 
+        fileToObjects.model_to_json(model_, path)
+    else:
+        model_ = fileToObjects.load_model_from_json(path)
 
-def equal_pred(y_true, y_pred):
-    return K.equal(K.round(y_pred), K.round(y_true))
-
-
-def root_mean_squared_error(y_true, y_pred):
-    return K.sqrt(K.mean(K.square(y_pred - y_true)))
-
-
-def build_model():
-    model_ = keras.Sequential([
-        #         layers.Reshape((size,size,row,),input_shape=(size,size,row)),
-        layers.Conv2D(input_shape=[size, size, row], filters=32, kernel_size=[5, 5], padding="same",
-                      activation='relu'),
-        layers.Conv2D(filters=32, kernel_size=[5, 5]),
-        layers.Dropout(0.5),
-        layers.MaxPool2D(pool_size=[2, 2], strides=2),
-        layers.Conv2D(input_shape=[size, size, row], filters=64, kernel_size=[5, 5], padding="same",
-                      activation='relu'),
-        layers.Conv2D(filters=64, kernel_size=[5, 5]),
-        layers.Dropout(0.5),
-        layers.MaxPool2D(pool_size=[2, 2], strides=2),
-        layers.Dropout(0.5),
-        layers.Flatten(),
-        layers.Dense(512),
-        layers.Dropout(0.5),
-        layers.Dense(1),
-    ])
     optimizer = keras.optimizers.Adamax()
 
     model_.compile(loss=keras.losses.mean_absolute_percentage_error,
                    optimizer=optimizer,
                    metrics=[keras.metrics.binary_accuracy,
-                            'mean_absolute_error', 'mean_squared_error', root_mean_squared_error,
-                            equal_pred])
+                            'mean_absolute_error', 'mean_squared_error', fileToObjects.root_mean_squared_error,
+                            fileToObjects.equal_pred])
     return model_
 
+
+def save_results(model_, config):
+    print(save_string)
+    data_ = list(score)
+    data_.insert(0, config["webmap_name"])
+    data_.insert(1, config["layer_name"])
+    data_.insert(2, config['limit_depth'])
+    results = pd.DataFrame(data=[data_],
+                           columns=['webmap', 'layer', 'range'] + model_.metrics_names)
+    results.to_csv('results.csv', mode='a', header=False, index=False)
+
+
+keras_config = fileToObjects.open_json_file("machine_learning/keras_setup.json")
+sources = fileToObjects.get_data(DataSourcesTypes.DataSourceEnum[keras_config["data"]["type"]])
+df_is_panda = keras_config["data"]["is_panda"]
+train_model_config = fileToObjects.open_json_file("machine_learning/train_models.json")[keras_config["model"]]
+if "limit_dataset" in train_model_config:
+    sources = sources[train_model_config["limit_dataset"][0]:train_model_config["limit_dataset"][1]]
+size = train_model_config["size_in_meters"] * train_model_config["pixels_per_meter"]
 
 if df_is_panda:
     for source in sources:
         fileToObjects.check_xyz_file(source)
-model = build_model()
+model = build_model(keras_config['model_architecture_path'], size)
 model.summary()
 gen = file_execute(sources[0:-3], train_model_config, panda=df_is_panda)
 gen_validator = file_execute(sources[-3:], train_model_config, panda=df_is_panda,
                              limit=train_model_config["steps_per_epoch"] * train_model_config["epochs"] * 0.25)
 tb = keras.callbacks.tensorboard_v1.TensorBoard()
 
-save_string = '-'.join([f'{key}-{value}' for key, value in train_model_config.items()])
-if "save_to_backup" in train_model_config and train_model_config["save_to_backup"]:
-    save_string = fileToObjects.models_map + save_string
+save_string = fileToObjects.get_model_path(train_model_config)
 
 try:
-    check_path = fileToObjects.check_path(save_string + '.h5')
+    check_path = fileToObjects.check_path(save_string)
     print('cp', check_path)
     if check_path is None:
         history = model.fit_generator(gen,
                                       steps_per_epoch=train_model_config["steps_per_epoch"],
                                       epochs=train_model_config["epochs"],
                                       max_queue_size=train_model_config["max_queue_size"],
-                                      #                               # validation_data=gen_validator,
-                                      #                               # validation_steps=train_model_config["steps_per_epoch"] / 4,
                                       callbacks=[tb])
-        model.save(save_string + '.h5')
+        model.save(save_string)
     else:
-        model = load_model(save_string + '.h5', custom_objects={"root_mean_squared_error": root_mean_squared_error,
-                                                                "equal_pred": equal_pred})
+        model = load_model(save_string, custom_objects=fileToObjects.get_custom_objects_cnn_model())
     score = model.evaluate_generator(generator=gen_validator,
                                      steps=train_model_config["steps_per_epoch"] * train_model_config[
                                          "steps_per_epoch"] / 4, verbose=1)
 
-    print(save_string)
-    import pandas as pd
-
-    data_ = list(score)
-    data_.insert(0, train_model_config["webmap_name"])
-    data_.insert(1, train_model_config["layer_name"])
-    data_.insert(2, train_model_config['limit_depth'])
-
-    results = pd.DataFrame(data=[data_],
-                           columns=['webmap', 'layer', 'range'] + model.metrics_names)
-    results.to_csv('results.csv', mode='a', header=False, index=False)
+    save_results(model, train_model_config)
     print(score)
 except KeyboardInterrupt:
     pass
