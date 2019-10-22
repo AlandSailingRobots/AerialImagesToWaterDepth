@@ -1,0 +1,45 @@
+@startuml
+actor User
+participant "Frontend" as F
+participant "Backend" as B
+database "Database" as D
+
+
+group Prepare
+    User -> F: Move Map
+    activate F
+    F -> B: Calculate area
+
+    activate B
+    B -> D: Request calculated areas
+    activate D
+    return Return calculated areas
+    B -> B : Look which areas needs to be calculated
+    B -> B : Divide area into Points
+    B -> D : Points into Database
+    activate D
+    deactivate D
+end
+group Calculate
+    B ->  D: Request not calculated points
+    activate D
+    return
+        loop Point in not calculated Points
+            B ->B: Retrieve image from point
+            B ->B: Derive depth from image
+            B ->D: Update point
+            activate D
+            deactivate D
+        end
+end
+group Visualize
+    B ->  D: Request calculated points in area with a limit
+    activate D
+    return Points as polygon
+    return Polygon as GeoJSON
+return Display areas deemed non sailable
+end
+
+
+
+@enduml
