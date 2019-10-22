@@ -1,0 +1,39 @@
+@startuml
+start
+:load in keras configuration file;
+if(Training and Testing Data exists?) then(yes)
+else(no)
+    : download data;
+endif
+if(Keras architecture model is given?) then(yes)
+    :Load and compile given model;
+else(no)
+    : Use default model;
+endif
+:Make Training generator;
+    note right
+        Uses configuration file to specify which dataset
+        and bounding box size.
+    end note
+:Make Validation generator;
+    note right
+        Same configuration as Training generator
+    end note
+if(Model not yet trained) then (True)
+    :model.fit_generator(Training Generator);
+    note left
+        From configuration file:
+        * number of steps per epoch
+        * number of epochs
+        * queue size
+    end note
+endif
+:model.evaluate_generator(Validation Generator);
+    note right
+        From configuration file:
+        * number of steps
+    end note
+:Save model;
+:Save score;
+stop
+@enduml
