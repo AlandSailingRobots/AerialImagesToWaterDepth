@@ -1,9 +1,10 @@
 @startuml
+title Keras Model Training, Testing and Saving
 start
-:load in keras configuration file;
+:Load in Keras configuration file;
 if(Training and Testing Data exists?) then(yes)
 else(no)
-    : download data;
+    : Download data;
 endif
 if(Keras architecture model is given?) then(yes)
     :Load and compile given model;
@@ -18,6 +19,7 @@ endif
 :Make Validation generator;
     note right
         Same configuration as Training generator
+        but on a different dataset
     end note
 if(Model not yet trained) then (True)
     :model.fit_generator(Training Generator);
