@@ -2,7 +2,8 @@ import json
 
 import pandas as pd
 import os
-
+from keras import backend as K
+from keras.engine.saving import model_from_json
 import wget
 from PIL import Image
 
@@ -142,3 +143,38 @@ def get_available_cnn_models():
 
 def get_wmts_config_from_json(lock=None):
     return open_json_file('resources/wmts_config.json', lock)
+
+
+def get_model_path(config, with_h5=True, overwrite_backup=False):
+    path = '-'.join([f'{key}-{value}' for key, value in config.items()])
+    if ("save_to_backup" in config and config["save_to_backup"]) or overwrite_backup:
+        path = models_map + path
+    if with_h5:
+        path = path + '.h5'
+    print(path)
+    return path
+
+
+def equal_pred(y_true, y_pred):
+    return K.equal(K.round(y_pred), K.round(y_true))
+
+
+def root_mean_squared_error(y_true, y_pred):
+    return K.sqrt(K.mean(K.square(y_pred - y_true)))
+
+
+def get_custom_objects_cnn_model():
+    return {"root_mean_squared_error": root_mean_squared_error,
+            "equal_pred": equal_pred}
+
+
+def model_to_json(model, path):
+    model_json = model.to_json()
+    with open(path, "w") as json_file:
+        json_file.write(model_json)
+
+
+def load_model_from_json(path):
+    with open(path, 'r') as json_file:
+        loaded_model_json = json_file.read()
+    return model_from_json(loaded_model_json)
