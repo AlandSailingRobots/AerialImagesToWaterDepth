@@ -28,8 +28,8 @@
       "outputFormat": "application/json"
     },
     "division_amount": 100,
-    "depth_limit" : 2,
-    "coordinate_buffer" : 0.001
+    "depth_limit": 2,
+    "coordinate_buffer": 0.001
   },
   "PostGis": {
     "host": "localhost",
@@ -41,5 +41,8 @@
     "point": "points",
     "polygon": "polygons",
     "calculation": "calculation"
+  },
+  "ProcessHandler": {
+    "cnn_model_index": -1
   }
 }
