@@ -1,0 +1,30 @@
+@startuml
+start
+note right
+    Input given are X and Y coordinates
+end note
+    :Convert coordinates to position in configured Webmap tile service;
+if(Check if an image with that position is already in memory in the specified map layer) then (Image not yet in memory)
+    if(Check if image with the position exists in local storage) then (Image not in local storage)
+        :Request to WMTS to retrieve image;
+        :Save image locally;
+    endif
+    :Put image in map layer;
+endif
+:Get bounding box around current position;
+if(Image fits inside bounding box) then(True)
+else(False)
+    :Retrieve surrounding images;
+        note left
+            Does this recursively by starting
+            again at the check if
+            an image is in memory
+        end note
+    :Merge images together;
+endif
+:Crop image to bounding box;
+stop
+note right
+Returns image
+end note
+@enduml
