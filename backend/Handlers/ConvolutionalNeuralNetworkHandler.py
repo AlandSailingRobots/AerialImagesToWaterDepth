@@ -17,8 +17,12 @@ class ConvolutionalHandler:
     def __init__(self, model_config_index):
         super().__init__()
         self.model_config = fileToObjects.get_available_cnn_models()[model_config_index]
-        self.model = load_model(fileToObjects.check_path(self.model_config["model_path"]))
-        plot_model(self.model, to_file='model.png')
+        if "model_path" in self.model_config:
+            self.model = load_model(fileToObjects.check_path(self.model_config["model_path"]),
+                                    custom_objects=fileToObjects.get_custom_objects_cnn_model())
+        else:
+            path = fileToObjects.get_model_path(self.model_config, overwrite_backup=True)
+            self.model = load_model(path, custom_objects=fileToObjects.get_custom_objects_cnn_model())
         self.map_resource = MapResources()
 
     def get_image(self, longitude, latitude, epsg):
