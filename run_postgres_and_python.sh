@@ -17,10 +17,15 @@ start_everything
 
 if [ "$1" == "" ]; then
   echo 'no arguments'
+elif [ "$1" == "all" ]; then
+  source venv/bin/activate
+  python backend/server.py >server.txt &
+  python backend/Process/DepthCalculationProcess.py >dcp.txt &
+  python backend/Process/PointCalculationProces.py >pcp.txt &
 else
   echo 'argument ' "$1"
   source venv/bin/activate
   python "$1"
 fi
-  pause
-  stop_everything
+pause
+stop_everything
