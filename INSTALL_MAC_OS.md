@@ -93,10 +93,14 @@ CREATE EXTENSION postgis;
 ```
 When connected to the database run the [Create Table script](SQL/create_table.sql) where the schema name should match the one in the [server settings](resources/server_settings.json)
 
-### Files configuration
+### Configuration
 
 When running the server and the machine learning model image files, data files and machine learning models are used.
 All these files are saved locally. The directory where all these are saved is set in the [data_resources](data_resources/data_settings.json) with the backup_map key. This can be  any directory but needs to exist.
+* [Server name and port](https://github.com/AlandSailingRobots/AerialImagesToWaterDepth/blob/develop/resources/server_settings.json#L2-L5)
+* [GeoJson Handler configuration](https://github.com/AlandSailingRobots/AerialImagesToWaterDepth/blob/develop/resources/server_settings.json#L6-L33)
+* [PostGis Handler configuration](https://github.com/AlandSailingRobots/AerialImagesToWaterDepth/blob/develop/resources/server_settings.json#L34-L43)
+* [Process Handler configuration](https://github.com/AlandSailingRobots/AerialImagesToWaterDepth/blob/develop/resources/server_settings.json#L45-L46)
 
 ## Starting Services
 
