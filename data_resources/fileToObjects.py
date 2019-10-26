@@ -1,14 +1,13 @@
 import json
-
 import pandas as pd
 import os
+import wget
 from keras import backend as K
 from keras.engine.saving import model_from_json
 from tensorflow.python.util import deprecation
+from PIL import Image
 
 deprecation._PRINT_DEPRECATION_WARNINGS = False
-import wget
-from PIL import Image
 
 if os.path.isfile("data_resources/data_settings.json"):
     data_settings = json.load(open("data_resources/data_settings.json"))
