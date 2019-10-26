@@ -60,7 +60,6 @@ def get_file_iterator(file, model_config, panda):
 def build_model(path, size_, row_=4):
     if fileToObjects.check_path(path) is None:
         model_ = keras.Sequential([
-            #         layers.Reshape((size,size,row,),input_shape=(size,size,row)),
             layers.Conv2D(input_shape=[size_, size_, row_], filters=32, kernel_size=[5, 5], padding="same",
                           activation='relu'),
             layers.Conv2D(filters=32, kernel_size=[5, 5]),
@@ -115,6 +114,9 @@ if df_is_panda:
     for source in sources:
         fileToObjects.check_xyz_file(source)
 model = build_model(keras_config['model_architecture_path'], size)
+create_new = False
+if "create_new" in keras_config:
+    create_new = keras_config["create_new"]
 model.summary()
 gen = file_execute(sources[0:-3], train_model_config, panda=df_is_panda)
 gen_validator = file_execute(sources[-3:], train_model_config, panda=df_is_panda,
@@ -126,7 +128,7 @@ save_string = fileToObjects.get_model_path(train_model_config)
 try:
     check_path = fileToObjects.check_path(save_string)
     print('cp', check_path)
-    if check_path is None:
+    if check_path is None or create_new is True:
         history = model.fit_generator(gen,
                                       steps_per_epoch=train_model_config["steps_per_epoch"],
                                       epochs=train_model_config["epochs"],

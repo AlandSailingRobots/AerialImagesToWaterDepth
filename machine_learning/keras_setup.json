@@ -4,5 +4,6 @@
   "data" : {
     "type": "open_source",
     "is_panda": true
-  }
+  },
+  "create_new": true
 }
