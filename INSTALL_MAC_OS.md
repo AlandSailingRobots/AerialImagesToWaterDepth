@@ -6,7 +6,7 @@ _Tested using 10.14.6 with HomeBrew, Python 3.7.4, pip 19.1.1, Gdal 2.4.2, Spati
 * [Setup](INSTALL_MAC_OS.md#Setup)
     * [Python](INSTALL_MAC_OS.md#Python)
     * [PostgreSQL](INSTALL_MAC_OS.md#PostgreSQL)
-    * [Files Configuration](INSTALL_MAC_OS.md#Files-configuration)
+    * [Configuration](INSTALL_MAC_OS.md#configuration)
 * [Starting Services](INSTALL_MAC_OS.md#Starting-services)
 * [References](INSTALL_MAC_OS.md#References)
 
