@@ -204,7 +204,7 @@ def get_raw_images(resized):
 def get_features_and_labels(df, source, tile_round=1, level=15, features_to_be_added=[1, 2, 3, 4, 5, 6, 7, 8, 9],
                             specific=None,
                             indexes=None):
-    mapresource = mapResources.MapResources()
+    map_resource = mapResources.MapResources()
     labels = list()
     features = list()
     df.reset_index(drop=True, inplace=True)
@@ -215,14 +215,15 @@ def get_features_and_labels(df, source, tile_round=1, level=15, features_to_be_a
                                      row.longitude,
                                      source['coordinate_system'],
                                      level)
-        coordinate_tile = singleTile.get_image_and_plot(coordinate, mapresource, specific=specific,
-                                                        show=False)
-        if indexes is None:
-            images = coordinate_tile.get_cropped_images(tile_round)
+        if specific is not None:
+            images = [map_resource.get_image(coordinate, specific=specific)]
         else:
-            images = []
-            for index in indexes:
-                images.append(coordinate_tile.get_cropped_image_single(tile_round))
+            images = map_resource.get_images(coordinate, size_in_meters=tile_round)
+            if indexes is not None:
+                images_new = []
+                for index in indexes:
+                    images_new.append(images[index])
+                images = images_new
         resized = convert_and_correct_images_size(images, indexes)
         stats_eq, eq_images = get_stats(resized, equalize=True, return_images=True)
         result_methods = [fd_haralicks, fd_histograms, fd_hu_moments, get_shapes_index, get_raw_images, GLCM_textures,
@@ -245,7 +246,7 @@ def get_features_and_labels(df, source, tile_round=1, level=15, features_to_be_a
             if image is not None:
                 image.close()
         if count % 10 == 0:
-            mapresource.clear_images()
+            map_resource.clear_images()
         count += 1
     n_samples = (len(features))
     features = np.array(features)
