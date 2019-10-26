@@ -10,13 +10,15 @@ postGis = PostGisHandler.PostGisHandler()
 
 
 def calculate_per_frame(crs, data):
-    depths = cnn.predict_points(data.geom, crs)
+    if crs != cnn.coordinate_system:
+        data = data.to_crs(cnn.coordinate_system)
+        crs = cnn.coordinate_system
+    depths = cnn.predict_points(data.geometry, crs)
     data['depths'] = depths.flatten()
-    print(data.columns)
     data['sql'] = data.apply(
         lambda row: postGis.update_point_height(postGis.points_table, row.identifier, row.depths,
                                                 return_query=True), axis=1)
-    query = "\n".join(list(data['sql']))
+    query = ";\n".join(list(data['sql']))
     postGis.send_to_db(query)
 
 
@@ -28,11 +30,13 @@ def calculate_per_single_point_update_database(crs, data):
 
 def run_process():
     while True:
-        df = postGis.select_from_table(postGis.points_table, where="depth is NULL")
-        if len(df) > 0:
+        df = postGis.select_from_table(postGis.points_table, where="depth is NULL", limit=1000)
+        if 0 < len(df) < 50:
+            print("single")
             calculate_per_single_point_update_database(df.crs['init'], df)
-        # elif len(df) > 50:
-        #     calculate_per_frame(df.crs['init'], df)
+        elif len(df) > 50:
+            print("calculate per frame")
+            calculate_per_frame(df.crs['init'], df)
         else:
             print('No empty points')
             sleep(30)

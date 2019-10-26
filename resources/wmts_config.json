@@ -40,6 +40,7 @@
       "name": "ava",
       "url": "http://avaa.tdata.fi/geoserver/gwc/service/wmts",
       "set_name": "EPSG:3067",
+      "coordinate_system": "EPSG:3067",
       "special_level": true,
       "map_layers": [
         {
@@ -62,7 +63,7 @@
       ]
     },
     {
-      "name" : "esri",
+      "name": "esri",
       "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/WMTS/",
       "set_name": "default028mm",
       "map_layers": [

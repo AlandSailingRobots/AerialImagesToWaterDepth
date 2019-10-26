@@ -1,6 +1,9 @@
 from typing import Any
 
 from keras.models import load_model
+from tensorflow.python.util import deprecation
+
+deprecation._PRINT_DEPRECATION_WARNINGS = False
 from keras.utils import plot_model
 
 from data_resources import fileToObjects
@@ -23,6 +26,7 @@ class ConvolutionalHandler:
             path = fileToObjects.get_model_path(self.model_config, overwrite_backup=True)
         self.model = load_model(path, custom_objects=fileToObjects.get_custom_objects_cnn_model())
         self.map_resource = MapResources()
+        self.coordinate_system = self.map_resource.get_coordinate_system(self.model_config["webmap_name"])
 
     def get_image(self, longitude, latitude, epsg):
         coordinate = DataPoint(latitude, longitude,
@@ -35,7 +39,8 @@ class ConvolutionalHandler:
 
     def predict_points(self, points, crs):
         print(crs, points[0].x, points[0].y)
-        predict = self.model.predict_generator((self.get_image(point_.x, point_.y, crs) for point_ in points),
+        generator = (self.get_image(point_.x, point_.y, crs) for point_ in points)
+        predict = self.model.predict_generator(generator,
                                                steps=len(points), use_multiprocessing=True)
         print('done predicting')
         return predict

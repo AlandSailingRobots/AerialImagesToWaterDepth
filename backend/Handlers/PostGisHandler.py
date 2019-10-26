@@ -52,13 +52,15 @@ class PostGisHandler(object):
         self.points_table = server_settings['point']
         self.calculation_table = server_settings['calculation']
 
-    def select_from_table(self, table_name, where=None, panda=False):
+    def select_from_table(self, table_name, where=None,limit=None, panda=False):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
         session = self.Session()
         sql = "SELECT * FROM {0}.{1}".format(self.schema, table_name)
         if where is not None:
             sql += " WHERE " + where
+        if limit is not None:
+            sql += " limit {0}".format(limit)
         sql += ";"
         # Pull the data
         if not panda:
@@ -142,7 +144,6 @@ class PostGisHandler(object):
         update = f"UPDATE {self.schema}.{table_name} " \
                  f"SET depth = {depth} " \
                  f"WHERE identifier = {id}"
-        print(update)
         if return_query:
             return update
         self.send_to_db(update)

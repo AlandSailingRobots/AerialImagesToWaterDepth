@@ -102,6 +102,7 @@ class MapService:
     special_level: bool
     tile_service: WebMapTileService
     special_level: bool
+    coordinate_system: str
 
     def __init__(self, json_object):
         self.name = json_object["name"]
@@ -110,6 +111,10 @@ class MapService:
         self.map_layers = list(
             MapLayer(layer) for layer in json_object["map_layers"])
         self.special_level = "special_level" in json_object
+        if "coordinate_system" in json_object:
+            self.coordinate_system = json_object['coordinate_system']
+        else:
+            self.coordinate_system = None
         if not self.ignore:
             self.tile_service = WebMapTileService(json_object["url"])
 
@@ -135,9 +140,18 @@ class MapResources:
         self.standardized_rendering_pixel_size = config["standardized_rendering_pixel_size"]
         self.web_maps = list(MapService(wmts) for wmts in config["wmts"])
 
+    def get_coordinate_system(self, web_map_name):
+        for web_map in self.web_maps:
+            if web_map.name == web_map_name:
+                return web_map.coordinate_system
+
     def clear_images(self):
         for i in range(len(self.web_maps)):
             self.web_maps[i].clear_images()
+
+    def get_images(self, coordinate, show=False, size_in_meters=2):
+        return singleTile.get_image_and_plot(coordinate, self, show=show, specific=None).get_cropped_images(
+            size=size_in_meters)
 
     def get_image(self, coordinate, show=False, specific=None):
         return singleTile.get_image_and_plot(coordinate, self, show=show, specific=specific).get_cropped_image_single(
