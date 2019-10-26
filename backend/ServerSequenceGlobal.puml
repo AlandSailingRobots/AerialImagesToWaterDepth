@@ -14,9 +14,9 @@ group Prepare
     B -> D: Request calculated areas
     activate D
     return Return calculated areas
-    B -> B : Look which areas needs to be calculated
+    B -> B : Look which areas need to be calculated
     B -> B : Divide area into Points
-    B -> D : Points into Database
+    B -> D : Submit Points into Database
     activate D
     deactivate D
 end
@@ -24,10 +24,10 @@ group Calculate
     B ->  D: Request not calculated points
     activate D
     return
-        loop Point in not calculated Points
-            B ->B: Retrieve image from point
+        loop for Point in not calculated Points
+            B ->B: Retrieve image from Point
             B ->B: Derive depth from image
-            B ->D: Update point
+            B ->D: Update point with depth
             activate D
             deactivate D
         end
@@ -35,9 +35,9 @@ end
 group Visualize
     B ->  D: Request calculated points in area with a limit
     activate D
-    return Points as polygon
-    return Polygon as GeoJSON
-return Display areas deemed non sailable
+    return Return points as polygon
+    return Transform polygon to GeoJSON
+return Display areas deemed non-sailable
 end
 
 
