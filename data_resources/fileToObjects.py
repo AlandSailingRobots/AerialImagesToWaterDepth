@@ -16,6 +16,7 @@ elif os.path.isfile("../data_resources/data_settings.json"):
     data_settings = json.load(open("../data_resources/data_settings.json"))
 else:
     print("ERROR no data settings")
+    data_settings = None
 backup_map = data_settings["backup_map"]
 images_map = backup_map + data_settings["images_map"]
 data_map = backup_map + data_settings["data_map"]

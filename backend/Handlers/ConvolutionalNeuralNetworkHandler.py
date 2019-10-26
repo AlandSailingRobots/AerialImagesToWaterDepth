@@ -2,14 +2,12 @@ from typing import Any
 
 from keras.models import load_model
 from tensorflow.python.util import deprecation
-
-deprecation._PRINT_DEPRECATION_WARNINGS = False
-from keras.utils import plot_model
-
 from data_resources import fileToObjects
 from map_based_resources.point import DataPoint
 from map_based_resources.mapResources import MapResources
 import numpy as np
+
+deprecation._PRINT_DEPRECATION_WARNINGS = False
 
 
 class ConvolutionalHandler:

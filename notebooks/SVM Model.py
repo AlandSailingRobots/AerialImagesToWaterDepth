@@ -4,23 +4,19 @@ import pandas as pd
 import numpy as np
 import cv2
 import mahotas
-import sklearn.svm as svm
-from sklearn.svm import SVR
-from sklearn.model_selection import train_test_split, GridSearchCV, KFold
+from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.image import extract_patches_2d
 from PIL import ImageStat, Image
 from sklearn.preprocessing import Normalizer, MinMaxScaler, StandardScaler
 from sklearn.decomposition import PCA
 from sklearn import linear_model
 from skimage.feature import greycomatrix, greycoprops, shape_index
-import statistics
-import os
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, accuracy_score
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 np.seterr(divide='ignore', invalid='ignore')
 
 
-def convert_and_correct_images_size(images, indexes=None):
+def convert_and_correct_images_size(images):
     previous_image_size = None
     resized = []
     for image in images:
@@ -46,7 +42,7 @@ def fd_haralick(image):  # convert the image to grayscale
     return haralick
 
 
-def fd_histogram(image, mask=None, bins=16, color_convert=cv2.COLOR_RGBA2BGR):
+def fd_histogram(image, bins=16, color_convert=cv2.COLOR_RGBA2BGR):
     # convert the image to HSV color-space
     image = cv2.cvtColor(image, color_convert)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -205,7 +201,8 @@ def get_raw_images(resized):
     return np.array(np_list)
 
 
-def get_features_and_labels(df, source, tile_round=1, level=15, features_to_be_added=[range(9)], specific=None,
+def get_features_and_labels(df, source, tile_round=1, level=15, features_to_be_added=[1, 2, 3, 4, 5, 6, 7, 8, 9],
+                            specific=None,
                             indexes=None):
     mapresource = mapResources.MapResources()
     labels = list()
@@ -226,11 +223,10 @@ def get_features_and_labels(df, source, tile_round=1, level=15, features_to_be_a
             images = []
             for index in indexes:
                 images.append(coordinate_tile.get_cropped_image_single(tile_round))
-        results = []
         resized = convert_and_correct_images_size(images, indexes)
         stats_eq, eq_images = get_stats(resized, equalize=True, return_images=True)
         result_methods = [fd_haralicks, fd_histograms, fd_hu_moments, get_shapes_index, get_raw_images, GLCM_textures,
-                          (stats_eq), get_stats, GLCM_textures, get_raw_images, get_shapes_index]
+                          stats_eq, get_stats, GLCM_textures, get_raw_images, get_shapes_index]
         stack = [
             np.array([row.longitude, row.latitude])
         ]
