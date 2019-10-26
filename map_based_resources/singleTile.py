@@ -64,7 +64,7 @@ def position_in_image(matrix_tile_size, value_part):
 # In[4]:
 
 
-def get_value_and_value_image(matrix, point_, width=False,other_coordinate_system=None):
+def get_value_and_value_image(matrix, point_, width=False, other_coordinate_system=None):
     if other_coordinate_system is None:
         finnish_coordinates = point_.convert_coordinate_systems()
     else:
@@ -80,9 +80,10 @@ def get_value_and_value_image(matrix, point_, width=False,other_coordinate_syste
     return value, position_in_image(matrix_tile_size, value_part)
 
 
-def get_single_height_width(matrix, point_,other_coordinate_system=None):
-    height, height_in_image = get_value_and_value_image(matrix, point_,other_coordinate_system=other_coordinate_system)
-    width, width_in_image = get_value_and_value_image(matrix, point_, width=True,other_coordinate_system=other_coordinate_system)
+def get_single_height_width(matrix, point_, other_coordinate_system=None):
+    height, height_in_image = get_value_and_value_image(matrix, point_, other_coordinate_system=other_coordinate_system)
+    width, width_in_image = get_value_and_value_image(matrix, point_, width=True,
+                                                      other_coordinate_system=other_coordinate_system)
     pixel_size = matrix.scaledenominator * standardized_rendering_pixel_size
     return height, width, height_in_image, width_in_image, pixel_size
 
@@ -258,7 +259,7 @@ def get_tile_for_coordinate(point_, wmts, layer, lock):
     layer.level = point_.level
     get_tile_level(wmts, layer)
     matrix = get_matrix_at_level(wmts, layer.level)
-    codes = get_single_height_width(matrix, point_,layer.coordinate_system)
+    codes = get_single_height_width(matrix, point_, layer.coordinate_system)
     row, column, pos_image_height, pos_image_width, pixel_size = codes
     tile_image = add_tile(wmts, layer, row, column, lock)
     layer.pixel_size = pixel_size

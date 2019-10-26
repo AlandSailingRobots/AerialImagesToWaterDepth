@@ -1,5 +1,5 @@
 from data_resources import fileToObjects, DataSourcesTypes
-from map_based_resources import point, singleTile, mapResources
+from map_based_resources import point, mapResources
 import pandas as pd
 import numpy as np
 import cv2
@@ -12,6 +12,7 @@ from sklearn.decomposition import PCA
 from sklearn import linear_model
 from skimage.feature import greycomatrix, greycoprops, shape_index
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+from joblib import dump, load
 
 np.seterr(divide='ignore', invalid='ignore')
 
@@ -224,7 +225,7 @@ def get_features_and_labels(df, source, tile_round=1, level=15, features_to_be_a
                 for index in indexes:
                     images_new.append(images[index])
                 images = images_new
-        resized = convert_and_correct_images_size(images, indexes)
+        resized = convert_and_correct_images_size(images)
         stats_eq, eq_images = get_stats(resized, equalize=True, return_images=True)
         result_methods = [fd_haralicks, fd_histograms, fd_hu_moments, get_shapes_index, get_raw_images, GLCM_textures,
                           stats_eq, get_stats, GLCM_textures, get_raw_images, get_shapes_index]
@@ -285,8 +286,6 @@ transformers = [PCA(100), MinMaxScaler(), Normalizer(), StandardScaler()]
 
 step = 0
 steps = 100
-
-from joblib import dump, load
 
 specific = {"webmap_name": "ava",
             "layer_name": "ava_normal_color"}

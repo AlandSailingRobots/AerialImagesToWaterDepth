@@ -144,7 +144,7 @@ class ImagePoint:
             row_offset = 0
             for row_item in range(row + begin, row + end):
                 image_ = singleTile.get_pillow_image_from_tile(self.web_map, self.layer, row_item, column_item,
-                                                    lock)
+                                                               lock)
                 new_im.paste(image_, (column_offset, row_offset))
                 row_offset += image_.width
             column_offset += image_.height

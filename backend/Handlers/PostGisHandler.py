@@ -24,7 +24,6 @@ db_url = URL(drivername=server_settings["driver_name"],
 
 
 class PostGisHandler(object):
-
     calculation_table: str
     points_table: str
     polygon_table: str
@@ -52,7 +51,7 @@ class PostGisHandler(object):
         self.points_table = server_settings['point']
         self.calculation_table = server_settings['calculation']
 
-    def select_from_table(self, table_name, where=None,limit=None, panda=False):
+    def select_from_table(self, table_name, where=None, limit=None, panda=False):
         if table_name not in self.engine.table_names(schema=self.schema):
             print('No table name', table_name, "in", self.engine.table_names(schema=self.schema))
         session = self.Session()
