@@ -1,6 +1,6 @@
 {
   "model": -1,
-  "model_architecture_path": "model.json",
+  "model_architecture_path": "model_16.json",
   "data" : {
     "type": "open_source",
     "is_panda": true
