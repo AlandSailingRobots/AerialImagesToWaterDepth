@@ -40,3 +40,7 @@ To result this a few steps first need to be done.
  
  ## Run the server
  The description of how to run the server with the corresponding machine learning model can be found at the [Install](INSTALL_MAC_OS.md#Starting-services)
+ 
+ ## Example
+ An example of the use in the website
+ ![alt text](DepthRecognitionExample.gif "Logo Title Text 1")
