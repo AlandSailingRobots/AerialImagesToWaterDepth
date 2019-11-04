@@ -1,0 +1,46 @@
+@startuml
+
+package "Existing System" {
+[Existing Backend]  as eb
+[Existing Frontend] as ef
+}
+package "Depth System" {
+[Backend] as b
+() "api" as api
+() "PostGIS Handler" as handler
+
+b -right- api
+b -down- handler
+}
+
+database "MariaDB"{
+folder "Mission Properties"{
+    ["Use Depth"] as ud
+    ["Boat Depth"] as bd
+    }
+}
+
+
+
+database "PostGIS" as postgis {
+folder "Depth" as depth {
+[Calculated Areas] as ca
+[Points] as points
+}
+}
+
+cloud {
+[Current depth Map] as cdm
+[Aerial Images] as aerial
+}
+
+
+ef --> api
+ef --> ud
+ef --> bd
+
+handler --> ca
+b -- aerial
+b -- cdm
+handler --> points
+@enduml
