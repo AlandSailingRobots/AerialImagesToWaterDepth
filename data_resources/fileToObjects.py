@@ -171,9 +171,20 @@ def root_mean_squared_error(y_true, y_pred):
     return K.sqrt(K.mean(K.square(y_pred - y_true)))
 
 
+def false_negative(y_true, y_pred):
+    return y_pred > y_true
+
+
+def false_positive(y_true, y_pred):
+    return y_pred < y_true
+
+
 def get_custom_objects_cnn_model():
     return {"root_mean_squared_error": root_mean_squared_error,
-            "equal_pred": equal_pred}
+            "equal_pred": equal_pred,
+            "false_negative": false_negative,
+            "false_positive": false_positive
+            }
 
 
 def model_to_json(model, path):

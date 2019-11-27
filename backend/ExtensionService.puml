@@ -1,16 +1,26 @@
 @startuml
-
+skinparam backgroundColor transparent
 package "Existing System" {
-[Existing Backend]  as eb
 [Existing Frontend] as ef
+[Existing Backend]  as eb
+
+}
+package "Machine Learning Model"{
+[Machine learning Model] as mlm
 }
 package "Depth System" {
 [Backend] as b
 () "api" as api
-() "PostGIS Handler" as handler
+folder "Handlers" as handlers{
+() "PostGIS" as postgis_handler
+() "Current Depth map" as depth_handler
+() "Neural Network" as cnn_handler
+}
 
 b -right- api
-b -down- handler
+b -down- postgis_handler
+b -down- depth_handler
+b -down- cnn_handler
 }
 
 database "MariaDB"{
@@ -23,7 +33,7 @@ folder "Mission Properties"{
 
 
 database "PostGIS" as postgis {
-folder "Depth" as depth {
+folder "Depth" {
 [Calculated Areas] as ca
 [Points] as points
 }
@@ -35,12 +45,14 @@ cloud {
 }
 
 
-ef --> api
-ef --> ud
-ef --> bd
+ef -right-> api
+ef --> eb
+eb --> ud
+eb --> bd
 
-handler --> ca
-b -- aerial
-b -- cdm
-handler --> points
+postgis_handler --> ca
+cnn_handler --> aerial
+depth_handler --> cdm
+postgis_handler --> points
+mlm -up- cnn_handler
 @enduml
